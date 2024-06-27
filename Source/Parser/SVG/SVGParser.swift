@@ -55,6 +55,7 @@ public struct SVGParser {
         "g": SVGGroupParser(),
         "use": SVGUseParser(),
         "text": SVGTextParser(),
+        "tspan": SVGTextParser(),
         "image": SVGImageParser(),
         "rect": SVGRectParser(),
         "circle": SVGCircleParser(),
@@ -66,6 +67,9 @@ public struct SVGParser {
     ]
 
     private static func parse(context: SVGNodeContext) -> SVGNode? {
+        if context.element.name == "tspan" {
+            print("[PACO] HELLO")
+        }
         return parsers[context.element.name]?.parse(context: context) {
             parse(element: $0, parentContext: context)
         }
