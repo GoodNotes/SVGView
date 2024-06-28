@@ -24,7 +24,7 @@ class SVGTextParser: SVGBaseElementParser {
         if let textNode = context.element.contents.first as? XMLText {
             let trimmed = textNode.text.trimmingCharacters(in: .whitespacesAndNewlines).processingWhitespaces()
 
-            return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform, shift: shift)
+            return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform, shift: shift, textAnchorString: context.style("text-anchor"))
         }
         return SVGGroup(contents: parseContents(context: context, delegate: delegate))
         //return .none
