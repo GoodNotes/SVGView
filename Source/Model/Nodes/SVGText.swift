@@ -3,8 +3,8 @@ import Combine
 
 public class SVGText: SVGNode, ObservableObject {
     public struct Shift: Codable {
-        let dx: String?
-        let dy: String?
+        public let dx: String?
+        public let dy: String?
 
         public static let empty = Shift(dx: nil, dy: nil)
     }
