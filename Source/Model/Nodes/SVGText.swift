@@ -2,19 +2,29 @@ import SwiftUI
 import Combine
 
 public class SVGText: SVGNode, ObservableObject {
+    public struct Shift: Codable {
+        let dx: String?
+        let dy: String?
+
+        public static let empty = Shift(dx: nil, dy: nil)
+    }
 
     @Published public var text: String
     @Published public var font: SVGFont?
     @Published public var fill: SVGPaint?
     @Published public var stroke: SVGStroke?
     @Published public var textAnchor: HorizontalAlignment = .leading
+    @Published public var contents: [SVGNode] = []
+    @Published public var shift: Shift? = nil
 
-    public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
+    public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, contents: [SVGNode] = [], opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil, shift: SVGText.Shift = .empty) {
         self.text = text
         self.font = font
         self.fill = fill
         self.stroke = stroke
         self.textAnchor = textAnchor
+        self.contents = contents
+        self.shift = shift
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
     }
 
