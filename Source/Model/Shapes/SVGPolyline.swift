@@ -1,5 +1,5 @@
-import SwiftUI
 import Foundation
+
 public class SVGPolyline: SVGShape {
 
     public var points: [CGPoint]
