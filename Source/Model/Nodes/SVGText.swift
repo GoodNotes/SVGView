@@ -20,7 +20,7 @@ public class SVGText: SVGNode {
         fill: SVGPaint? = SVGColor.black,
         stroke: SVGStroke? = nil,
         textAnchor: Anchor = .start,
-        transform: CGAffineTransform = .identity,
+        transform: CGAffineTransform? = nil,
         opaque: Bool = true,
         opacity: Double = 1,
         clip: SVGUserSpaceNode? = nil,
@@ -31,7 +31,13 @@ public class SVGText: SVGNode {
         self.fill = fill
         self.stroke = stroke
         self.textAnchor = textAnchor
-        super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
+        super.init(
+            transform: transform ?? .identity,
+            opaque: opaque,
+            opacity: opacity,
+            clip: clip,
+            mask: mask
+        )
     }
 
     override func serialize(_ serializer: Serializer) {

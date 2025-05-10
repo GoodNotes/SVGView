@@ -7,13 +7,19 @@ public class SVGGroup: SVGNode {
 
     public init(
         contents: [SVGNode],
-        transform: CGAffineTransform = .identity,
+        transform: CGAffineTransform? = nil,
         opaque: Bool = true,
         opacity: Double = 1,
         clip: SVGUserSpaceNode? = nil,
         mask: SVGNode? = nil
     ) {
-        super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
+        super.init(
+            transform: transform ?? .identity,
+            opaque: opaque,
+            opacity: opacity,
+            clip: clip,
+            mask: mask
+        )
         self.contents = contents
     }
 

@@ -6,30 +6,12 @@
 //  Copyright © 2017 Exyte. All rights reserved.
 //
 
-import Foundation
-
 #if os(OSX)
+import Foundation
 import AppKit
-
-public struct MRectCorner: OptionSet {
-    public let rawValue: UInt
-
-    public static let none = MRectCorner([])
-    public static let topLeft = MRectCorner(rawValue: 1 << 0)
-    public static let topRight = MRectCorner(rawValue: 1 << 1)
-    public static let bottomLeft = MRectCorner(rawValue: 1 << 2)
-    public static let bottomRight = MRectCorner(rawValue: 1 << 3)
-    public static var allCorners: MRectCorner {
-        return [.topLeft, .topRight, .bottomLeft, .bottomRight]
-    }
-
-    public init(rawValue: UInt) {
-        self.rawValue = rawValue
-    }
-}
-
 extension MBezierPath {
 
+    
     public var cgPath: CGPath {
         let path = CGMutablePath()
         var points = [CGPoint](repeating: .zero, count: 3)
@@ -69,69 +51,6 @@ extension MBezierPath {
         self.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
     }
 
-    public convenience init(roundedRect rect: NSRect, byRoundingCorners corners: MRectCorner, cornerRadii: NSSize) {
-        self.init()
-
-        let kappa: CGFloat = 1.0 - 0.552228474
-
-        let topLeft = rect.origin
-        let topRight = NSPoint(x: rect.maxX, y: rect.minY)
-        let bottomRight = NSPoint(x: rect.maxX, y: rect.maxY)
-        let bottomLeft = NSPoint(x: rect.minX, y: rect.maxY)
-
-        if corners.contains(.topLeft) {
-            move(to: CGPoint(x: topLeft.x + cornerRadii.width, y: topLeft.y))
-
-        } else {
-            move(to: topLeft)
-        }
-
-        if corners.contains(.topRight) {
-            line(to: CGPoint(x: topRight.x - cornerRadii.width, y: topRight.y))
-
-            curve(to: CGPoint(x: topRight.x, y: topRight.y + cornerRadii.height),
-                  controlPoint1: CGPoint(x: topRight.x - cornerRadii.width * kappa, y: topRight.y),
-                  controlPoint2: CGPoint(x: topRight.x, y: topRight.y + cornerRadii.height * kappa))
-
-        } else {
-            line(to: topRight)
-        }
-
-        if corners.contains(.bottomRight) {
-            line(to: CGPoint(x: bottomRight.x, y: bottomRight.y - cornerRadii.height))
-
-            curve(to: CGPoint(x: bottomRight.x - cornerRadii.width, y: bottomRight.y),
-                  controlPoint1: CGPoint(x: bottomRight.x, y: bottomRight.y - cornerRadii.height * kappa),
-                  controlPoint2: CGPoint(x: bottomRight.x - cornerRadii.width * kappa, y: bottomRight.y))
-
-        } else {
-            line(to: bottomRight)
-        }
-
-        if corners.contains(.bottomLeft) {
-            line(to: CGPoint(x: bottomLeft.x + cornerRadii.width, y: bottomLeft.y))
-
-            curve(to: CGPoint(x: bottomLeft.x, y: bottomLeft.y - cornerRadii.height),
-                  controlPoint1: CGPoint(x: bottomLeft.x + cornerRadii.width * kappa, y: bottomLeft.y),
-                  controlPoint2: CGPoint(x: bottomLeft.x, y: bottomLeft.y - cornerRadii.height * kappa))
-
-        } else {
-            line(to: bottomLeft)
-        }
-
-        if corners.contains(.topLeft) {
-            line(to: CGPoint(x: topLeft.x, y: topLeft.y + cornerRadii.height))
-
-            curve(to: CGPoint(x: topLeft.x + cornerRadii.width, y: topLeft.y),
-                  controlPoint1: CGPoint(x: topLeft.x, y: topLeft.y + cornerRadii.height * kappa),
-                  controlPoint2: CGPoint(x: topLeft.x + cornerRadii.width * kappa, y: topLeft.y))
-
-        } else {
-            line(to: topLeft)
-        }
-
-        close()
-    }
 
     func addLine(to: NSPoint) {
         self.line(to: to)
@@ -164,9 +83,6 @@ extension MBezierPath {
         self.appendArc(withCenter: withCenter, radius: radius, startAngle: startAngleRadian, endAngle: endAngleRadian, clockwise: !clockwise)
     }
 
-    func addPath(path: NSBezierPath!) {
-        self.append(path)
-    }
     
     func apply(_ transform: CGAffineTransform) {
         let affineTransform = AffineTransform(

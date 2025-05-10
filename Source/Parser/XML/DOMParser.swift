@@ -5,8 +5,10 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-
 import Foundation
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
 public struct DOMParser {
 

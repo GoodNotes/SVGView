@@ -11,14 +11,14 @@ public class SVGNode: SerializableElement {
     public var id: String?
 
     public init(
-        transform: CGAffineTransform = .identity,
+        transform: CGAffineTransform? = nil,
         opaque: Bool = true,
         opacity: Double = 1,
         clip: SVGNode? = nil,
         mask: SVGNode? = nil,
         id: String? = nil
     ) {
-        self.transform = transform
+        self.transform = transform ?? .identity
         self.opaque = opaque
         self.opacity = opacity
         self.clip = clip
