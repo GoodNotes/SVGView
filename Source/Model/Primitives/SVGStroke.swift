@@ -13,11 +13,19 @@ public class SVGStroke: SerializableBlock {
     public let dashes: [CGFloat]
     public let offset: CGFloat
 
-    public init(fill: SVGPaint = SVGColor.black, width: CGFloat = 1, cap: CGLineCap = .butt, join: CGLineJoin = .miter, miterLimit: CGFloat = 4, dashes: [CGFloat] = [], offset: CGFloat = 0.0) {
+    public init(
+        fill: SVGPaint = SVGColor.black,
+        width: CGFloat = 1,
+        cap: CGLineCap? = nil,
+        join: CGLineJoin? = nil,
+        miterLimit: CGFloat = 4,
+        dashes: [CGFloat] = [],
+        offset: CGFloat = 0.0
+    ) {
         self.fill = fill
         self.width = width
-        self.cap = cap
-        self.join = join
+        self.cap = cap ?? .butt
+        self.join = join ?? .miter
         self.miterLimit = miterLimit
         self.dashes = dashes
         self.offset = offset

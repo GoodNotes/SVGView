@@ -3,14 +3,15 @@ import Foundation
 
 
 public class SVGPath: SVGShape {
-    
-
     public var segments: [PathSegment]
     public var fillRule: CGPathFillRule
 
-    public init(segments: [PathSegment] = [], fillRule: CGPathFillRule = .winding) {
+    public init(
+        segments: [PathSegment] = [],
+        fillRule: CGPathFillRule? = nil
+    ) {
         self.segments = segments
-        self.fillRule = fillRule
+        self.fillRule = fillRule ?? .winding
     }
 
     override public func frame() -> CGRect {
