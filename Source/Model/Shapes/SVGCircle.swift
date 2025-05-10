@@ -1,11 +1,10 @@
-import SwiftUI
-import Combine
 
-public class SVGCircle: SVGShape, ObservableObject {
+import Foundation
+public class SVGCircle: SVGShape {
 
-    @Published public var cx: CGFloat
-    @Published public var cy: CGFloat
-    @Published public var r: CGFloat
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var r: CGFloat
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, r: CGFloat = 0) {
         self.cx = cx
@@ -22,20 +21,4 @@ public class SVGCircle: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
-    public func contentView() -> some View {
-        SVGCircleView(model: self)
-    }
-}
-
-struct SVGCircleView: View {
-
-    @ObservedObject var model = SVGCircle()
-
-    public var body: some View {
-        Circle()
-            .applySVGStroke(stroke: model.stroke)
-            .applyShapeAttributes(model: model)
-            .frame(width: 2 * model.r, height: 2 * model.r)
-            .position(x: model.cx, y: model.cy)
-    }
 }

@@ -4,8 +4,7 @@
 //
 //  Created by Alisa Mylnikova on 13/10/2020.
 //
-
-import SwiftUI
+import Foundation
 
 public enum SVGLength {
 

@@ -4,8 +4,8 @@
 //
 //  Created by Yuri Strot on 29.05.2022.
 //
+import Foundation
 
-import SwiftUI
 
 class SVGTextParser: SVGBaseElementParser {
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {
@@ -26,15 +26,15 @@ class SVGTextParser: SVGBaseElementParser {
         return .none
     }
 
-    private func parseTextAnchor(_ string: String?) -> HorizontalAlignment {
+    private func parseTextAnchor(_ string: String?) -> SVGText.Anchor {
         if let anchor = string {
             if anchor == "middle" {
-                return .center
+                return .middle
             } else if anchor == "end" {
-                return .trailing
+                return .end
             }
         }
-        return .leading
+        return .start
     }
 
     static var whitespaceRegex = try! NSRegularExpression(pattern: "\\s+", options: NSRegularExpression.Options.caseInsensitive)

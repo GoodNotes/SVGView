@@ -5,7 +5,8 @@
 //  Created by Alisa Mylnikova on 17/07/2020.
 //
 
-import SwiftUI
+
+import Foundation
 
 extension SVGHelper {
 

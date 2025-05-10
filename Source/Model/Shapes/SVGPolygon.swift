@@ -1,9 +1,8 @@
-import SwiftUI
-import Combine
 
-public class SVGPolygon: SVGShape, ObservableObject {
+import Foundation
+public class SVGPolygon: SVGShape {
 
-    @Published public var points: [CGPoint]
+    public var points: [CGPoint]
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -45,30 +44,6 @@ public class SVGPolygon: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
-    public func contentView() -> some View {
-        SVGPolygonView(model: self)
-    }
 }
 
-struct SVGPolygonView: View {
-
-    @ObservedObject var model = SVGPolygon()
-
-    @ViewBuilder
-    public var body: some View {
-        path?.toSwiftUI(model: model)
-    }
-
-    private var path: MBezierPath? {
-        guard let first = model.points.first else { return nil }
-        let path = MBezierPath()
-        path.move(to: CGPoint(x: first.x, y: first.y))
-        for i in 1..<model.points.count {
-            let point = model.points[i]
-            path.addLine(to: CGPoint(x: point.x, y: point.y))
-        }
-        path.close()
-        return path
-    }
-}
 

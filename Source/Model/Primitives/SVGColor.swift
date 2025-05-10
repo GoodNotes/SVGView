@@ -5,7 +5,7 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
-import SwiftUI
+import Foundation
 
 public class SVGColor: SVGPaint {
 
@@ -59,14 +59,6 @@ public class SVGColor: SVGPaint {
         }
     }
 
-    public func toSwiftUI() -> Color {
-        return Color(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff).opacity(opacity)
-    }
-
-    func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
-        view.foregroundColor(toSwiftUI())
-    }
-
     public var r: Int {
         return (value >> 16) & 0xff
     }
@@ -99,55 +91,6 @@ public class SVGColor: SVGPaint {
 
 public func == (lhs: SVGColor, rhs: SVGColor) -> Bool {
     return lhs.value == rhs.value
-}
-
-extension Color: SerializableAtom {
-
-    static func by(name: String) -> Color? {
-        if let hex = SVGColors.hex(of: name.lowercased()) {
-            return Color(rgbValue: hex)
-        }
-        return .none
-    }
-
-    func serialize() -> String {
-        guard let components = self.cgColor?.components, components.count >= 3 else {
-            return "\"n/a\""
-        }
-        let r = Int(round(components[0] * 255))
-        let g = Int(round(components[1] * 255))
-        let b = Int(round(components[2] * 255))
-        var prefix = ""
-        if components.count >= 4 {
-            let a = Float(components[3])
-            if a != 1 {
-                prefix = "\(Int(round(a * 100)))% "
-            }
-        }
-
-        let hex = ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff)
-        if let text = SVGColors.text(of: hex) {
-            return "\"\(prefix)\(text)\""
-        }
-
-        return "\"\(prefix)#\(String(format: "%02X%02X%02X", r, g, b))\""
-    }
-
-    init(hex: String) {
-        let scanner = Scanner(string: hex)
-        var rgbValue: UInt64 = 0
-        scanner.scanHexInt64(&rgbValue)
-        self.init(rgbValue: Int(rgbValue))
-    }
-
-    init(rgbValue: Int) {
-        let r = (rgbValue & 0xff0000) >> 16
-        let g = (rgbValue & 0xff00) >> 8
-        let b = rgbValue & 0xff
-
-        self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
-    }
-
 }
 
 class SVGColors {

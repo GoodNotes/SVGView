@@ -1,4 +1,7 @@
-import SwiftUI
+
+import Foundation
+
+import CoreGraphics
 
 public class SVGStroke: SerializableBlock {
 
@@ -18,15 +21,6 @@ public class SVGStroke: SerializableBlock {
         self.miterLimit = miterLimit
         self.dashes = dashes
         self.offset = offset
-    }
-
-    public func toSwiftUI() -> StrokeStyle {
-        StrokeStyle(lineWidth: width,
-                    lineCap: cap,
-                    lineJoin: join,
-                    miterLimit: miterLimit,
-                    dash: dashes,
-                    dashPhase: offset)
     }
 
     func serialize(_ serializer: Serializer) {

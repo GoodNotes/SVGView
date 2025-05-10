@@ -1,9 +1,11 @@
-import SwiftUI
-import Combine
+import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
-public class SVGGroup: SVGNode, ObservableObject {
+public class SVGGroup: SVGNode {
 
-    @Published public var contents: [SVGNode] = []
+    public var contents: [SVGNode] = []
 
     public init(contents: [SVGNode], transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
@@ -30,26 +32,4 @@ public class SVGGroup: SVGNode, ObservableObject {
         super.serialize(serializer)
         serializer.add("contents", contents)
     }
-
-    public func contentView() -> some View {
-        SVGGroupView(model: self)
-    }
 }
-
-struct SVGGroupView: View {
-
-    @ObservedObject var model: SVGGroup
-
-    public var body: some View {
-        ZStack {
-            ForEach(0..<model.contents.count, id: \.self) { i in
-                if i <= model.contents.count - 1 {
-                    model.contents[i].toSwiftUI()
-                }
-            }
-        }
-        .compositingGroup() // so that all the following attributes are applied to the group as a whole
-        .applyNodeAttributes(model: model)
-    }
-}
-

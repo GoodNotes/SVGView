@@ -5,7 +5,8 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-import SwiftUI
+
+import Foundation
 
 public struct DOMParser {
 

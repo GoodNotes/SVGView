@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
+import CoreGraphics
+
 
 extension Bool: SerializableAtom {
 
@@ -173,19 +174,19 @@ extension CGPathFillRule: SerializableOption {
 
 }
 
-extension HorizontalAlignment: SerializableOption {
+extension SVGText.Anchor: SerializableOption {
 
     func isDefault() -> Bool {
-        return self == .leading
+        return self == .start
     }
 
     func serialize() -> String {
         switch self {
-        case .center:
+        case .middle:
             return "middle"
-        case .trailing:
+        case .end:
             return "end"
-        default:
+        case .start:
             return "start"
         }
     }

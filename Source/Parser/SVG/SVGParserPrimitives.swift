@@ -5,7 +5,9 @@
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
 
-import SwiftUI
+
+import Foundation
+import CoreGraphics
 
 public class SVGHelper: NSObject {
 

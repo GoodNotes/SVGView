@@ -1,10 +1,9 @@
-import SwiftUI
-import Combine
 
+import Foundation
 public class SVGShape: SVGNode {
 
-    @Published public var fill: SVGPaint?
-    @Published public var stroke: SVGStroke?
+    public var fill: SVGPaint?
+    public var stroke: SVGStroke?
 
     override func serialize(_ serializer: Serializer) {
         fill?.serialize(key: "fill", serializer: serializer)

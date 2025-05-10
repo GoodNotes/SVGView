@@ -5,7 +5,8 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
-import SwiftUI
+
+import Foundation
 
 class SVGImageParser: SVGBaseElementParser {
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {

@@ -4,8 +4,8 @@
 //
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
+import Foundation
 
-import SwiftUI
 
 public struct SVGParser {
 
