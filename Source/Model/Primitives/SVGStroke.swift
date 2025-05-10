@@ -1,7 +1,7 @@
 
 import Foundation
 
-import CoreGraphics
+
 
 public class SVGStroke: SerializableBlock {
 

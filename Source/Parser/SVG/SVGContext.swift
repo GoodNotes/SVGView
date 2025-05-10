@@ -5,7 +5,6 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
-import CoreGraphics
 
 protocol SVGContext {
 

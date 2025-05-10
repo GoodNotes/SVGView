@@ -1,6 +1,6 @@
 
 import Foundation
-import CoreGraphics
+
 
 public class SVGPath: SVGShape {
     

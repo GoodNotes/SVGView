@@ -7,7 +7,7 @@
 
 
 import Foundation
-import CoreGraphics
+
 
 public class SVGHelper: NSObject {
 
