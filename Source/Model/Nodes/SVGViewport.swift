@@ -1,5 +1,5 @@
-
 import Foundation
+
 public class SVGViewport: SVGGroup {
 
     public var width: SVGLength

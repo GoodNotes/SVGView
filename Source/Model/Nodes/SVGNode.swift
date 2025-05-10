@@ -53,5 +53,4 @@ public class SVGNode: SerializableElement {
     var typeName: String {
         return String(describing: type(of: self))
     }
-
 }
