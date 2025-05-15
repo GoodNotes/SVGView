@@ -45,18 +45,7 @@ extension Double: SerializableAtom {
 extension CGAffineTransform: SerializableAtom {
 
     func serialize() -> String {
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 10
-
-        let nums = [a, b, c, d, tx, ty]
-
-        var result = ""
-        for num in nums {
-            result += formatter.string(from: num as NSNumber) ?? "n/a"
-            result += ", "
-        }
-        return "[\(result.dropLast(2))]"
+        "[\(a), \(b), \(c), \(d), \(tx), \(ty)]"
     }
 }
 

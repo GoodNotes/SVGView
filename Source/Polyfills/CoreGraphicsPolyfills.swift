@@ -9,11 +9,31 @@ import Foundation
 
 public typealias CGFloat = Foundation.CGFloat
 public typealias CGSize = Foundation.CGSize
+public typealias CGPoint = Foundation.CGPoint
 
 #if os(WASI) || os(Linux)
+    import Glibc
+
+    public func sqrt(_ x: CGFloat) -> CGFloat { return x.squareRoot() }
+    public func copysign(_ x: CGFloat, _ y: CGFloat) -> CGFloat {
+        let magnitude = x >= 0 ? x : -x
+        return y >= 0 ? magnitude : -magnitude
+    }
+    public func acos(_ x: CGFloat) -> CGFloat {
+        return Glibc.acos(x)
+    }
+
+    public func cos(_ x: CGFloat) -> CGFloat {
+        return Glibc.cos(x)
+    }
+
+    public func sin(_ x: CGFloat) -> CGFloat {
+        return Glibc.sin(x)
+    }
+
     private let KAPPA: CGFloat = 0.5522847498  // 4 *(sqrt(2) -1)/3
 
-public struct CGAffineTransform: Equatable {
+    public struct CGAffineTransform: Equatable {
         public var a, b, c, d, tx, ty: CGFloat
 
         public init(a: CGFloat, b: CGFloat, c: CGFloat, d: CGFloat, tx: CGFloat, ty: CGFloat) {
@@ -89,33 +109,33 @@ public struct CGAffineTransform: Equatable {
             var minY = CGFloat.infinity
             var maxX = -CGFloat.infinity
             var maxY = -CGFloat.infinity
-            
+
             for element in elements {
                 switch element {
                 case .moveToPoint(let point),
-                        .addLineToPoint(let point):
+                    .addLineToPoint(let point):
                     minX = min(minX, point.x)
                     minY = min(minY, point.y)
                     maxX = max(maxX, point.x)
                     maxY = max(maxY, point.y)
-                    
+
                 case .addQuadCurveToPoint(let control, let point):
                     minX = min(minX, control.x, point.x)
                     minY = min(minY, control.y, point.y)
                     maxX = max(maxX, control.x, point.x)
                     maxY = max(maxY, control.y, point.y)
-                    
+
                 case .addCurveToPoint(let control1, let control2, let point):
                     minX = min(minX, control1.x, control2.x, point.x)
                     minY = min(minY, control1.y, control2.y, point.y)
                     maxX = max(maxX, control1.x, control2.x, point.x)
                     maxY = max(maxY, control1.y, control2.y, point.y)
-                    
+
                 case .closeSubpath:
                     break
                 }
             }
-            
+
             return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
         }
 
@@ -243,24 +263,24 @@ public struct CGAffineTransform: Equatable {
     }
 
     extension CGPoint {
-        
+
         @inline(__always)
         public func applying(_ t: CGAffineTransform) -> CGPoint {
-            return CGPoint(x: t.a * x + t.c * y + t.tx,
-                           y: t.b * x + t.d * y + t.ty)
+            return CGPoint(
+                x: t.a * x + t.c * y + t.tx,
+                y: t.b * x + t.d * y + t.ty)
         }
     }
-
 
     extension CGAffineTransform {
         public var isIdentity: Bool {
             self == CGAffineTransform.identity
         }
-        
+
         public static var identity: CGAffineTransform {
             CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
         }
-        
+
         public init(translationX tx: CGFloat, y ty: CGFloat) {
             self.init(a: 1, b: 0, c: 0, d: 1, tx: tx, ty: ty)
         }
@@ -272,11 +292,11 @@ public struct CGAffineTransform: Equatable {
         public init(rotationAngle angle: CGFloat) {
             self.init(a: cos(angle), b: sin(angle), c: -sin(angle), d: cos(angle), tx: 0, ty: 0)
         }
-        
+
         public func translatedBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
             return self.concatenating(CGAffineTransform(translationX: x, y: y))
         }
-        
+
         public func concatenating(_ t: CGAffineTransform) -> CGAffineTransform {
             return CGAffineTransform(
                 a: a * t.a + c * t.b,
@@ -287,20 +307,188 @@ public struct CGAffineTransform: Equatable {
                 ty: b * t.tx + d * t.ty + ty
             )
         }
-        
+
         public func scaledBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
             return self.concatenating(CGAffineTransform(scaleX: x, y: y))
         }
-        
+
         public func rotated(by angle: CGFloat) -> CGAffineTransform {
             return self.concatenating(CGAffineTransform(rotationAngle: angle))
         }
     }
+
+    public struct MBezierPath {
+        public var cgPath: CGPath
+
+        public init() {
+            self.cgPath = CGPath()
+        }
+
+        public init?(rect: CGRect) {
+            self.cgPath = CGPath()
+            self.cgPath.addRect(rect)
+        }
+
+        public init?(ovalIn rect: CGRect) {
+            self.cgPath = CGPath()
+            self.cgPath.addEllipse(in: rect)
+        }
+
+        public init(
+            arcCenter: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat,
+            clockwise: Bool
+        ) {
+            self.cgPath = CGPath()
+            MBezierPath.addArcTo(
+                path: &self.cgPath, center: arcCenter, radius: radius, startAngle: startAngle,
+                endAngle: endAngle, clockwise: clockwise)
+        }
+
+        public mutating func move(to point: CGPoint) {
+            cgPath.move(to: point)
+        }
+
+        public mutating func addLine(to point: CGPoint) {
+            cgPath.addLine(to: point)
+        }
+
+        public mutating func addCurve(
+            to endPoint: CGPoint, controlPoint1: CGPoint, controlPoint2: CGPoint
+        ) {
+            cgPath.addCurve(to: endPoint, control1: controlPoint1, control2: controlPoint2)
+        }
+
+        public mutating func addQuadCurve(to endPoint: CGPoint, controlPoint: CGPoint) {
+            cgPath.addQuadCurve(to: endPoint, control: controlPoint)
+        }
+
+        public mutating func addArc(
+            withCenter center: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat,
+            clockwise: Bool
+        ) {
+            MBezierPath.addArcTo(
+                path: &self.cgPath, center: center, radius: radius, startAngle: startAngle,
+                endAngle: endAngle, clockwise: clockwise)
+        }
+
+        public mutating func append(_ path: MBezierPath) {
+            cgPath.elements.append(contentsOf: path.cgPath.elements)
+        }
+
+        public mutating func close() {
+            cgPath.closeSubpath()
+        }
+
+        public mutating func apply(_ transform: CGAffineTransform) {
+            var newElements: [CGPath.Element] = []
+            for element in cgPath.elements {
+                switch element {
+                case .moveToPoint(let point):
+                    newElements.append(.moveToPoint(point.applying(transform)))
+                case .addLineToPoint(let point):
+                    newElements.append(.addLineToPoint(point.applying(transform)))
+                case .addQuadCurveToPoint(let control, let point):
+                    newElements.append(
+                        .addQuadCurveToPoint(control.applying(transform), point.applying(transform))
+                    )
+                case .addCurveToPoint(let control1, let control2, let point):
+                    newElements.append(
+                        .addCurveToPoint(
+                            control1.applying(transform), control2.applying(transform),
+                            point.applying(transform)))
+                case .closeSubpath:
+                    newElements.append(.closeSubpath)
+                }
+            }
+            self.cgPath.elements = newElements
+        }
+
+        public var isEmpty: Bool {
+            return cgPath.elements.isEmpty
+        }
+
+        public var bounds: CGRect {
+            return cgPath.boundingBoxOfPath
+        }
+
+        static func addArcTo(
+            path: inout CGPath, center: CGPoint, radius: CGFloat, startAngle: CGFloat,
+            endAngle: CGFloat, clockwise: Bool
+        ) {
+            var deltaAngle: CGFloat
+            if clockwise {
+                deltaAngle = endAngle - startAngle
+                while deltaAngle < 0 { deltaAngle += 2 * .pi }
+            } else {  // Counter-clockwise
+                deltaAngle = endAngle - startAngle
+                while deltaAngle > 0 { deltaAngle -= 2 * .pi }
+            }
+
+            if abs(deltaAngle) < 1e-6 { return }  // Essentially no arc
+
+            let numSegments = Swift.max(1, Int(ceil(abs(deltaAngle) / (.pi / 2.0))))  // Max 90deg segments
+            let segmentAngleSweep = deltaAngle / CGFloat(numSegments)
+
+            var currentAngle = startAngle
+
+            let initialPoint = CGPoint(
+                x: center.x + radius * cos(currentAngle), y: center.y + radius * sin(currentAngle))
+
+            if path.elements.isEmpty || (path.elements.last?.isCloseSubpath ?? false) {
+                path.move(to: initialPoint)
+            } else if let lastElement = path.elements.last, let lastPoint = lastElement.lastPoint,
+                lastPoint != initialPoint
+            {
+                path.addLine(to: initialPoint)
+            }
+
+            for _ in 0..<numSegments {
+                let nextAngle = currentAngle + segmentAngleSweep
+                let L = radius * (4.0 / 3.0) * tan(abs(segmentAngleSweep) / 4.0)
+
+                let cp1_centerRelative = CGPoint(
+                    x: radius * cos(currentAngle) - L * sin(currentAngle),
+                    y: radius * sin(currentAngle) + L * cos(currentAngle)
+                )
+                let cp2_centerRelative = CGPoint(
+                    x: radius * cos(nextAngle) + L * sin(nextAngle),
+                    y: radius * sin(nextAngle) - L * cos(nextAngle)
+                )
+
+                let endPoint_abs = CGPoint(
+                    x: center.x + radius * cos(nextAngle), y: center.y + radius * sin(nextAngle))
+                let cp1_abs = CGPoint(
+                    x: center.x + cp1_centerRelative.x, y: center.y + cp1_centerRelative.y)
+                let cp2_abs = CGPoint(
+                    x: center.x + cp2_centerRelative.x, y: center.y + cp2_centerRelative.y)
+
+                path.addCurve(to: endPoint_abs, control1: cp1_abs, control2: cp2_abs)
+                currentAngle = nextAngle
+            }
+        }
+    }
+
+    extension CGPath.Element {
+        var lastPoint: CGPoint? {
+            switch self {
+            case .moveToPoint(let p): return p
+            case .addLineToPoint(let p): return p
+            case .addQuadCurveToPoint(_, let p): return p
+            case .addCurveToPoint(_, _, let p): return p
+            case .closeSubpath: return nil
+            }
+        }
+        var isCloseSubpath: Bool {
+            if case .closeSubpath = self { return true }
+            return false
+        }
+    }
+
 #else
-import CoreGraphics
-public typealias CGLineJoin = CoreGraphics.CGLineJoin
-public typealias CGLineCap = CoreGraphics.CGLineCap
-public typealias CGPathFillRule = CoreGraphics.CGPathFillRule
-public typealias CGPath = CoreGraphics.CGPath
-public typealias CGAffineTransform = CoreGraphics.CGAffineTransform
+    import CoreGraphics
+    public typealias CGLineJoin = CoreGraphics.CGLineJoin
+    public typealias CGLineCap = CoreGraphics.CGLineCap
+    public typealias CGPathFillRule = CoreGraphics.CGPathFillRule
+    public typealias CGPath = CoreGraphics.CGPath
+    public typealias CGAffineTransform = CoreGraphics.CGAffineTransform
 #endif

@@ -5,8 +5,10 @@
 //  Created by Alisa Mylnikova on 23/07/2020.
 //
 
-#if os(WASI) || os(Linux)
-
+#if os(WASI) 
+import WASILibc
+#elseif os(Linux)
+import Glibc
 #elseif os(OSX)
 import AppKit
 public typealias MBezierPath = NSBezierPath
@@ -335,7 +337,11 @@ extension SVGPath {
             return CGFloat > 0.5 ? true : false
         }
 
+        #if os(WASI) || os(Linux)
+        var bezierPath = MBezierPath()
+        #else
         let bezierPath = MBezierPath()
+        #endif
 
         var currentPoint: CGPoint?
         var cubicPoint: CGPoint?
@@ -560,7 +566,7 @@ extension SVGPath {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
                 let maxSize = CGFloat(max(w, h))
-                let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+                var path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
 
                 var transform = CGAffineTransform(translationX: cx, y: cy)
                 transform = transform.rotated(by: CGFloat(rotation))
