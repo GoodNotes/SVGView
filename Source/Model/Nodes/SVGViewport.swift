@@ -7,29 +7,33 @@ import Combine
 
 public class SVGViewport: SVGGroup {
 
+#if os(WASI)
+    public var width: SVGLength
+    public var height: SVGLength
+    public var viewBox: CGRect?
+    public var preserveAspectRatio: SVGPreserveAspectRatio
+#else
     @Published public var width: SVGLength {
         willSet {
             self.objectWillChange.send()
         }
     }
-
     @Published public var height: SVGLength {
         willSet {
             self.objectWillChange.send()
         }
     }
-
     @Published public var viewBox: CGRect? {
         willSet {
             self.objectWillChange.send()
         }
     }
-
     @Published public var preserveAspectRatio: SVGPreserveAspectRatio {
         willSet {
             self.objectWillChange.send()
         }
     }
+#endif
 
     public init(width: SVGLength, height: SVGLength, viewBox: CGRect? = .none, preserveAspectRatio: SVGPreserveAspectRatio, contents: [SVGNode] = []) {
         self.width = width

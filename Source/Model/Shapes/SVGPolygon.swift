@@ -7,7 +7,11 @@ import Combine
 
 public class SVGPolygon: SVGShape, ObservableObject {
 
+#if os(WASI)
+    public var points: [CGPoint]
+#else
     @Published public var points: [CGPoint]
+#endif
 
     public init(_ points: [CGPoint]) {
         self.points = points

@@ -7,8 +7,13 @@ import Combine
 
 public class SVGPath: SVGShape, ObservableObject {
 
+#if os(WASI)
+    public var segments: [PathSegment]
+    public var fillRule: CGPathFillRule
+#else
     @Published public var segments: [PathSegment]
     @Published public var fillRule: CGPathFillRule
+#endif
 
     public init(segments: [PathSegment] = [], fillRule: CGPathFillRule = .winding) {
         self.segments = segments

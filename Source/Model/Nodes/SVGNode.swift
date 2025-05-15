@@ -7,12 +7,21 @@ import Combine
 
 public class SVGNode: SerializableElement {
 
+#if os(WASI)
+    public var transform: CGAffineTransform = CGAffineTransform.identity
+    public var opaque: Bool
+    public var opacity: Double
+    public var clip: SVGNode?
+    public var mask: SVGNode?
+    public var id: String?
+#else
     @Published public var transform: CGAffineTransform = CGAffineTransform.identity
     @Published public var opaque: Bool
     @Published public var opacity: Double
     @Published public var clip: SVGNode?
     @Published public var mask: SVGNode?
     @Published public var id: String?
+#endif
 
     var gestures = [AnyGesture<()>]()
 

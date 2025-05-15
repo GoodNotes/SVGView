@@ -7,10 +7,17 @@ import Combine
 
 public class SVGLine: SVGShape, ObservableObject {
 
+#if os(WASI)
+    public var x1: CGFloat
+    public var y1: CGFloat
+    public var x2: CGFloat
+    public var y2: CGFloat
+#else
     @Published public var x1: CGFloat
     @Published public var y1: CGFloat
     @Published public var x2: CGFloat
     @Published public var y2: CGFloat
+#endif
 
     public init(_ x1: CGFloat, _ y1: CGFloat, _ x2: CGFloat, _ y2: CGFloat) {
         self.x1 = x1

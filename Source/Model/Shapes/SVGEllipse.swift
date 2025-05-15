@@ -7,10 +7,17 @@ import Combine
 
 public class SVGEllipse: SVGShape, ObservableObject {
 
+#if os(WASI)
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var rx: CGFloat
+    public var ry: CGFloat
+#else
     @Published public var cx: CGFloat
     @Published public var cy: CGFloat
     @Published public var rx: CGFloat
     @Published public var ry: CGFloat
+#endif
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, rx: CGFloat = 0, ry: CGFloat = 0) {
         self.cx = cx

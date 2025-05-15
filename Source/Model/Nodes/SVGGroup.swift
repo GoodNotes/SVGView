@@ -7,7 +7,11 @@ import Combine
 
 public class SVGGroup: SVGNode, ObservableObject {
 
+#if os(WASI)
+    public var contents: [SVGNode] = []
+#else
     @Published public var contents: [SVGNode] = []
+#endif
 
     public init(contents: [SVGNode], transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)

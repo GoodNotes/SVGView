@@ -15,7 +15,11 @@ import Combine
 
 public class SVGDataImage: SVGImage, ObservableObject {
 
+#if os(WASI)
+    public var data: Data
+#else
     @Published public var data: Data
+#endif
 
     public init(x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, data: Data) {
         self.data = data

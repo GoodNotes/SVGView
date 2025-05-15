@@ -7,11 +7,19 @@ import Combine
 
 public class SVGText: SVGNode, ObservableObject {
 
+#if os(WASI)
+    public var text: String
+    public var font: SVGFont?
+    public var fill: SVGPaint?
+    public var stroke: SVGStroke?
+    public var textAnchor: HorizontalAlignment = .leading
+#else
     @Published public var text: String
     @Published public var font: SVGFont?
     @Published public var fill: SVGPaint?
     @Published public var stroke: SVGStroke?
     @Published public var textAnchor: HorizontalAlignment = .leading
+#endif
 
     public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
         self.text = text
