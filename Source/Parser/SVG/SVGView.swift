@@ -11,6 +11,7 @@ import Foundation
 import SwiftUI
 #endif
 
+#if !os(WASI)
 public struct SVGView: View {
 
     public let svg: SVGNode?
@@ -53,3 +54,4 @@ public struct SVGView: View {
     }
 
 }
+#endif

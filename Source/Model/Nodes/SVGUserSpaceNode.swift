@@ -32,11 +32,14 @@ public class SVGUserSpaceNode: SVGNode {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGUserSpaceNodeView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGUserSpaceNodeView: View {
     let model: SVGUserSpaceNode
 
@@ -48,3 +51,4 @@ struct SVGUserSpaceNodeView: View {
         }
     }
 }
+#endif

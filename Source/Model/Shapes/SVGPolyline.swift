@@ -7,11 +7,7 @@ import Combine
 
 public class SVGPolyline: SVGShape, ObservableObject {
 
-#if os(WASI)
-    public var points: [CGPoint]
-#else
     @Published public var points: [CGPoint]
-#endif
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -53,11 +49,14 @@ public class SVGPolyline: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGPolylineView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGPolylineView: View {
 
     @ObservedObject var model = SVGPolyline()
@@ -77,4 +76,5 @@ struct SVGPolylineView: View {
         return path
     }
 }
+#endif
 

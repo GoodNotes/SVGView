@@ -27,11 +27,14 @@ public class SVGURLImage: SVGImage, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGUrlImageView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGUrlImageView: View {
 
     @ObservedObject var model: SVGURLImage
@@ -60,4 +63,5 @@ struct SVGUrlImageView: View {
             .applyNodeAttributes(model: model)
     }
 }
+#endif
 

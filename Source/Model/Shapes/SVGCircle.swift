@@ -7,15 +7,9 @@ import Combine
 
 public class SVGCircle: SVGShape, ObservableObject {
 
-#if os(WASI)
-    public var cx: CGFloat
-    public var cy: CGFloat
-    public var r: CGFloat
-#else
     @Published public var cx: CGFloat
     @Published public var cy: CGFloat
     @Published public var r: CGFloat
-#endif
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, r: CGFloat = 0) {
         self.cx = cx
@@ -32,11 +26,14 @@ public class SVGCircle: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGCircleView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGCircleView: View {
 
     @ObservedObject var model = SVGCircle()
@@ -49,3 +46,4 @@ struct SVGCircleView: View {
             .position(x: model.cx, y: model.cy)
     }
 }
+#endif

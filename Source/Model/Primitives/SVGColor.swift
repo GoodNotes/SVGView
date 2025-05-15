@@ -67,9 +67,11 @@ public class SVGColor: SVGPaint {
         return Color(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff).opacity(opacity)
     }
 
+    #if !os(WASI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         view.foregroundColor(toSwiftUI())
     }
+    #endif
 
     public var r: Int {
         return (value >> 16) & 0xff
@@ -105,6 +107,7 @@ public func == (lhs: SVGColor, rhs: SVGColor) -> Bool {
     return lhs.value == rhs.value
 }
 
+#if !os(WASI)
 extension Color: SerializableAtom {
 
     static func by(name: String) -> Color? {
@@ -153,6 +156,7 @@ extension Color: SerializableAtom {
     }
 
 }
+#endif
 
 class SVGColors {
 
