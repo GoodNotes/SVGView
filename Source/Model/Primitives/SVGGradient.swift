@@ -5,7 +5,11 @@
 //  Created by Yuriy Strot on 22.02.2021.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGLinearGradient: SVGGradient {
 

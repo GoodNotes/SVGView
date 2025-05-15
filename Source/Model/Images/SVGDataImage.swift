@@ -5,8 +5,13 @@
 //  Created by Alisa Mylnikova on 10/06/2021.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
+
 
 public class SVGDataImage: SVGImage, ObservableObject {
 

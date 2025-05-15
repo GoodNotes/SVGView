@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 22/09/2021.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGURLImage: SVGImage, ObservableObject {
 

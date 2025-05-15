@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 extension Shape {
 

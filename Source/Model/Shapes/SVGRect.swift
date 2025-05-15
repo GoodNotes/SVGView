@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGRect: SVGShape, ObservableObject {
 

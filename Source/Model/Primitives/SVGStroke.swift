@@ -1,4 +1,8 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGStroke: SerializableBlock {
 
