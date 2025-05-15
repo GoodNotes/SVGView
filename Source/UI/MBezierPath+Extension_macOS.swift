@@ -10,8 +10,6 @@
 import Foundation
 import AppKit
 extension MBezierPath {
-
-    
     public var cgPath: CGPath {
         let path = CGMutablePath()
         var points = [CGPoint](repeating: .zero, count: 3)
@@ -50,7 +48,6 @@ extension MBezierPath {
         self.init()
         self.addArc(withCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
     }
-
 
     func addLine(to: NSPoint) {
         self.line(to: to)

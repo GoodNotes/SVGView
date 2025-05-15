@@ -10,17 +10,10 @@ import Foundation
 public typealias CGFloat = Foundation.CGFloat
 public typealias CGSize = Foundation.CGSize
 
-#if canImport(CoreGraphics)
-    import CoreGraphics
-    public typealias CGLineJoin = CoreGraphics.CGLineJoin
-    public typealias CGLineCap = CoreGraphics.CGLineCap
-    public typealias CGPathFillRule = CoreGraphics.CGPathFillRule
-    public typealias CGPath = CoreGraphics.CGPath
-    public typealias CGAffineTransform = CoreGraphics.CGAffineTransform
-#else
+#if os(WASI) || os(Linux)
     private let KAPPA: CGFloat = 0.5522847498  // 4 *(sqrt(2) -1)/3
 
-    public struct CGAffineTransform {
+public struct CGAffineTransform: Equatable {
         public var a, b, c, d, tx, ty: CGFloat
 
         public init(a: CGFloat, b: CGFloat, c: CGFloat, d: CGFloat, tx: CGFloat, ty: CGFloat) {
@@ -90,6 +83,41 @@ public typealias CGSize = Foundation.CGSize
     }
 
     extension CGPath {
+
+        public var boundingBoxOfPath: CGRect {
+            var minX = CGFloat.infinity
+            var minY = CGFloat.infinity
+            var maxX = -CGFloat.infinity
+            var maxY = -CGFloat.infinity
+            
+            for element in elements {
+                switch element {
+                case .moveToPoint(let point),
+                        .addLineToPoint(let point):
+                    minX = min(minX, point.x)
+                    minY = min(minY, point.y)
+                    maxX = max(maxX, point.x)
+                    maxY = max(maxY, point.y)
+                    
+                case .addQuadCurveToPoint(let control, let point):
+                    minX = min(minX, control.x, point.x)
+                    minY = min(minY, control.y, point.y)
+                    maxX = max(maxX, control.x, point.x)
+                    maxY = max(maxY, control.y, point.y)
+                    
+                case .addCurveToPoint(let control1, let control2, let point):
+                    minX = min(minX, control1.x, control2.x, point.x)
+                    minY = min(minY, control1.y, control2.y, point.y)
+                    maxX = max(maxX, control1.x, control2.x, point.x)
+                    maxY = max(maxY, control1.y, control2.y, point.y)
+                    
+                case .closeSubpath:
+                    break
+                }
+            }
+            
+            return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+        }
 
         public mutating func addRect(_ rect: CGRect) {
 
@@ -225,6 +253,10 @@ public typealias CGSize = Foundation.CGSize
 
 
     extension CGAffineTransform {
+        public var isIdentity: Bool {
+            self == CGAffineTransform.identity
+        }
+        
         public static var identity: CGAffineTransform {
             CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
         }
@@ -264,5 +296,11 @@ public typealias CGSize = Foundation.CGSize
             return self.concatenating(CGAffineTransform(rotationAngle: angle))
         }
     }
-
+#else
+import CoreGraphics
+public typealias CGLineJoin = CoreGraphics.CGLineJoin
+public typealias CGLineCap = CoreGraphics.CGLineCap
+public typealias CGPathFillRule = CoreGraphics.CGPathFillRule
+public typealias CGPath = CoreGraphics.CGPath
+public typealias CGAffineTransform = CoreGraphics.CGAffineTransform
 #endif

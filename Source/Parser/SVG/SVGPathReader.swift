@@ -5,9 +5,9 @@
 //  Created by Alisa Mylnikova on 23/07/2020.
 //
 
+#if os(WASI) || os(Linux)
 
-
-#if os(OSX)
+#elseif os(OSX)
 import AppKit
 public typealias MBezierPath = NSBezierPath
 #else
