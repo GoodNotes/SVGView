@@ -13,6 +13,7 @@ import Glibc
 import AppKit
 public typealias MBezierPath = NSBezierPath
 #else
+import UIKit
 public typealias MBezierPath = UIBezierPath
 #endif
 
