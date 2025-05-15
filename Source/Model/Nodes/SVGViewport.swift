@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGViewport: SVGGroup {
 
@@ -57,6 +61,7 @@ public class SVGViewport: SVGGroup {
 
 }
 
+#if !os(WASI)
 struct SVGViewportView: View {
 
     @ObservedObject var model: SVGViewport
@@ -89,3 +94,4 @@ struct SVGViewportView: View {
     }
 
 }
+#endif

@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGGroup: SVGNode, ObservableObject {
 
@@ -31,11 +35,14 @@ public class SVGGroup: SVGNode, ObservableObject {
         serializer.add("contents", contents)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGGroupView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGGroupView: View {
 
     @ObservedObject var model: SVGGroup
@@ -52,4 +59,5 @@ struct SVGGroupView: View {
         .applyNodeAttributes(model: model)
     }
 }
+#endif
 

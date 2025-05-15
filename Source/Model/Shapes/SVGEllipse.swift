@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGEllipse: SVGShape, ObservableObject {
 
@@ -24,11 +28,14 @@ public class SVGEllipse: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGEllipseView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGEllipseView: View {
 
     @ObservedObject var model = SVGEllipse()
@@ -41,4 +48,5 @@ struct SVGEllipseView: View {
             .applyShapeAttributes(model: model)
     }
 }
+#endif
 

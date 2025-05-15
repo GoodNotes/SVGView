@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 22/09/2021.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGURLImage: SVGImage, ObservableObject {
 
@@ -23,11 +27,14 @@ public class SVGURLImage: SVGImage, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGUrlImageView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGUrlImageView: View {
 
     @ObservedObject var model: SVGURLImage
@@ -56,4 +63,5 @@ struct SVGUrlImageView: View {
             .applyNodeAttributes(model: model)
     }
 }
+#endif
 

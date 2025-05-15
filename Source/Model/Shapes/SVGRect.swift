@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGRect: SVGShape, ObservableObject {
 
@@ -36,11 +40,14 @@ public class SVGRect: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
     
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGRectView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGRectView: View {
 
     @ObservedObject var model: SVGRect
@@ -54,3 +61,4 @@ struct SVGRectView: View {
             .offset(x: model.width/2, y: model.height/2)
     }
 }
+#endif

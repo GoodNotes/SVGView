@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGPolyline: SVGShape, ObservableObject {
 
@@ -45,11 +49,14 @@ public class SVGPolyline: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGPolylineView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGPolylineView: View {
 
     @ObservedObject var model = SVGPolyline()
@@ -69,4 +76,5 @@ struct SVGPolylineView: View {
         return path
     }
 }
+#endif
 

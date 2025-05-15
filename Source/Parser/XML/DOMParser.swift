@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public struct DOMParser {
 

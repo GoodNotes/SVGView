@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGLine: SVGShape, ObservableObject {
 
@@ -31,11 +35,14 @@ public class SVGLine: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGLineView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGLineView: View {
 
     @ObservedObject var model = SVGLine()
@@ -51,4 +58,5 @@ struct SVGLineView: View {
         return line
     }
 }
+#endif
 

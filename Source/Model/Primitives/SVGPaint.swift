@@ -5,8 +5,11 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
+#if os(WASI)
 import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGPaint {
 

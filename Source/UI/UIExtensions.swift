@@ -5,8 +5,13 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
+#if !os(WASI)
 extension Shape {
 
     @ViewBuilder
@@ -41,7 +46,9 @@ extension Shape {
     }
 
 }
+#endif
 
+#if !os(WASI)
 extension View {
 
     func applyShapeAttributes(model: SVGShape) -> some View {
@@ -70,7 +77,9 @@ extension View {
     }
 
 }
+#endif
 
+#if !os(WASI)
 extension View {
 
     @ViewBuilder
@@ -86,7 +95,9 @@ extension View {
         }
     }
 }
+#endif
 
+#if !os(WASI)
 extension View {
 
     @ViewBuilder
@@ -99,3 +110,4 @@ extension View {
     }
 
 }
+#endif

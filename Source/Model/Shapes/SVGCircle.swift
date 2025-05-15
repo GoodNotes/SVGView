@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGCircle: SVGShape, ObservableObject {
 
@@ -22,11 +26,14 @@ public class SVGCircle: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGCircleView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGCircleView: View {
 
     @ObservedObject var model = SVGCircle()
@@ -39,3 +46,4 @@ struct SVGCircleView: View {
             .position(x: model.cx, y: model.cy)
     }
 }
+#endif

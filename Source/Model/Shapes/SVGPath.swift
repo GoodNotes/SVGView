@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGPath: SVGShape, ObservableObject {
 
@@ -26,11 +30,14 @@ public class SVGPath: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGPathView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGPathView: View {
 
     @ObservedObject var model = SVGPath()
@@ -39,7 +46,9 @@ struct SVGPathView: View {
         model.toBezierPath().toSwiftUI(model: model, eoFill: model.fillRule == .evenOdd)
     }
 }
+#endif
 
+#if !os(WASI)
 extension MBezierPath {
 
     func toSwiftUI(model: SVGShape, eoFill: Bool = false) -> some View {
@@ -55,4 +64,5 @@ extension MBezierPath {
             }
     }
 }
+#endif
 

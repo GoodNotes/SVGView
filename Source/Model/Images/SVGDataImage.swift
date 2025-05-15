@@ -5,8 +5,13 @@
 //  Created by Alisa Mylnikova on 10/06/2021.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
+
 
 public class SVGDataImage: SVGImage, ObservableObject {
 
@@ -22,11 +27,14 @@ public class SVGDataImage: SVGImage, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGDataImageView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGDataImageView: View {
 
 #if os(OSX)
@@ -55,3 +63,4 @@ struct SVGDataImageView: View {
             .applyNodeAttributes(model: model)
     }
 }
+#endif

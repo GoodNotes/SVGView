@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGPolygon: SVGShape, ObservableObject {
 
@@ -45,11 +49,14 @@ public class SVGPolygon: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGPolygonView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGPolygonView: View {
 
     @ObservedObject var model = SVGPolygon()
@@ -71,4 +78,5 @@ struct SVGPolygonView: View {
         return path
     }
 }
+#endif
 

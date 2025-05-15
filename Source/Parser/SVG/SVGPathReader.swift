@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 23/07/2020.
 //
 
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 #if os(OSX)
 import AppKit

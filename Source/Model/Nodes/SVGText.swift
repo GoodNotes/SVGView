@@ -1,5 +1,9 @@
+#if os(WASI)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGText: SVGNode, ObservableObject {
 
@@ -25,11 +29,14 @@ public class SVGText: SVGNode, ObservableObject {
         super.serialize(serializer)
     }
     
+    #if !os(WASI)
     public func contentView() -> some View {
         SVGTextView(model: self)
     }
+    #endif
 }
 
+#if !os(WASI)
 struct SVGTextView: View {
 
     @ObservedObject var model: SVGText
@@ -62,3 +69,4 @@ struct SVGTextView: View {
            .frame(alignment: .topLeading)
     }
 }
+#endif
