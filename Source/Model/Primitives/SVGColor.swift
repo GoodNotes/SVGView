@@ -62,12 +62,12 @@ public class SVGColor: SVGPaint {
             serializer.add(key, "\(prefix)#\(String(format: "%02X%02X%02X", r, g, b))")
         }
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI() -> Color {
         return Color(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff).opacity(opacity)
     }
 
-    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         view.foregroundColor(toSwiftUI())
     }

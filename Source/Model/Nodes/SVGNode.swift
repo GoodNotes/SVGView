@@ -23,7 +23,6 @@ public class SVGNode: SerializableElement {
     @Published public var id: String?
 #endif
 
-    var gestures = [AnyGesture<()>]()
 
     public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
         self.transform = transform
@@ -47,6 +46,8 @@ public class SVGNode: SerializableElement {
         return self.id == id ? self : .none
     }
 
+    #if canImport(SwiftUI)
+    var gestures = [AnyGesture<()>]()
     public func onTapGesture(_ count: Int = 1, tapClosure: @escaping ()->()) {
         let newGesture = TapGesture(count: count).onEnded {
             tapClosure()
@@ -61,6 +62,7 @@ public class SVGNode: SerializableElement {
     public func removeAllGestures() {
         gestures.removeAll()
     }
+    #endif
 
     func serialize(_ serializer: Serializer) {
         if !transform.isIdentity {
@@ -77,6 +79,7 @@ public class SVGNode: SerializableElement {
 
 }
 
+#if canImport(SwiftUI)
 extension SVGNode {
     @ViewBuilder
     public func toSwiftUI() -> some View {
@@ -116,3 +119,4 @@ extension SVGNode {
         }
     }
 }
+#endif

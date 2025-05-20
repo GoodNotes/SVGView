@@ -24,6 +24,7 @@ public class SVGStroke: SerializableBlock {
         self.offset = offset
     }
 
+    #if canImport(SwiftUI)
     public func toSwiftUI() -> StrokeStyle {
         StrokeStyle(lineWidth: width,
                     lineCap: cap,
@@ -32,6 +33,7 @@ public class SVGStroke: SerializableBlock {
                     dash: dashes,
                     dashPhase: offset)
     }
+    #endif
 
     func serialize(_ serializer: Serializer) {
         fill.serialize(key: "fill", serializer: serializer)
