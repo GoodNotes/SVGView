@@ -23,6 +23,7 @@ public class SVGPaint {
 
 }
 
+#if canImport(SwiftUI)
 extension View {
 
     @ViewBuilder
@@ -44,3 +45,4 @@ extension View {
     }
 
 }
+#endif
