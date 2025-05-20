@@ -5,14 +5,14 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGPath: SVGShape, ObservableObject {
+public class SVGPath: SVGShape {
 
     #if os(WASI) || os(Linux)
-    @Published public var segments: [PathSegment]
-    @Published public var fillRule: CGPathFillRule
-    #else
     public var segments: [PathSegment]
     public var fillRule: CGPathFillRule
+    #else
+    @Published public var segments: [PathSegment]
+    @Published public var fillRule: CGPathFillRule
     #endif
 
     public init(segments: [PathSegment] = [], fillRule: CGPathFillRule = .winding) {
@@ -43,6 +43,7 @@ public class SVGPath: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGPath: ObservableObject {}
 struct SVGPathView: View {
 
     @ObservedObject var model = SVGPath()

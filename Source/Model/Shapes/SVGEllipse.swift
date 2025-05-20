@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGEllipse: SVGShape, ObservableObject {
+public class SVGEllipse: SVGShape {
     #if os(WASI) || os(Linux)
     public var cx: CGFloat
     public var cy: CGFloat
@@ -41,6 +41,7 @@ public class SVGEllipse: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGEllipse: ObservableObject {}
 struct SVGEllipseView: View {
 
     @ObservedObject var model = SVGEllipse()

@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGRect: SVGShape, ObservableObject {
+public class SVGRect: SVGShape {
 
     #if os(WASI) || os(Linux)
     public var x: CGFloat
@@ -56,6 +56,7 @@ public class SVGRect: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGRect: ObservableObject {}
 struct SVGRectView: View {
 
     @ObservedObject var model: SVGRect

@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGPolyline: SVGShape, ObservableObject {
+public class SVGPolyline: SVGShape {
     #if os(WASI) || os(Linux)
     public var points: [CGPoint]
     #else
@@ -60,6 +60,7 @@ public class SVGPolyline: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGPolyline: ObservableObject {}
 struct SVGPolylineView: View {
 
     @ObservedObject var model = SVGPolyline()

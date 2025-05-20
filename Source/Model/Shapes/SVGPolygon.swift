@@ -5,12 +5,12 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGPolygon: SVGShape, ObservableObject {
+public class SVGPolygon: SVGShape {
 
     #if os(WASI) || os(Linux)
-    @Published public var points: [CGPoint]
-    #else
     public var points: [CGPoint]
+    #else
+    @Published public var points: [CGPoint]
     #endif
 
     public init(_ points: [CGPoint]) {
@@ -61,6 +61,7 @@ public class SVGPolygon: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGPolygon: ObservableObject {}
 struct SVGPolygonView: View {
 
     @ObservedObject var model = SVGPolygon()

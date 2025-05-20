@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGCircle: SVGShape, ObservableObject {
+public class SVGCircle: SVGShape {
 
     #if os(WASI) || os(Linux)
     public var cx: CGFloat
@@ -41,6 +41,7 @@ public class SVGCircle: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGCircle: ObservableObject {}
 struct SVGCircleView: View {
 
     @ObservedObject var model = SVGCircle()

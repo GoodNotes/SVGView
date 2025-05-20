@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGGroup: SVGNode, ObservableObject {
+public class SVGGroup: SVGNode {
     #if os(WASI) || os(Linux)
     public var contents: [SVGNode] = []
     #else
@@ -45,6 +45,7 @@ public class SVGGroup: SVGNode, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGGroup: ObservableObject {}
 struct SVGGroupView: View {
 
     @ObservedObject var model: SVGGroup

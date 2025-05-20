@@ -11,7 +11,7 @@ import Foundation
 import SwiftUI
 #endif
 
-public class SVGURLImage: SVGImage, ObservableObject {
+public class SVGURLImage: SVGImage {
 
     public let src: String
     public let data: Data?
@@ -35,6 +35,7 @@ public class SVGURLImage: SVGImage, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGURLImage: ObservableObject {}
 struct SVGUrlImageView: View {
 
     @ObservedObject var model: SVGURLImage

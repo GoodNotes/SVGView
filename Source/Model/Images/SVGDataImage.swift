@@ -12,9 +12,7 @@ import SwiftUI
 import Combine
 #endif
 
-
-public class SVGDataImage: SVGImage, ObservableObject {
-
+public class SVGDataImage: SVGImage {
     #if os(WASI) || os(Linux)           
     public var data: Data
     #else
@@ -39,6 +37,7 @@ public class SVGDataImage: SVGImage, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGDataImage: ObservableObject {}
 struct SVGDataImageView: View {
 
 #if os(OSX)

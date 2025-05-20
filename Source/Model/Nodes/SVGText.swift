@@ -5,14 +5,14 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGText: SVGNode, ObservableObject {
+public class SVGText: SVGNode {
 
     #if os(WASI) || os(Linux)
-    @Published public var text: String
-    @Published public var font: SVGFont?
-    @Published public var fill: SVGPaint?
-    @Published public var stroke: SVGStroke?
-    @Published public var textAnchor: HorizontalAlignment = .leading
+    public var text: String
+    public var font: SVGFont?
+    public var fill: SVGPaint?
+    public var stroke: SVGStroke?
+    public var textAnchor: HorizontalAlignment = .leading
     #else
     @Published public var text: String
     @Published public var font: SVGFont?
@@ -45,6 +45,7 @@ public class SVGText: SVGNode, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGText: ObservableObject {}
 struct SVGTextView: View {
 
     @ObservedObject var model: SVGText

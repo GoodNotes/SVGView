@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGLine: SVGShape, ObservableObject {
+public class SVGLine: SVGShape {
 
     #if os(WASI) || os(Linux)
     public var x1: CGFloat
@@ -50,6 +50,7 @@ public class SVGLine: SVGShape, ObservableObject {
 }
 
 #if canImport(SwiftUI)
+extension SVGLine: ObservableObject {}
 struct SVGLineView: View {
 
     @ObservedObject var model = SVGLine()
