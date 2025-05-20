@@ -5,17 +5,14 @@
 //  Created by Alisa Mylnikova on 23/07/2020.
 //
 
-#if os(WASI) || os(Linux)
-import Foundation
-#else
-import SwiftUI
-#endif
-
 #if os(OSX)
 import AppKit
 public typealias MBezierPath = NSBezierPath
-#else
+#elseif os(iOS) || os(tvOS) || os(watchOS)
+import UIKit
 public typealias MBezierPath = UIBezierPath
+#elseif os(WASI) || os(Linux)
+import Foundation
 #endif
 
 public enum PathSegmentType {
