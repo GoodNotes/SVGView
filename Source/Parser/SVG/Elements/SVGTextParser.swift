@@ -30,7 +30,7 @@ class SVGTextParser: SVGBaseElementParser {
         return .none
     }
 
-    private func parseTextAnchor(_ string: String?) -> HorizontalAlignment {
+    private func parseTextAnchor(_ string: String?) -> SVGText.Anchor {
         if let anchor = string {
             if anchor == "middle" {
                 return .center

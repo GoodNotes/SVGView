@@ -176,7 +176,7 @@ extension CGPathFillRule: SerializableOption {
 
 }
 
-extension HorizontalAlignment: SerializableOption {
+extension SVGText.Anchor: SerializableOption {
 
     func isDefault() -> Bool {
         return self == .leading
