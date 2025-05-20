@@ -6,9 +6,9 @@
 //
 
 #if os(WASI) || os(Linux)
-import Foundation
+import FoundationXML
 #else
-import SwiftUI
+import Foundation
 #endif
 
 public struct DOMParser {
