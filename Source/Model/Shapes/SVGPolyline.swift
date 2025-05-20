@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -6,8 +6,11 @@ import Combine
 #endif
 
 public class SVGPolyline: SVGShape, ObservableObject {
-
+    #if os(WASI) || os(Linux)
+    public var points: [CGPoint]
+    #else
     @Published public var points: [CGPoint]
+    #endif
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -49,14 +52,14 @@ public class SVGPolyline: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGPolylineView(model: self)
     }
     #endif
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 struct SVGPolylineView: View {
 
     @ObservedObject var model = SVGPolyline()

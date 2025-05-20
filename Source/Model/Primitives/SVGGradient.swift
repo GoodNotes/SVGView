@@ -5,7 +5,7 @@
 //  Created by Yuriy Strot on 22.02.2021.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -69,7 +69,7 @@ public class SVGLinearGradient: SVGGradient {
         )
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         let frame = model?.frame() ?? CGRect()
         let bounds = model?.bounds() ?? CGRect()
@@ -122,7 +122,7 @@ public class SVGRadialGradient: SVGGradient {
         return RadialGradient(gradient: Gradient(stops: suiStops), center: UnitPoint(x: ncx, y: ncy), startRadius: 0, endRadius: userSpace ? r : r * s)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         let frame = model?.frame() ?? CGRect()
         let bounds = model?.bounds() ?? CGRect()

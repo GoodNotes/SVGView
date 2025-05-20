@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -7,7 +7,7 @@ import Combine
 
 public class SVGShape: SVGNode {
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
     public var fill: SVGPaint?
     public var stroke: SVGStroke?
 #else

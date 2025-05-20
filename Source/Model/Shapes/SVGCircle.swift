@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -7,9 +7,16 @@ import Combine
 
 public class SVGCircle: SVGShape, ObservableObject {
 
+    #if os(WASI) || os(Linux)
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var r: CGFloat
+    #else
     @Published public var cx: CGFloat
     @Published public var cy: CGFloat
     @Published public var r: CGFloat
+    #endif
+    
 
     public init(cx: CGFloat = 0, cy: CGFloat = 0, r: CGFloat = 0) {
         self.cx = cx
@@ -26,14 +33,14 @@ public class SVGCircle: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGCircleView(model: self)
     }
     #endif
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 struct SVGCircleView: View {
 
     @ObservedObject var model = SVGCircle()

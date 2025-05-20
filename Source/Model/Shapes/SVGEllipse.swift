@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -6,12 +6,17 @@ import Combine
 #endif
 
 public class SVGEllipse: SVGShape, ObservableObject {
-
+    #if os(WASI) || os(Linux)
+    public var cx: CGFloat
+    public var cy: CGFloat
+    public var rx: CGFloat
+    public var ry: CGFloat
+    #else
     @Published public var cx: CGFloat
     @Published public var cy: CGFloat
     @Published public var rx: CGFloat
     @Published public var ry: CGFloat
-
+    #endif
     public init(cx: CGFloat = 0, cy: CGFloat = 0, rx: CGFloat = 0, ry: CGFloat = 0) {
         self.cx = cx
         self.cy = cy
@@ -28,14 +33,14 @@ public class SVGEllipse: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGEllipseView(model: self)
     }
     #endif
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 struct SVGEllipseView: View {
 
     @ObservedObject var model = SVGEllipse()

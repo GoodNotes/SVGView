@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -7,12 +7,20 @@ import Combine
 
 public class SVGText: SVGNode, ObservableObject {
 
+    #if os(WASI) || os(Linux)
     @Published public var text: String
     @Published public var font: SVGFont?
     @Published public var fill: SVGPaint?
     @Published public var stroke: SVGStroke?
     @Published public var textAnchor: HorizontalAlignment = .leading
-
+    #else
+    @Published public var text: String
+    @Published public var font: SVGFont?
+    @Published public var fill: SVGPaint?
+    @Published public var stroke: SVGStroke?
+    @Published public var textAnchor: HorizontalAlignment = .leading
+    #endif
+    
     public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
         self.text = text
         self.font = font
@@ -29,14 +37,14 @@ public class SVGText: SVGNode, ObservableObject {
         super.serialize(serializer)
     }
     
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGTextView(model: self)
     }
     #endif
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 struct SVGTextView: View {
 
     @ObservedObject var model: SVGText

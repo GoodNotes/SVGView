@@ -5,7 +5,7 @@
 //  Created by Alisa Mylnikova on 03/06/2021.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -14,7 +14,7 @@ import Combine
 
 public class SVGImage: SVGNode {
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
     public var x: CGFloat
     public var y: CGFloat
     public var width: CGFloat

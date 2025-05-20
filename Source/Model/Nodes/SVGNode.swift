@@ -1,4 +1,4 @@
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -7,7 +7,7 @@ import Combine
 
 public class SVGNode: SerializableElement {
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
     public var transform: CGAffineTransform = CGAffineTransform.identity
     public var opaque: Bool
     public var opacity: Double

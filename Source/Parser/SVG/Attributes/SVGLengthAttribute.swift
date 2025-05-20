@@ -5,7 +5,6 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
-import CoreGraphics
 
 class SVGLengthAttribute: SVGDefaultAttribute<CGFloat> {
     

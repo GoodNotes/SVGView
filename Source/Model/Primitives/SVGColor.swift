@@ -5,7 +5,7 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -67,7 +67,7 @@ public class SVGColor: SVGPaint {
         return Color(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff).opacity(opacity)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         view.foregroundColor(toSwiftUI())
     }
@@ -107,7 +107,7 @@ public func == (lhs: SVGColor, rhs: SVGColor) -> Bool {
     return lhs.value == rhs.value
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 extension Color: SerializableAtom {
 
     static func by(name: String) -> Color? {

@@ -5,13 +5,13 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
 #endif
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 extension Shape {
 
     @ViewBuilder
@@ -48,7 +48,7 @@ extension Shape {
 }
 #endif
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 extension View {
 
     func applyShapeAttributes(model: SVGShape) -> some View {
@@ -79,7 +79,7 @@ extension View {
 }
 #endif
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 extension View {
 
     @ViewBuilder
@@ -97,7 +97,7 @@ extension View {
 }
 #endif
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 extension View {
 
     @ViewBuilder

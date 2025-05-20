@@ -5,7 +5,7 @@
 //  Created by Alisa Mylnikova on 14/10/2020.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
@@ -32,14 +32,14 @@ public class SVGUserSpaceNode: SVGNode {
         super.serialize(serializer)
     }
 
-    #if !os(WASI)
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGUserSpaceNodeView(model: self)
     }
     #endif
 }
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 struct SVGUserSpaceNodeView: View {
     let model: SVGUserSpaceNode
 

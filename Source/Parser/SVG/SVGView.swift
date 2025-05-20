@@ -5,13 +5,13 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-#if os(WASI)
+#if os(WASI) || os(Linux)
 import Foundation
 #else
 import SwiftUI
 #endif
 
-#if !os(WASI)
+#if canImport(SwiftUI)
 public struct SVGView: View {
 
     public let svg: SVGNode?
