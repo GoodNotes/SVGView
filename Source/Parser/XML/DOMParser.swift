@@ -6,6 +6,7 @@
 //
 
 #if os(WASI) || os(Linux)
+import Foundation
 import FoundationXML
 #else
 import Foundation
