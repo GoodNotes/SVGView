@@ -26,10 +26,10 @@ public class SVGPolygon: SVGShape {
             return .zero
         }
 
-        var minX = CGFloat(INT16_MAX)
-        var minY = CGFloat(INT16_MAX)
-        var maxX = CGFloat(INT16_MIN)
-        var maxY = CGFloat(INT16_MIN)
+        var minX = CGFloat(Int16.max)
+        var minY = CGFloat(Int16.max)
+        var maxX = CGFloat(Int16.min)
+        var maxY = CGFloat(Int16.min)
 
         for point in points {
             minX = min(minX, point.x)
