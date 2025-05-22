@@ -8,24 +8,6 @@
 import Foundation
 
 #if os(WASI) || os(Linux)
-    import Glibc
-    public func sqrt(_ x: CGFloat) -> CGFloat { return x.squareRoot() }
-    public func copysign(_ x: CGFloat, _ y: CGFloat) -> CGFloat {
-        let magnitude = x >= 0 ? x : -x
-        return y >= 0 ? magnitude : -magnitude
-    }
-    public func acos(_ x: CGFloat) -> CGFloat {
-        return Glibc.acos(x)
-    }
-
-    public func cos(_ x: CGFloat) -> CGFloat {
-        return Glibc.cos(x)
-    }
-
-    public func sin(_ x: CGFloat) -> CGFloat {
-        return Glibc.sin(x)
-    }
-
     private let KAPPA: CGFloat = 0.5522847498  // 4 *(sqrt(2) -1)/3
 
     public struct CGAffineTransform: Equatable {
