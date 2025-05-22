@@ -43,7 +43,7 @@ import Foundation
     }
 
     /// A graphics path is a mathematical description of a series of shapes or lines.
-    public struct CGPath {
+    public class CGPath {
 
         public typealias Element = PathElement
 
@@ -116,7 +116,7 @@ import Foundation
             return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
         }
 
-        public mutating func addRect(_ rect: CGRect) {
+        public func addRect(_ rect: CGRect) {
 
             let newElements: [Element] = [
                 .moveToPoint(CGPoint(x: rect.minX, y: rect.minY)),
@@ -129,7 +129,7 @@ import Foundation
             elements.append(contentsOf: newElements)
         }
 
-        public mutating func addEllipse(in rect: CGRect) {
+        public func addEllipse(in rect: CGRect) {
 
             var p = CGPoint()
             var p1 = CGPoint()
@@ -165,27 +165,27 @@ import Foundation
             elements.append(.addCurveToPoint(p1, p2, p))
         }
 
-        public mutating func move(to point: CGPoint) {
+        public func move(to point: CGPoint) {
 
             elements.append(.moveToPoint(point))
         }
 
-        public mutating func addLine(to point: CGPoint) {
+        public func addLine(to point: CGPoint) {
 
             elements.append(.addLineToPoint(point))
         }
 
-        public mutating func addCurve(to endPoint: CGPoint, control1: CGPoint, control2: CGPoint) {
+        public func addCurve(to endPoint: CGPoint, control1: CGPoint, control2: CGPoint) {
 
             elements.append(.addCurveToPoint(control1, control2, endPoint))
         }
 
-        public mutating func addQuadCurve(to endPoint: CGPoint, control: CGPoint) {
+        public func addQuadCurve(to endPoint: CGPoint, control: CGPoint) {
 
             elements.append(.addQuadCurveToPoint(control, endPoint))
         }
 
-        public mutating func closeSubpath() {
+        public func closeSubpath() {
 
             elements.append(.closeSubpath)
         }
@@ -294,7 +294,7 @@ import Foundation
         }
     }
 
-    public struct MBezierPath {
+    public class MBezierPath {
         public var cgPath: CGPath
 
         public init() {
@@ -317,46 +317,46 @@ import Foundation
         ) {
             self.cgPath = CGPath()
             MBezierPath.addArcTo(
-                path: &self.cgPath, center: arcCenter, radius: radius, startAngle: startAngle,
+                path: self.cgPath, center: arcCenter, radius: radius, startAngle: startAngle,
                 endAngle: endAngle, clockwise: clockwise)
         }
 
-        public mutating func move(to point: CGPoint) {
+        public func move(to point: CGPoint) {
             cgPath.move(to: point)
         }
 
-        public mutating func addLine(to point: CGPoint) {
+        public func addLine(to point: CGPoint) {
             cgPath.addLine(to: point)
         }
 
-        public mutating func addCurve(
+        public func addCurve(
             to endPoint: CGPoint, controlPoint1: CGPoint, controlPoint2: CGPoint
         ) {
             cgPath.addCurve(to: endPoint, control1: controlPoint1, control2: controlPoint2)
         }
 
-        public mutating func addQuadCurve(to endPoint: CGPoint, controlPoint: CGPoint) {
+        public func addQuadCurve(to endPoint: CGPoint, controlPoint: CGPoint) {
             cgPath.addQuadCurve(to: endPoint, control: controlPoint)
         }
 
-        public mutating func addArc(
+        public func addArc(
             withCenter center: CGPoint, radius: CGFloat, startAngle: CGFloat, endAngle: CGFloat,
             clockwise: Bool
         ) {
             MBezierPath.addArcTo(
-                path: &self.cgPath, center: center, radius: radius, startAngle: startAngle,
+                path: self.cgPath, center: center, radius: radius, startAngle: startAngle,
                 endAngle: endAngle, clockwise: clockwise)
         }
 
-        public mutating func append(_ path: MBezierPath) {
+        public func append(_ path: MBezierPath) {
             cgPath.elements.append(contentsOf: path.cgPath.elements)
         }
 
-        public mutating func close() {
+        public func close() {
             cgPath.closeSubpath()
         }
 
-        public mutating func apply(_ transform: CGAffineTransform) {
+        public func apply(_ transform: CGAffineTransform) {
             var newElements: [CGPath.Element] = []
             for element in cgPath.elements {
                 switch element {
@@ -389,7 +389,7 @@ import Foundation
         }
 
         static func addArcTo(
-            path: inout CGPath, center: CGPoint, radius: CGFloat, startAngle: CGFloat,
+            path: CGPath, center: CGPoint, radius: CGFloat, startAngle: CGFloat,
             endAngle: CGFloat, clockwise: Bool
         ) {
             var deltaAngle: CGFloat
