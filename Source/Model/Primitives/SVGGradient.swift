@@ -58,7 +58,8 @@ public class SVGLinearGradient: SVGGradient {
             stops: stops
         )
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI(rect: CGRect) -> LinearGradient {
         let suiStops = stops.map { stop in Gradient.Stop(color: stop.color.toSwiftUI(), location: stop.offset) }
         let nx1 = userSpace ? (x1 - rect.minX) / rect.size.width : x1
@@ -69,7 +70,6 @@ public class SVGLinearGradient: SVGGradient {
         )
     }
 
-    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         let frame = model?.frame() ?? CGRect()
         let bounds = model?.bounds() ?? CGRect()
@@ -113,7 +113,8 @@ public class SVGRadialGradient: SVGGradient {
             stops: stops
         )
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI(rect: CGRect) -> RadialGradient {
         let suiStops = stops.map { stop in Gradient.Stop(color: stop.color.toSwiftUI(), location: stop.offset) }
         let s = min(rect.size.width, rect.size.height)
@@ -122,7 +123,6 @@ public class SVGRadialGradient: SVGGradient {
         return RadialGradient(gradient: Gradient(stops: suiStops), center: UnitPoint(x: ncx, y: ncy), startRadius: 0, endRadius: userSpace ? r : r * s)
     }
 
-    #if canImport(SwiftUI)
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         let frame = model?.frame() ?? CGRect()
         let bounds = model?.bounds() ?? CGRect()
