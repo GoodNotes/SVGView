@@ -5,6 +5,8 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
+import Foundation
+
 protocol SVGContext {
 
     var logger: SVGLogger { get }

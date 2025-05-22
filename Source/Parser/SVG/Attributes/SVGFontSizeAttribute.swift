@@ -5,6 +5,7 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+import Foundation
 
 class SVGFontSizeAttribute: SVGDefaultAttribute<CGFloat> {
 

@@ -5,6 +5,7 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
+import Foundation
 
 extension CGFloat {
     var degreesToRadians: CGFloat {

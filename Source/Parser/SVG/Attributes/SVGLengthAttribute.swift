@@ -6,6 +6,8 @@
 //
 
 
+import Foundation
+
 class SVGLengthAttribute: SVGDefaultAttribute<CGFloat> {
     
     private let attrName: String

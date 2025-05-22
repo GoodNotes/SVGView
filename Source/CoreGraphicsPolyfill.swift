@@ -7,10 +7,6 @@
 
 import Foundation
 
-public typealias CGFloat = Foundation.CGFloat
-public typealias CGSize = Foundation.CGSize
-public typealias CGPoint = Foundation.CGPoint
-
 #if os(WASI) || os(Linux)
     import Glibc
     public func sqrt(_ x: CGFloat) -> CGFloat { return x.squareRoot() }
