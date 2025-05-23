@@ -18,8 +18,11 @@ let package = Package(
     targets: [
     	.target(
     		name: "SVGView",
-            path: "Source",
-            exclude: ["Info.plist"]
+            path: "Source"
+        ),
+        .testTarget(
+            name: "CoreGraphicsPolyfillTests",
+            dependencies: ["SVGView"]
         )
     ],
     swiftLanguageVersions: [.v5]
