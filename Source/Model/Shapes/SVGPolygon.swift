@@ -1,9 +1,17 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGPolygon: SVGShape, ObservableObject {
+public class SVGPolygon: SVGShape {
 
+    #if os(WASI) || os(Linux)
+    public var points: [CGPoint]
+    #else
     @Published public var points: [CGPoint]
+    #endif
 
     public init(_ points: [CGPoint]) {
         self.points = points
@@ -18,10 +26,10 @@ public class SVGPolygon: SVGShape, ObservableObject {
             return .zero
         }
 
-        var minX = CGFloat(INT16_MAX)
-        var minY = CGFloat(INT16_MAX)
-        var maxX = CGFloat(INT16_MIN)
-        var maxY = CGFloat(INT16_MIN)
+        var minX = CGFloat(Int16.max)
+        var minY = CGFloat(Int16.max)
+        var maxX = CGFloat(Int16.min)
+        var maxY = CGFloat(Int16.min)
 
         for point in points {
             minX = min(minX, point.x)
@@ -45,11 +53,15 @@ public class SVGPolygon: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGPolygonView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGPolygon: ObservableObject {}
 struct SVGPolygonView: View {
 
     @ObservedObject var model = SVGPolygon()
@@ -71,4 +83,5 @@ struct SVGPolygonView: View {
         return path
     }
 }
+#endif
 

@@ -1,4 +1,8 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGFont: SerializableBlock {
 
@@ -11,10 +15,12 @@ public class SVGFont: SerializableBlock {
         self.size = size
         self.weight = weight
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI() -> Font {
         return Font.custom(name, size: size)//.weight(fontWeight)
     }
+    #endif
 
     func serialize(_ serializer: Serializer) {
         serializer.add("name", name, "Serif").add("size", size, 16).add("weight", weight, "normal")

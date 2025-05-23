@@ -5,10 +5,9 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
-import CoreGraphics
+import Foundation
 
 extension CGFloat {
-
     var degreesToRadians: CGFloat {
         return self * .pi / 180
     }

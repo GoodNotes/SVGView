@@ -1,15 +1,27 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGRect: SVGShape, ObservableObject {
+public class SVGRect: SVGShape {
 
+    #if os(WASI) || os(Linux)
+    public var x: CGFloat
+    public var y: CGFloat
+    public var width: CGFloat
+    public var height: CGFloat
+    public var rx: CGFloat = 0
+    public var ry: CGFloat = 0
+    #else   
     @Published public var x: CGFloat
     @Published public var y: CGFloat
     @Published public var width: CGFloat
     @Published public var height: CGFloat
     @Published public var rx: CGFloat = 0
     @Published public var ry: CGFloat = 0
-
+    #endif
     public init(x: CGFloat = 0, y: CGFloat = 0, width: CGFloat = 0, height: CGFloat = 0, rx: CGFloat = 0, ry: CGFloat = 0) {
         self.x = x
         self.y = y
@@ -36,11 +48,15 @@ public class SVGRect: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
     
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGRectView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGRect: ObservableObject {}
 struct SVGRectView: View {
 
     @ObservedObject var model: SVGRect
@@ -54,3 +70,4 @@ struct SVGRectView: View {
             .offset(x: model.width/2, y: model.height/2)
     }
 }
+#endif

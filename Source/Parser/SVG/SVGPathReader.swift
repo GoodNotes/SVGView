@@ -5,13 +5,14 @@
 //  Created by Alisa Mylnikova on 23/07/2020.
 //
 
-import SwiftUI
-
 #if os(OSX)
 import AppKit
 public typealias MBezierPath = NSBezierPath
-#else
+#elseif os(iOS) || os(tvOS) || os(watchOS)
+import UIKit
 public typealias MBezierPath = UIBezierPath
+#elseif os(WASI) || os(Linux)
+import Foundation
 #endif
 
 public enum PathSegmentType {
@@ -335,7 +336,11 @@ extension SVGPath {
             return CGFloat > 0.5 ? true : false
         }
 
+        #if os(WASI) || os(Linux)
+        var bezierPath = MBezierPath()
+        #else
         let bezierPath = MBezierPath()
+        #endif
 
         var currentPoint: CGPoint?
         var cubicPoint: CGPoint?
@@ -560,7 +565,11 @@ extension SVGPath {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
                 let maxSize = CGFloat(max(w, h))
+                #if os(WASI) || os(Linux)
+                var path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+                #else
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+                #endif
 
                 var transform = CGAffineTransform(translationX: cx, y: cy)
                 transform = transform.rotated(by: CGFloat(rotation))

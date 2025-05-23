@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 class SVGImageParser: SVGBaseElementParser {
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {

@@ -5,7 +5,11 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGColor: SVGPaint {
 
@@ -58,7 +62,8 @@ public class SVGColor: SVGPaint {
             serializer.add(key, "\(prefix)#\(String(format: "%02X%02X%02X", r, g, b))")
         }
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI() -> Color {
         return Color(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff).opacity(opacity)
     }
@@ -66,6 +71,7 @@ public class SVGColor: SVGPaint {
     func apply<S>(view: S, model: SVGShape? = nil) -> some View where S : View {
         view.foregroundColor(toSwiftUI())
     }
+    #endif
 
     public var r: Int {
         return (value >> 16) & 0xff
@@ -101,6 +107,7 @@ public func == (lhs: SVGColor, rhs: SVGColor) -> Bool {
     return lhs.value == rhs.value
 }
 
+#if canImport(SwiftUI)
 extension Color: SerializableAtom {
 
     static func by(name: String) -> Color? {
@@ -149,6 +156,7 @@ extension Color: SerializableAtom {
     }
 
 }
+#endif
 
 class SVGColors {
 
