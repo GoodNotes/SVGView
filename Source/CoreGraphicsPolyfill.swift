@@ -116,6 +116,48 @@ import Foundation
             return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
         }
 
+        public func applyWithBlock(_ block: (UnsafePointer<CGPathElement>) -> Void) {
+            for element in elements {
+                let cgPathElement: CGPathElement
+                
+                switch element {
+                case .moveToPoint(let point):
+                    cgPathElement = CGPathElement(
+                        type: .moveToPoint,
+                        points: (point, CGPoint.zero, CGPoint.zero)
+                    )
+                    
+                case .addLineToPoint(let point):
+                    cgPathElement = CGPathElement(
+                        type: .addLineToPoint,
+                        points: (point, CGPoint.zero, CGPoint.zero)
+                    )
+                    
+                case .addQuadCurveToPoint(let control, let point):
+                    cgPathElement = CGPathElement(
+                        type: .addQuadCurveToPoint,
+                        points: (control, point, CGPoint.zero)
+                    )
+                    
+                case .addCurveToPoint(let control1, let control2, let point):
+                    cgPathElement = CGPathElement(
+                        type: .addCurveToPoint,
+                        points: (control1, control2, point)
+                    )
+                    
+                case .closeSubpath:
+                    cgPathElement = CGPathElement(
+                        type: .closeSubpath,
+                        points: (CGPoint.zero, CGPoint.zero, CGPoint.zero)
+                    )
+                }
+                
+                withUnsafePointer(to: cgPathElement) { pointer in
+                    block(pointer)
+                }
+            }
+        }
+
         public func addRect(_ rect: CGRect) {
 
             let newElements: [Element] = [
@@ -203,7 +245,7 @@ import Foundation
             self.points = points
         }
     }
-
+    
     /// Rules for determining which regions are interior to a path.
     ///
     /// When filling a path, regions that a fill rule defines as interior to the path are painted.
