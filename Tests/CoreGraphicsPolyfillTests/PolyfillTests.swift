@@ -421,7 +421,7 @@ final class PolyfillTests: XCTestCase {
         )
         
         XCTAssertEqual(element.type, .moveToPoint)
-        XCTAssertEqual(element.points.0, CGPoint(x: 1, y: 2))
+        XCTAssertEqual(element.points[0], CGPoint(x: 1, y: 2))
     }
     
     // MARK: - CGPathElementType Tests
