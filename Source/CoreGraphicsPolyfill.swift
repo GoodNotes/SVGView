@@ -244,6 +244,15 @@ import Foundation
             self.type = type
             self.points = points
         }
+        
+        public subscript(index: Int) -> CGPoint {
+            switch index {
+            case 0: return points.0
+            case 1: return points.1
+            case 2: return points.2
+            default: fatalError("Index out of bounds")
+            }
+        }
     }
     
     /// Rules for determining which regions are interior to a path.
