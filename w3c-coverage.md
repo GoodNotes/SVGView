@@ -2,7 +2,7 @@
 
 This page is automatically generated and shows actual coverage of the [W3C SVG Test Suite](https://github.com/web-platform-tests/wpt/tree/master/svg) by this `SVGView` implementation. Currently there are two standards supported: [SVG 1.1 (Second Edition)](https://www.w3.org/TR/SVG11/) and [SVG Tiny 1.2](https://www.w3.org/TR/SVGTiny12/).
 
-  * [SVG 1.1 (Second Edition)](#svg-11-second-edition): `19.3%`
+  * [SVG 1.1 (Second Edition)](#svg-11-second-edition): `19.5%`
     * [Animate](#animate-1): `0.0%`
     * [Color](#color-1): `83.3%`
     * [Conform](#conform-1): `0.0%`
@@ -15,7 +15,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
     * [Linking](#linking-1): `0.0%`
     * [Masking](#masking-1): `5.2%`
     * [Metadata](#metadata-1): `0.0%`
-    * [Painting](#painting-1): `48.3%`
+    * [Painting](#painting-1): `51.6%`
     * [Paths](#paths-1): `90.4%`
     * [Pservers](#pservers-1): `18.1%`
     * [Render](#render-1): `37.5%`
@@ -26,7 +26,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
     * [Svgdom](#svgdom-1): `0.0%`
     * [Text](#text-1): `0.0%`
     * [Types](#types-1): `6.6%`
-  * [SVG Tiny 1.2](#svg-tiny-12): `4.5%`
+  * [SVG Tiny 1.2](#svg-tiny-12): `4.7%`
     * [Animate](#animate-2): `0.0%`
     * [Conf](#conf-2): `0.0%`
     * [Coords](#coords-2): `50.0%`
@@ -38,7 +38,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
     * [Linking](#linking-2): `0.0%`
     * [Media](#media-2): `0.0%`
     * [Metadata](#metadata-2): `0.0%`
-    * [Paint](#paint-2): `7.4%`
+    * [Paint](#paint-2): `9.0%`
     * [Paths](#paths-2): `15.3%`
     * [Render](#render-2): `37.5%`
     * [Script](#script-2): `0.0%`
@@ -51,7 +51,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 
 ## [SVG 1.1 (Second Edition)](https://www.w3.org/TR/SVG11/)
 
-`19.3%` of tests covered (101/522). They can be splitted into following categories:
+`19.5%` of tests covered (102/522). They can be splitted into following categories:
 
 ### <a name='animate-1'></a> [Animate](https://www.w3.org/TR/SVG11/animate.html): `0.0%`
 
@@ -398,10 +398,10 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 |❌|[metadata-example-01-t](SVGViewTests/w3c/1.1F2/svg/metadata-example-01-t.svg)|
 </details>
 
-### <a name='painting-1'></a> [Painting](https://www.w3.org/TR/SVG11/painting.html): `48.3%`
+### <a name='painting-1'></a> [Painting](https://www.w3.org/TR/SVG11/painting.html): `51.6%`
 
 <details>
-  <summary>(15/31) tests covered...</summary>
+  <summary>(16/31) tests covered...</summary>
 
 |Status  | Name|
 |------|-------|
@@ -416,7 +416,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 |✅|[painting-fill-03-t](SVGViewTests/w3c/1.1F2/svg/painting-fill-03-t.svg)|
 |✅|[painting-fill-04-t](SVGViewTests/w3c/1.1F2/svg/painting-fill-04-t.svg)|
 |✅|[painting-fill-05-b](SVGViewTests/w3c/1.1F2/svg/painting-fill-05-b.svg)|
-|❌|[painting-marker-01-f](SVGViewTests/w3c/1.1F2/svg/painting-marker-01-f.svg)|
+|✅|[painting-marker-01-f](SVGViewTests/w3c/1.1F2/svg/painting-marker-01-f.svg)|
 |❌|[painting-marker-02-f](SVGViewTests/w3c/1.1F2/svg/painting-marker-02-f.svg)|
 |❌|[painting-marker-03-f](SVGViewTests/w3c/1.1F2/svg/painting-marker-03-f.svg)|
 |❌|[painting-marker-04-f](SVGViewTests/w3c/1.1F2/svg/painting-marker-04-f.svg)|
@@ -785,7 +785,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 
 ## [SVG Tiny 1.2](https://www.w3.org/TR/SVGTiny12/)
 
-`4.5%` of tests covered (27/590). They can be splitted into following categories:
+`4.7%` of tests covered (28/591). They can be splitted into following categories:
 
 ### <a name='animate-2'></a> [Animate](https://www.w3.org/TR/SVGTiny12/animate.html): `0.0%`
 
@@ -1135,10 +1135,10 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 |❌|[metadata-example-01-t](SVGViewTests/w3c/1.2T/svg/metadata-example-01-t.svg)|
 </details>
 
-### <a name='paint-2'></a> [Paint](https://www.w3.org/TR/SVGTiny12/paint.html): `7.4%`
+### <a name='paint-2'></a> [Paint](https://www.w3.org/TR/SVGTiny12/paint.html): `9.0%`
 
 <details>
-  <summary>(4/54) tests covered...</summary>
+  <summary>(5/55) tests covered...</summary>
 
 |Status  | Name|
 |------|-------|
@@ -1152,6 +1152,7 @@ This page is automatically generated and shows actual coverage of the [W3C SVG T
 |❌|[paint-fill-03-t](SVGViewTests/w3c/1.2T/svg/paint-fill-03-t.svg)|
 |✅|[paint-fill-04-t](SVGViewTests/w3c/1.2T/svg/paint-fill-04-t.svg)|
 |❌|[paint-fill-05-t](SVGViewTests/w3c/1.2T/svg/paint-fill-05-t.svg)|
+|✅|[paint-fill-06-t](SVGViewTests/w3c/1.2T/svg/paint-fill-06-t.svg)|
 |❌|[paint-grad-04-t](SVGViewTests/w3c/1.2T/svg/paint-grad-04-t.svg)|
 |❌|[paint-grad-05-t](SVGViewTests/w3c/1.2T/svg/paint-grad-05-t.svg)|
 |❌|[paint-grad-07-t](SVGViewTests/w3c/1.2T/svg/paint-grad-07-t.svg)|
