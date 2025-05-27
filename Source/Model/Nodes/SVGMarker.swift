@@ -66,8 +66,8 @@ public class SVGMarker: SVGGroup {
     public var markerWidth: SVGLength
     public var orient: Orient
     public var preserveAspectRatio: SVGPreserveAspectRatio
-    public var refX: RefMagnitude
-    public var refY: RefMagnitude
+    public var refX: RefMagnitude?
+    public var refY: RefMagnitude?
     public var viewBox: CGRect?
     #else
     @Published public var markerHeight: SVGLength
