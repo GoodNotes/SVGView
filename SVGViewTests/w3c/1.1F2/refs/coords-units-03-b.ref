@@ -1,7 +1,9 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
@@ -16,49 +18,49 @@ SVGViewport {
 					text: "Initial viewport and CSS units test",
 					font: { name: "Arial", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 125, 20]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 20.0000000000]
 				},
 				SVGGroup {
 					id: "units-test",
-					transform: [1, 0, 0, 1, 0, 60],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 0.0000000000, 60.0000000000],
 					contents: [
 						SVGText {
 							text: "200",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 18]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 18.0000000000]
 						},
 						SVGText {
 							text: "User space units (no specifier)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 20.0000000000]
 						},
 						SVGRect { x: 20, y: 20, width: 200, height: 1, fill: "black" },
 						SVGText {
 							text: "200 px",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "Pixels (px)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 40]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 40.0000000000]
 						},
 						SVGRect { x: 20, y: 40, width: 200, height: 1, fill: "black" },
 						SVGText {
 							text: "20 em = 200 px (font-size=10px)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 58]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 58.0000000000]
 						},
 						SVGText {
 							text: "Relative to font size (em)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 60]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 60.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -69,13 +71,13 @@ SVGViewport {
 							text: "40 ex",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 78]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 78.0000000000]
 						},
 						SVGText {
 							text: "Relative to font x-height (ex)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 80]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 80.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -86,78 +88,78 @@ SVGViewport {
 							text: "41.67% = 200 px",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 98]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 98.0000000000]
 						},
 						SVGText {
 							text: "Percentage (%)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 100]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 100.0000000000]
 						},
 						SVGRect { x: 20, y: 100, width: 200.01600000000002, height: 1, fill: "black" },
 						SVGText {
 							text: "1 in",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 118]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 118.0000000000]
 						},
 						SVGText {
 							text: "Inches (in)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 120]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 120.0000000000]
 						},
 						SVGRect { x: 20, y: 120, width: 96, height: 1, fill: "black" },
 						SVGText {
 							text: "2.54 cm = 1 in",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 138]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 138.0000000000]
 						},
 						SVGText {
 							text: "Centimeters (cm)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 140]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 140.0000000000]
 						},
 						SVGRect { x: 20, y: 140, width: 96, height: 1, fill: "black" },
 						SVGText {
 							text: "25.4 mm = 1 in",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 158]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 158.0000000000]
 						},
 						SVGText {
 							text: "Millimeters (mm)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 160]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 160.0000000000]
 						},
 						SVGRect { x: 20, y: 160, width: 95.99999999999999, height: 1, fill: "black" },
 						SVGText {
 							text: "72pt = 1 in",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 178]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 178.0000000000]
 						},
 						SVGText {
 							text: "Points (pt)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 180]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 180.0000000000]
 						},
 						SVGRect { x: 20, y: 180, width: 96, height: 1, fill: "black" },
 						SVGText {
 							text: "6pc = 1 in",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 20, 198]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 198.0000000000]
 						},
 						SVGText {
 							text: "Picas (pc)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 13.333333333333334 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 200]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 200.0000000000]
 						},
 						SVGRect { x: 20, y: 200, width: 96, height: 1, fill: "black" }
 					]
@@ -171,7 +173,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

@@ -1,11 +1,24 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
-				SVGRect { x: 140, y: 80, width: 200, height: 200, fill: "lime" }
+				SVGDefs {
+					id: "references",
+					contents: [
+						SVGRect { id: "rect11", width: 480, height: 360, fill: "black" }
+					]
+				},
+				SVGRect { x: 140, y: 80, width: 200, height: 200, fill: "lime" },
+				SVGDefs {
+					contents: [
+						SVGRect { x: 160, y: 100, width: 160, height: 160, fill: "red" }
+					]
+				}
 			]
 		},
 		SVGGroup {
@@ -15,7 +28,7 @@ SVGViewport {
 					text: "$Revision: 1.4 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

@@ -1,7 +1,9 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
@@ -10,7 +12,7 @@ SVGViewport {
 					width: 50,
 					height: 100,
 					fill: "black",
-					transform: [2, 0, 0, 2, 0, 0]
+					transform: [2.0000000000, 0.0000000000, 0.0000000000, 2.0000000000, 0.0000000000, 0.0000000000]
 				},
 				SVGEllipse { cx: 160, cy: 100, rx: 50, ry: 100, fill: "red" },
 				SVGEllipse {
@@ -19,7 +21,7 @@ SVGViewport {
 					rx: 25,
 					ry: 50,
 					fill: "black",
-					transform: [2, 0, 0, 2, 0, 0]
+					transform: [2.0000000000, 0.0000000000, 0.0000000000, 2.0000000000, 0.0000000000, 0.0000000000]
 				},
 				SVGLine {
 					x1: 220,
@@ -36,13 +38,13 @@ SVGViewport {
 					y2: 100,
 					fill: "black",
 					stroke: { fill: "black", width: 5 },
-					transform: [2, 0, 0, 2, 0, 0]
+					transform: [2.0000000000, 0.0000000000, 0.0000000000, 2.0000000000, 0.0000000000, 0.0000000000]
 				},
 				SVGPath { path: "M330,0 L430,0 L380,200 z", fill: "red" },
 				SVGPath {
 					path: "M165,0 L215,0 L190,100 z",
 					fill: "black",
-					transform: [2, 0, 0, 2, 0, 0]
+					transform: [2.0000000000, 0.0000000000, 0.0000000000, 2.0000000000, 0.0000000000, 0.0000000000]
 				}
 			]
 		},
@@ -53,7 +55,7 @@ SVGViewport {
 					text: "$Revision: 1.2 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

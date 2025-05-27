@@ -1,6 +1,8 @@
 SVGViewport {
 	id: "svg-root",
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup { id: "test-body-content" }
 	]
 }

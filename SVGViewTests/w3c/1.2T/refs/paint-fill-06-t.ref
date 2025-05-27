@@ -1,13 +1,15 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
 					id: "G1",
-					transform: [1, 0, 0, 1, 120, 30],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 30.0000000000],
 					contents: [
 						SVGRect {
 							width: 90,
@@ -68,7 +70,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

@@ -1,6 +1,7 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
 		SVGDefs {  },
 		SVGGroup {

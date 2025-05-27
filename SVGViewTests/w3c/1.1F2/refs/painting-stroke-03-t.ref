@@ -1,7 +1,9 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
@@ -9,7 +11,7 @@ SVGViewport {
 					text: "Basic paint: stroke properties.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 36 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 40]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 40.0000000000]
 				},
 				SVGPath {
 					path: "M160,70 l200,20 l-200,20",
@@ -23,13 +25,13 @@ SVGViewport {
 					text: "stroke-linecap=\"round\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 40 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 60, 160]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 60.0000000000, 160.0000000000]
 				},
 				SVGText {
 					text: "stroke-miterlimit=\"1\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 40 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 130, 280]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 130.0000000000, 280.0000000000]
 				}
 			]
 		},
@@ -40,7 +42,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

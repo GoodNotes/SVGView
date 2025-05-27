@@ -1,30 +1,32 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.8, 0, 0, 1.8, 0, 0],
+					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, 0.0000000000, 0.0000000000],
 					contents: [
 						SVGText {
 							text: "M, L, L, L, Z,",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 88, 30]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 88.0000000000, 30.0000000000]
 						},
 						SVGText {
 							text: "subpath",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 98, 46]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 98.0000000000, 46.0000000000]
 						},
 						SVGText {
 							text: "M, L, L, L, Z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 88, 61]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 88.0000000000, 61.0000000000]
 						},
 						SVGPath {
 							id: "Triangle_stroke_MLZ",
@@ -41,7 +43,7 @@ SVGViewport {
 							text: "stroked",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 42, 162]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 42.0000000000, 162.0000000000]
 						},
 						SVGPath {
 							id: "Triangle_fill_MLZ",
@@ -59,7 +61,7 @@ SVGViewport {
 							text: "filled",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 162, 162]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 162.0000000000, 162.0000000000]
 						}
 					]
 				}
@@ -72,7 +74,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

@@ -1,30 +1,32 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.8, 0, 0, 1.8, -360, -270],
+					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, -360.0000000000, -270.0000000000],
 					contents: [
 						SVGText {
 							text: "m, h, v, h",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 288, 180]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 288.0000000000, 180.0000000000]
 						},
 						SVGText {
 							text: "v, h, v, h",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 288, 194]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 288.0000000000, 194.0000000000]
 						},
 						SVGText {
 							text: "v, z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 304, 208]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 304.0000000000, 208.0000000000]
 						},
 						SVGPath {
 							id: "Stairs_stroke_mhvz",
@@ -63,7 +65,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

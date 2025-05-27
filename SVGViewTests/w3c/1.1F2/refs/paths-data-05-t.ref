@@ -1,30 +1,32 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.8, 0, 0, 1.8, 0, -270],
+					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, 0.0000000000, -270.0000000000],
 					contents: [
 						SVGText {
 							text: "m, l, l, l, z,",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 96, 180]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 96.0000000000, 180.0000000000]
 						},
 						SVGText {
 							text: "subpath",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 100, 194]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 100.0000000000, 194.0000000000]
 						},
 						SVGText {
 							text: "m, l, l, l, z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 97, 208]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 97.0000000000, 208.0000000000]
 						},
 						SVGPath {
 							id: "Triangle_stroke_mlz",
@@ -60,7 +62,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

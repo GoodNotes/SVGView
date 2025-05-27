@@ -1,7 +1,9 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
@@ -9,7 +11,7 @@ SVGViewport {
 					text: "Basic paint: stroke properties.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 36 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 60]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 60.0000000000]
 				},
 				SVGPath {
 					id: "stroke-7b",
@@ -25,13 +27,13 @@ SVGViewport {
 					text: "stroke-dasharray=\"10, 10\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 65, 210]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 65.0000000000, 210.0000000000]
 				},
 				SVGText {
 					text: "stroke-dashoffset=\"10\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 75, 260]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 75.0000000000, 260.0000000000]
 				}
 			]
 		},
@@ -42,7 +44,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

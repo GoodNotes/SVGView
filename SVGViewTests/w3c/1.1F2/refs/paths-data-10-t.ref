@@ -1,39 +1,41 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1, 0, 0, 1, 10, 10],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 10.0000000000],
 					contents: [
 						SVGText {
 							text: "open",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=round",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=butt",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "M, L",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 74.0000000000]
 						},
 						SVGGroup {
-							transform: [1, 0, 0, 1, 115, 0],
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 115.0000000000, 0.0000000000],
 							contents: [
 								SVGPath {
 									id: "triangle-01",
@@ -46,34 +48,34 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 10, 115],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 115.0000000000],
 					contents: [
 						SVGText {
 							text: "open",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=bevel",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=round",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "m, l",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 74.0000000000]
 						},
 						SVGGroup {
-							transform: [1, 0, 0, 1, 115, 0],
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 115.0000000000, 0.0000000000],
 							contents: [
 								SVGPath {
 									id: "triangle-02",
@@ -86,34 +88,34 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 10, 220],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 220.0000000000],
 					contents: [
 						SVGText {
 							text: "open",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=miter",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=square",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "M, L",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 10, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 74.0000000000]
 						},
 						SVGGroup {
-							transform: [1, 0, 0, 1, 115, 0],
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 115.0000000000, 0.0000000000],
 							contents: [
 								SVGPath {
 									id: "triangle-03",
@@ -126,31 +128,31 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 250, 10],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 250.0000000000, 10.0000000000],
 					contents: [
 						SVGText {
 							text: "closed",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=round",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=butt",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "M, L, Z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 74.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -165,31 +167,31 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 250, 115],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 250.0000000000, 115.0000000000],
 					contents: [
 						SVGText {
 							text: "closed",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=bevel",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=round",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "m, l, z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 74.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -204,31 +206,31 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 250, 220],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 250.0000000000, 220.0000000000],
 					contents: [
 						SVGText {
 							text: "closed",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 20]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 20.0000000000]
 						},
 						SVGText {
 							text: "join=miter",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 38]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 38.0000000000]
 						},
 						SVGText {
 							text: "cap=square",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 56]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 56.0000000000]
 						},
 						SVGText {
 							text: "M, L, Z",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 125, 74]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 125.0000000000, 74.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -251,7 +253,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

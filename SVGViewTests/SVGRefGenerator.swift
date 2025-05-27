@@ -130,6 +130,7 @@ class SVGRefGenerator: XCTestCase {
         createReference(name: "paint-color-03-t", version: v12)
         createReference(name: "paint-color-201-t", version: v12)
         createReference(name: "paint-fill-04-t", version: v12)
+        createReference(name: "paint-fill-06-t", version: v12)
         createReference(name: "paint-stroke-01-t", version: v12)
         createReference(name: "paths-data-01-t", version: v12)
         createReference(name: "paths-data-02-t", version: v12)

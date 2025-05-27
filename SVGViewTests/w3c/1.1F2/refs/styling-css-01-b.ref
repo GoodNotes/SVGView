@@ -1,15 +1,22 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
+				SVGDefs {
+					contents: [
+						SVGDefs {  }
+					]
+				},
 				SVGText {
 					text: "element selectors:",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 40, 36]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 40.0000000000, 36.0000000000]
 				},
 				SVGCircle { cx: 160, cy: 100, r: 30, fill: "green" },
 				SVGGroup {
@@ -22,13 +29,13 @@ SVGViewport {
 					fill: "green"
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 0, 150],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 0.0000000000, 150.0000000000],
 					contents: [
 						SVGText {
 							text: "class selectors:",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 40, 36]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 40.0000000000, 36.0000000000]
 						},
 						SVGGroup {
 							contents: [
@@ -51,7 +58,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},
