@@ -11,7 +11,7 @@ SVGViewport {
 					id: "elementary-transforms-test",
 					contents: [
 						SVGGroup {
-							transform: [0.0000000000, 0.0000000000, 0.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
+							transform: [0, 0, 0, 0, 0, 0],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -21,10 +21,10 @@ SVGViewport {
 							text: "matrix(0 0 0 0 0 0)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 6.0000000000, 20.0000000000]
+							transform: [1, 0, 0, 1, 6, 20]
 						},
 						SVGGroup {
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 100.0000000000, 100.0000000000],
+							transform: [1, 0, 0, 1, 100, 100],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -34,10 +34,10 @@ SVGViewport {
 							text: "matrix(1 0 0 1 100 100)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 100.0000000000, 100.0000000000]
+							transform: [1, 0, 0, 1, 100, 100]
 						},
 						SVGGroup {
-							transform: [1.5000000000, 0.0000000000, 0.0000000000, 1.5000000000, 70.0000000000, 60.0000000000],
+							transform: [1,5, 0, 0, 1,5, 70, 60],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -47,10 +47,10 @@ SVGViewport {
 							text: "matrix(1.5 0 0 1.5 70 60)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 70.0000000000, 60.0000000000]
+							transform: [1, 0, 0, 1, 70, 60]
 						},
 						SVGGroup {
-							transform: [1.0000000000, 0.0000000000, 0.5000000000, 1.0000000000, 30.0000000000, 170.0000000000],
+							transform: [1, 0, 0,5, 1, 30, 170],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -60,10 +60,10 @@ SVGViewport {
 							text: "matrix(1 0 0.5 1 30 170)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 30.0000000000, 170.0000000000]
+							transform: [1, 0, 0, 1, 30, 170]
 						},
 						SVGGroup {
-							transform: [1.0000000000, 0.5000000000, 0.0000000000, 1.0000000000, 100.0000000000, 200.0000000000],
+							transform: [1, 0,5, 0, 1, 100, 200],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -73,10 +73,10 @@ SVGViewport {
 							text: "matrix(1 0.5 0 1 100 200)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 100.0000000000, 200.0000000000]
+							transform: [1, 0, 0, 1, 100, 200]
 						},
 						SVGGroup {
-							transform: [0.0000000000, 1.0000000000, -1.0000000000, 0.0000000000, 450.0000000000, 0.0000000000],
+							transform: [0, 1, -1, 0, 450, 0],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -86,10 +86,10 @@ SVGViewport {
 							text: "matrix(0 1 -1 0 450 0)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 275.0000000000, 30.0000000000]
+							transform: [1, 0, 0, 1, 275, 30]
 						},
 						SVGGroup {
-							transform: [1.0000000000, 0.8000000000, 0.8000000000, 1.0000000000, 300.0000000000, 220.0000000000],
+							transform: [1, 0,8, 0,8, 1, 300, 220],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -99,7 +99,7 @@ SVGViewport {
 							text: "matrix(1 0.8 0.8 1 300 220)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 20 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 220.0000000000]
+							transform: [1, 0, 0, 1, 230, 220]
 						}
 					]
 				}
@@ -112,7 +112,7 @@ SVGViewport {
 					text: "$Revision: 1.5 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 150.0000000000, 150.0000000000],
+					transform: [1, 0, 0, 1, 150, 150],
 					contents: [
 						SVGLine {
 							y1: -100,
@@ -30,7 +30,7 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [0.8660254038, -0.5000000000, 0.5000000000, 0.8660254038, 350.0000000000, 150.0000000000],
+					transform: [0,8660254038, -0,5, 0,5, 0,8660254038, 350, 150],
 					contents: [
 						SVGLine {
 							y1: -100,
@@ -60,7 +60,7 @@ SVGViewport {
 					text: "$Revision: 1.4 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

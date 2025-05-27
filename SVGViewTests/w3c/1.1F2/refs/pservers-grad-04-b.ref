@@ -12,14 +12,14 @@ SVGViewport {
 					text: "Multi-color linear gradient.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 130.0000000000]
+					transform: [1, 0, 0, 1, 20, 130]
 				},
 				SVGRect { x: 20, y: 150, width: 440, height: 80 },
 				SVGText {
 					text: "Multi-color radial gradient.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 20.0000000000, 260.0000000000]
+					transform: [1, 0, 0, 1, 20, 260]
 				}
 			]
 		},
@@ -30,7 +30,7 @@ SVGViewport {
 					text: "$Revision: 1.8 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

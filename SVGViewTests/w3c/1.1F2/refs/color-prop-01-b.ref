@@ -38,19 +38,19 @@ SVGViewport {
 							text: "fill",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 170.0000000000]
+							transform: [1, 0, 0, 1, 120, 170]
 						},
 						SVGText {
 							text: "stroke",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 310.0000000000, 170.0000000000]
+							transform: [1, 0, 0, 1, 310, 170]
 						},
 						SVGText {
 							text: "stop-color",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 30 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 180.0000000000, 205.0000000000]
+							transform: [1, 0, 0, 1, 180, 205]
 						}
 					]
 				}
@@ -63,7 +63,7 @@ SVGViewport {
 					text: "$Revision: 1.8 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},
