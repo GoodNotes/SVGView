@@ -5,7 +5,7 @@ import SwiftUI
 import Combine
 #endif
 
-public class SVGMarker: SVGNode {
+public class SVGMarker: SVGGroup {
     public enum Orient {
         case auto
         case autoStartReverse
@@ -69,7 +69,6 @@ public class SVGMarker: SVGNode {
     public var refX: RefMagnitude
     public var refY: RefMagnitude
     public var viewBox: CGRect?
-    public var contents: [SVGNode] = []
     #else
     @Published public var markerHeight: SVGLength
     @Published public var markerUnits: MarkerUnits
@@ -79,10 +78,19 @@ public class SVGMarker: SVGNode {
     @Published public var refX: RefMagnitude?
     @Published public var refY: RefMagnitude?
     @Published public var viewBox: CGRect?
-    @Published public var contents: [SVGNode] = []
     #endif
 
-    public init(markerHeight: SVGLength, markerUnits: MarkerUnits, markerWidth: SVGLength, orient: Orient, preserveAspectRatio: SVGPreserveAspectRatio, refX: RefMagnitude?, refY: RefMagnitude?, viewBox: CGRect? = nil, contents: [SVGNode]) {
+    public init(
+        markerHeight: SVGLength,
+        markerUnits: MarkerUnits,
+        markerWidth: SVGLength,
+        orient: Orient,
+        preserveAspectRatio: SVGPreserveAspectRatio,
+        refX: RefMagnitude?,
+        refY: RefMagnitude?,
+        viewBox: CGRect? = nil,
+        contents: [SVGNode]
+    ) {
         self.markerHeight = markerHeight
         self.markerUnits = markerUnits
         self.markerWidth = markerWidth
@@ -91,15 +99,7 @@ public class SVGMarker: SVGNode {
         self.refX = refX
         self.refY = refY
         self.viewBox = viewBox
-        self.contents = contents
-    }
-
-    override public func bounds() -> CGRect {
-        contents.map { $0.bounds() }.reduce(contents.first?.bounds() ?? CGRect.zero) { $0.union($1) }
-    }
-
-    override public func getNode(byId id: String) -> SVGMarker? {
-        self.id == id ? self : .none
+        super.init(contents: contents)
     }
 
     override func serialize(_ serializer: Serializer) {
@@ -145,7 +145,6 @@ public class SVGMarker: SVGNode {
 }
 
 #if canImport(SwiftUI)
-extension SVGMarker: ObservableObject {}
 struct SVGMarkerView: View {
 
     @ObservedObject var model: SVGMarker
