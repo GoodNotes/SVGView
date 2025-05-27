@@ -65,7 +65,14 @@ public class SVGMarker: SVGNode {
     }
 
     #if os(WASI) || os(Linux)
-    // TODO
+    public var markerHeight: SVGLength
+    public var markerUnits: MarkerUnits
+    public var markerWidth: SVGLength
+    public var orient: Orient
+    public var preserveAspectRatio: SVGPreserveAspectRatio
+    public var refX: RefMagnitude
+    public var refY: RefMagnitude
+    public var viewBox: CGRect?
     public var contents: [SVGNode] = []
     #else
     @Published public var markerHeight: SVGLength
@@ -77,7 +84,6 @@ public class SVGMarker: SVGNode {
     @Published public var refY: RefMagnitude
     @Published public var viewBox: CGRect?
     @Published public var contents: [SVGNode] = []
-//    @Published public var id: String?
     #endif
 
     public init(markerHeight: SVGLength, markerUnits: MarkerUnits, markerWidth: SVGLength, orient: Orient, preserveAspectRatio: SVGPreserveAspectRatio, refX: RefMagnitude, refY: RefMagnitude, viewBox: CGRect? = nil, contents: [SVGNode]) {
