@@ -7,7 +7,15 @@ import Combine
 
 public class SVGMarker: SVGNode {
     public enum Orient {
-        public init?(rawValue: String) {
+        case auto
+        case autoStartReverse
+        case angle(Float)
+
+        public init?(rawValue: String?) {
+            guard let rawValue else {
+                self = .angle(0)
+                return
+            }
             if rawValue == "auto" {
                 self = .auto
             } else if rawValue == "auto-start-reverse" {
@@ -18,8 +26,8 @@ public class SVGMarker: SVGNode {
                 self = .angle(0)
             }
         }
-        
-        public var rawValue: String {
+
+        public func toString() -> String {
             switch self {
             case .auto:
                 return "auto"
@@ -29,17 +37,26 @@ public class SVGMarker: SVGNode {
                 return "\(f)"
             }
         }
-        
-        case auto
-        case autoStartReverse
-        case angle(Float)
     }
 
     public enum RefMagnitude {
         case left
         case center
         case right
-        case coordinate(CGFloat)
+        case coordinate(SVGLength)
+
+        public func toString() -> String {
+            switch self {
+            case .left:
+                return "left"
+            case .center:
+                return "center"
+            case .right:
+                return "right"
+            case .coordinate(let f):
+                return f.toString()
+            }
+        }
     }
 
     public enum MarkerUnits: String, SerializableEnum {
@@ -84,16 +101,22 @@ public class SVGMarker: SVGNode {
     }
 
     override func serialize(_ serializer: Serializer) {
-        // TODO
-        serializer.add("viewBox", viewBox)
-//        serializer.add("scaling", preserveAspectRatio.scaling)
-//        serializer.add("xAlign", preserveAspectRatio.xAlign)
-//        serializer.add("yAlign", preserveAspectRatio.yAlign)
         serializer.add("contents", contents)
         serializer.add("markerHeight", markerHeight.toString(), "100%")
-        serializer.add("markerWidth", markerWidth.toString(), "100%")
         serializer.add("markerUnits", markerUnits)
-        // TODO
+        serializer.add("markerWidth", markerWidth.toString(), "100%")
+        serializer.add("orient", orient.toString())
+
+        // preserveAspectRatio, please refer to the implementation in SVGViewport
+        serializer.add("scaling", preserveAspectRatio.scaling)
+        serializer.add("xAlign", preserveAspectRatio.xAlign)
+        serializer.add("yAlign", preserveAspectRatio.yAlign)
+
+        serializer.add("refX", refX.toString())
+        serializer.add("refY", refY.toString())
+
+        serializer.add("viewBox", viewBox)
+
         super.serialize(serializer)
 
     }
