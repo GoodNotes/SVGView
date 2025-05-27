@@ -16,8 +16,6 @@ public enum SVGLength {
     case percent(CGFloat)
     case pixels(CGFloat)
 
-    static let zero: SVGLength = .pixels(0)
-
     init(percent: CGFloat) {
         self = .percent(percent)
     }

@@ -12,10 +12,6 @@ public class SVGMarker: SVGNode {
         case angle(Float)
 
         public init(rawValue: String) {
-            guard let rawValue else {
-                self = .angle(0)
-                return
-            }
             if rawValue == "auto" {
                 self = .auto
             } else if rawValue == "auto-start-reverse" {
@@ -80,13 +76,13 @@ public class SVGMarker: SVGNode {
     @Published public var markerWidth: SVGLength
     @Published public var orient: Orient
     @Published public var preserveAspectRatio: SVGPreserveAspectRatio
-    @Published public var refX: RefMagnitude
-    @Published public var refY: RefMagnitude
+    @Published public var refX: RefMagnitude?
+    @Published public var refY: RefMagnitude?
     @Published public var viewBox: CGRect?
     @Published public var contents: [SVGNode] = []
     #endif
 
-    public init(markerHeight: SVGLength, markerUnits: MarkerUnits, markerWidth: SVGLength, orient: Orient, preserveAspectRatio: SVGPreserveAspectRatio, refX: RefMagnitude, refY: RefMagnitude, viewBox: CGRect? = nil, contents: [SVGNode]) {
+    public init(markerHeight: SVGLength, markerUnits: MarkerUnits, markerWidth: SVGLength, orient: Orient, preserveAspectRatio: SVGPreserveAspectRatio, refX: RefMagnitude?, refY: RefMagnitude?, viewBox: CGRect? = nil, contents: [SVGNode]) {
         self.markerHeight = markerHeight
         self.markerUnits = markerUnits
         self.markerWidth = markerWidth
@@ -118,8 +114,12 @@ public class SVGMarker: SVGNode {
         serializer.add("xAlign", preserveAspectRatio.xAlign)
         serializer.add("yAlign", preserveAspectRatio.yAlign)
 
-        serializer.add("refX", refX.toString())
-        serializer.add("refY", refY.toString())
+        if let refXStr = refX?.toString() {
+            serializer.add("refX", refXStr)
+        }
+        if let refYStr = refY?.toString() {
+            serializer.add("refY", refYStr)
+        }
 
         serializer.add("viewBox", viewBox)
 

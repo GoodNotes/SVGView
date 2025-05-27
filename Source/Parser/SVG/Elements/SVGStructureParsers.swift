@@ -126,9 +126,9 @@ class SVGMarkerParser: SVGBaseElementParser {
         }
     }
 
-    static func parseRefMagnitude(_ attributes: [String: String], _ key: String) -> SVGMarker.RefMagnitude {
+    static func parseRefMagnitude(_ attributes: [String: String], _ key: String) -> SVGMarker.RefMagnitude? {
         guard let value = attributes[key] else {
-            return .coordinate(.zero)
+            return nil
         }
         if value == "right" {
             return .right
@@ -139,7 +139,7 @@ class SVGMarkerParser: SVGBaseElementParser {
         } else if let magnitude = SVGHelper.parseDimension(attributes, key) {
             return .coordinate(magnitude)
         } else {
-            return .coordinate(.zero)
+            return nil
         }
     }
 }
