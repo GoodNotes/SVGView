@@ -46,6 +46,7 @@ class SVGRefGenerator: XCTestCase {
         createReference(name: "masking-opacity-01-b", version: v11)
         createReference(name: "painting-control-02-f", version: v11)
         createReference(name: "painting-control-03-f", version: v11)
+        createReference(name: "painting-marker-01-f", version: v11)
         createReference(name: "painting-fill-01-t", version: v11)
         createReference(name: "painting-fill-02-t", version: v11)
         createReference(name: "painting-fill-03-t", version: v11)
