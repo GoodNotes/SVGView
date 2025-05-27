@@ -25,6 +25,14 @@ public class SVGHelper: NSObject {
         return dict["id"] ?? dict["xml:id"]
     }
 
+    static func parseMarkerInAttribute(_ dict: [String: String], key: String) -> String? {
+        guard let markerId = dict[key] else {
+            return .none
+        }
+        return markerId.replacingOccurrences(of: "url(#", with: "")
+            .replacingOccurrences(of: ")", with: "")
+    }
+
     static func parseStroke(_ style: [String: String], index: SVGIndex) -> SVGStroke? {
         guard let fill = SVGHelper.parseStrokeFill(style, index) else {
             return .none
