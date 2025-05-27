@@ -11,7 +11,7 @@ public class SVGMarker: SVGNode {
         case autoStartReverse
         case angle(Float)
 
-        public init?(rawValue: String?) {
+        public init(rawValue: String) {
             guard let rawValue else {
                 self = .angle(0)
                 return
