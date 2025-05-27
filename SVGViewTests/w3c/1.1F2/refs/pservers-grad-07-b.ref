@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1, 0, 0, 1,5, 0, 0],
+					transform: [1, 0, 0, 1.5, 0, 0],
 					contents: [
 						SVGRect { x: 10, y: 10, width: 430, height: 60 },
 						SVGText {

@@ -11,7 +11,7 @@ SVGViewport {
 					transform: [1, 0, 0, 1, 150, 0],
 					contents: [
 						SVGGroup {
-							transform: [1,4142135624, 1,4142135624, -1,4142135624, 1,4142135624, -17,0710678119, 1,2132034356],
+							transform: [1.4142135624, 1.4142135624, -1.4142135624, 1.4142135624, -17.0710678119, 1.2132034356],
 							contents: [
 								SVGRect { width: 50, height: 50, fill: "red" },
 								SVGCircle { cx: 50, cy: 50, r: 25, fill: "red" },
@@ -32,7 +32,7 @@ SVGViewport {
 									transform: [2, 0, 0, 2, 0, 0],
 									contents: [
 										SVGGroup {
-											transform: [0,7071067812, 0,7071067812, -0,7071067812, 0,7071067812, 0, 0],
+											transform: [0.7071067812, 0.7071067812, -0.7071067812, 0.7071067812, 0, 0],
 											contents: [
 												SVGGroup {
 													transform: [1, 0, 0, 1, 5, 10],
@@ -65,7 +65,7 @@ SVGViewport {
 											transform: [2, 0, 0, 2, 0, 0],
 											contents: [
 												SVGGroup {
-													transform: [0,7071067812, 0,7071067812, -0,7071067812, 0,7071067812, 0, 0],
+													transform: [0.7071067812, 0.7071067812, -0.7071067812, 0.7071067812, 0, 0],
 													contents: [
 														SVGGroup {
 															transform: [1, 0, 0, 1, 5, 10],
@@ -89,7 +89,7 @@ SVGViewport {
 									]
 								},
 								SVGGroup {
-									transform: [1,4142135624, 1,4142135624, -1,4142135624, 1,4142135624, -17,0710678119, 1,2132034356],
+									transform: [1.4142135624, 1.4142135624, -1.4142135624, 1.4142135624, -17.0710678119, 1.2132034356],
 									contents: [
 										SVGRect { width: 50, height: 50, fill: "black" },
 										SVGCircle { cx: 50, cy: 50, r: 25, fill: "black" },

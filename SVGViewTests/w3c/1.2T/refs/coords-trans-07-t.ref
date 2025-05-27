@@ -9,7 +9,7 @@ SVGViewport {
 			contents: [
 				SVGGroup {
 					id: "object_1",
-					transform: [0,8660254038, 0,5, -0,5, 0,8660254038, 123,2050807569, 186,6025403784],
+					transform: [0.8660254038, 0.5, -0.5, 0.8660254038, 123.2050807569, 186.6025403784],
 					contents: [
 						SVGRect { width: 150, height: 5, fill: "green" },
 						SVGRect { width: 5, height: 50, fill: "red" }
@@ -23,7 +23,7 @@ SVGViewport {
 				},
 				SVGGroup {
 					id: "object_2",
-					transform: [0,8660254038, 0,5, -0,5, 0,8660254038, 200, 100],
+					transform: [0.8660254038, 0.5, -0.5, 0.8660254038, 200, 100],
 					contents: [
 						SVGRect { width: 150, height: 5, fill: "blue" },
 						SVGRect { width: 5, height: 50, fill: "red" }

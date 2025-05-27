@@ -50,6 +50,7 @@ extension CGAffineTransform: SerializableAtom {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 10
+        formatter.decimalSeparator = "."
         
         let nums = [a, b, c, d, tx, ty]
         

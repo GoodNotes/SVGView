@@ -37,7 +37,7 @@ SVGViewport {
 							transform: [1, 0, 0, 1, 100, 100]
 						},
 						SVGGroup {
-							transform: [1,5, 0, 0, 1,5, 70, 60],
+							transform: [1.5, 0, 0, 1.5, 70, 60],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -50,7 +50,7 @@ SVGViewport {
 							transform: [1, 0, 0, 1, 70, 60]
 						},
 						SVGGroup {
-							transform: [1, 0, 0,5, 1, 30, 170],
+							transform: [1, 0, 0.5, 1, 30, 170],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -63,7 +63,7 @@ SVGViewport {
 							transform: [1, 0, 0, 1, 30, 170]
 						},
 						SVGGroup {
-							transform: [1, 0,5, 0, 1, 100, 200],
+							transform: [1, 0.5, 0, 1, 100, 200],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }
@@ -89,7 +89,7 @@ SVGViewport {
 							transform: [1, 0, 0, 1, 275, 30]
 						},
 						SVGGroup {
-							transform: [1, 0,8, 0,8, 1, 300, 220],
+							transform: [1, 0.8, 0.8, 1, 300, 220],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" }

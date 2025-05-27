@@ -16,7 +16,7 @@ SVGViewport {
 							contents: [
 								SVGGroup {
 									id: "elementary-transforms",
-									transform: [2,5, 0, 0, 2,5, -30, 0],
+									transform: [2.5, 0, 0, 2.5, -30, 0],
 									contents: [
 										SVGGroup {
 											transform: [1, 0, 0, 1, 50, 50],
@@ -36,7 +36,7 @@ SVGViewport {
 								},
 								SVGGroup {
 									id: "elementary-transforms-test-markers",
-									transform: [2,5, 0, 0, 2,5, -30, 0],
+									transform: [2.5, 0, 0, 2.5, -30, 0],
 									contents: [
 										SVGText {
 											text: "translate (50, 50)",

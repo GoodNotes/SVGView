@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1,8, 0, 0, 1,8, 0, 0],
+					transform: [1.8, 0, 0, 1.8, 0, 0],
 					contents: [
 						SVGText {
 							text: "M, L, L, L, Z,",

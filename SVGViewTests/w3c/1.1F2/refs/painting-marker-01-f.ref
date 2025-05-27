@@ -102,19 +102,19 @@ SVGViewport {
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 122, 32],
+							transform: [1.6, 0, 0, 1.6, 122, 32],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 172, 32],
+							transform: [1.6, 0, 0, 1.6, 172, 32],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 172, 82],
+							transform: [1.6, 0, 0, 1.6, 172, 82],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
@@ -142,19 +142,19 @@ SVGViewport {
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 122, 127],
+							transform: [1.6, 0, 0, 1.6, 122, 127],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 172, 127],
+							transform: [1.6, 0, 0, 1.6, 172, 127],
 							contents: [
 								SVGCircle { cx: 5, cy: 5, r: 5, fill: "green" }
 							]
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 172, 177],
+							transform: [1.6, 0, 0, 1.6, 172, 177],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
@@ -182,19 +182,19 @@ SVGViewport {
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1,6, 0, 0, 1,6, 122, 222],
+							transform: [1.6, 0, 0, 1.6, 122, 222],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
 						},
 						SVGGroup {
-							transform: [1,1313708499, 1,1313708499, -1,1313708499, 1,1313708499, 180, 218,686291501],
+							transform: [1.1313708499, 1.1313708499, -1.1313708499, 1.1313708499, 180, 218.686291501],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
 						},
 						SVGGroup {
-							transform: [0, 1,6, -1,6, 0, 188, 272],
+							transform: [0, 1.6, -1.6, 0, 188, 272],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
