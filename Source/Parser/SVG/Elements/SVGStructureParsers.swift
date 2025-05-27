@@ -122,10 +122,10 @@ class SVGUseParser: SVGBaseElementParser {
 
 class SVGVDefParser: SVGGroupParser {
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {
-        return SVGGroup(contents: parseContents(context: context, delegate: delegate))
+        return SVGDefs(contents: parseContents(context: context, delegate: delegate))
     }
 
-    func parseContents(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> [SVGNode] {
+    override func parseContents(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> [SVGNode] {
         return context.element.contents
             .compactMap { $0 as? XMLElement }
             .compactMap { delegate($0) }
@@ -143,8 +143,8 @@ class SVGMarkerParser: SVGBaseElementParser {
         let orient = Self.parseOrient(attributes["orient"])
         let viewBox = Self.parseViewBox(attributes, context: context)
         let par = Self.parsePreserveAspectRatio(string: attributes["preserveAspectRatio"], context: context)
-        let refX = Self.parseRefMagnitude(attributes["refX"])
-        let refY = Self.parseRefMagnitude(attributes["refY"])
+        let refX = Self.parseRefMagnitude(attributes, "refX")
+        let refY = Self.parseRefMagnitude(attributes, "refY")
         return SVGMarker(markerHeight: markerHeight, markerUnits: markerUnits, markerWidth: markerWidth, orient: orient, preserveAspectRatio: par, refX: refX, refY: refY, viewBox: viewBox, contents: parseContents(context: context, delegate: delegate))
     }
 
@@ -193,9 +193,9 @@ class SVGMarkerParser: SVGBaseElementParser {
         }
     }
 
-    static func parseRefMagnitude(_ value: String?) -> SVGMarker.RefMagnitude {
-        guard let value else {
-            return .coordinate(0)
+    static func parseRefMagnitude(_ attributes: [String: String], _ key: String) -> SVGMarker.RefMagnitude {
+        guard let value = attributes[key] else {
+            return .coordinate(.zero)
         }
         if value == "right" {
             return .right
@@ -203,10 +203,10 @@ class SVGMarkerParser: SVGBaseElementParser {
             return .left
         } else if value == "center" {
             return .center
-        } else if let magnitude = Double(value) {
+        } else if let magnitude = Self.parseDimension(attributes, key) {
             return .coordinate(magnitude)
         } else {
-            return .coordinate(0)
+            return .coordinate(.zero)
         }
     }
 
@@ -233,7 +233,7 @@ class SVGMarkerParser: SVGBaseElementParser {
             let scalingMode = parseScaling(strings[1])
             return SVGPreserveAspectRatio(scaling: scalingMode, xAlign: xAligningMode, yAlign: yAligningMode)
         }
-        return SVGPreserveAspectRatio()
+        return SVGPreserveAspectRatio(scaling: parseScaling("xMidYMid"))
     }
 
     static func parseAlign(_ string: String) -> SVGPreserveAspectRatio.Align {
