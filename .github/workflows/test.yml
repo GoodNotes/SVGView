@@ -26,5 +26,5 @@ jobs:
       uses: actions/checkout@v4
           
     - name: Run tests
-      run: make test
+      run: swift test --enable-test-discovery
       
