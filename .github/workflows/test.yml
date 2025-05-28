@@ -7,19 +7,22 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-    name: Test on ${{ matrix.os }}
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      matrix:
-        include:
-          - os: Linux
-            runs-on: ubuntu-latest
-            container: swift:5.9
-          - os: macOS
-            runs-on: macos-latest
+  test-linux:
+    name: Test on Linux
+    runs-on: ubuntu-latest
+    container:
+      image: swift:5.9
     
-    container: ${{ matrix.container }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+          
+    - name: Run tests
+      run: swift test --enable-test-discovery
+
+  test-macos:
+    name: Test on macOS
+    runs-on: macos-latest
     
     steps:
     - name: Checkout code
