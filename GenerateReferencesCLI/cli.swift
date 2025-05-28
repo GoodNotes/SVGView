@@ -186,4 +186,11 @@ struct cli: ParsableCommand {
         return Serializer.serialize(node)
     }
 }
+#else
+@main
+struct cli: ParsableCommand {
+    mutating func run() throws {
+        fatalError("Generation script can only be ran on Darwin")
+    }
+}
 #endif
