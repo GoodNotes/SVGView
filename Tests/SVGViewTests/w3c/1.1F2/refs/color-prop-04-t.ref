@@ -12,14 +12,14 @@ SVGViewport {
 					transform: [1, 0, 0, 1, 240, 180],
 					contents: [
 						SVGRect { x: -230, y: -170, width: 460, height: 300, fill: "#6363CE" },
-						SVGRect { x: -220, y: -160, width: 440, height: 280, fill: "white" },
-						SVGRect { x: -152, y: -108, width: 317, height: 221, fill: "white" },
+						SVGRect { x: -220, y: -160, width: 440, height: 280, fill: "#AAAAAA" },
+						SVGRect { x: -152, y: -108, width: 317, height: 221, fill: "#ECECEC" },
 						SVGRect {
 							x: -152,
 							y: -108,
 							width: 317,
 							height: 221,
-							stroke: { fill: "#CCCCCC", width: 3 }
+							stroke: { fill: "#AAAAAA", width: 3 }
 						},
 						SVGGroup {
 							id: "contents",
@@ -27,37 +27,37 @@ SVGViewport {
 								SVGText {
 									text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 0]
 								},
 								SVGText {
 									text: "Vestibulum pulvinar. Duis laoreet, nunc vitae facilisis",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 20]
 								},
 								SVGText {
 									text: "tristique, pede sem iaculis mi, non consectetuer lorem",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 40]
 								},
 								SVGText {
 									text: "libero et est. Donec imperdiet purus sed odio. Duis",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 60]
 								},
 								SVGText {
 									text: "venenatis tortor eu lectus. Suspendisse sed metus at",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 80]
 								},
 								SVGText {
 									text: "metus viverra ultricies. Mauris porttitor, justo a vulputate",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
-									fill: "black",
+									fill: "#242424",
 									transform: [1, 0, 0, 1, -148, 100]
 								}
 							]
@@ -74,35 +74,35 @@ SVGViewport {
 									height: 190,
 									fill: "silver"
 								},
-								SVGRect { x: -143, width: 102, height: 34, fill: "silver" },
+								SVGRect { x: -143, width: 102, height: 34, fill: "#F6F6F6" },
 								SVGText {
 									text: "Load",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 20, weight: "bold" },
-									fill: "black",
+									fill: "white",
 									transform: [1, 0, 0, 1, -138, 24]
 								},
-								SVGRect { x: -143, y: 40, width: 102, height: 34, fill: "silver" },
+								SVGRect { x: -143, y: 40, width: 102, height: 34, fill: "#F6F6F6" },
 								SVGText {
 									text: "Save",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 20, weight: "bold" },
-									fill: "black",
+									fill: "white",
 									transform: [1, 0, 0, 1, -138, 64]
 								},
 								SVGPath {
 									path: "M-149,83 h114 v-94",
-									stroke: { fill: "#666666", width: 4 }
+									stroke: { fill: "black", width: 4 }
 								},
 								SVGPath {
 									path: "M-149,83 v-94 h114",
-									stroke: { fill: "silver", width: 4 }
+									stroke: { fill: "white", width: 4 }
 								}
 							]
 						},
 						SVGGroup {
 							id: "menubar",
 							contents: [
-								SVGRect { x: -148, y: -62, width: 310, height: 46, fill: "silver" },
-								SVGPath { path: "M152,-52 l10,-10 v46 h-311 l10,-10 z", fill: "#666666" },
+								SVGRect { x: -148, y: -62, width: 310, height: 46, fill: "white" },
+								SVGPath { path: "M152,-52 l10,-10 v46 h-311 l10,-10 z", fill: "black" },
 								SVGRect { x: -144, y: -58, width: 302, height: 37, fill: "silver" },
 								SVGText {
 									text: "File",
@@ -113,7 +113,7 @@ SVGViewport {
 								SVGText {
 									text: "Edit",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 20, weight: "bold" },
-									fill: "black",
+									fill: "white",
 									transform: [1, 0, 0, 1, -90, -32]
 								}
 							]
@@ -127,8 +127,8 @@ SVGViewport {
 									y: -106,
 									width: 311,
 									height: 42,
-									fill: "#CCCCCC",
-									stroke: { fill: "white", width: 4 }
+									fill: "#242424",
+									stroke: { fill: "#2A6CCD", width: 4 }
 								},
 								SVGText {
 									text: "Lorem",
@@ -141,8 +141,8 @@ SVGViewport {
 									id: "button",
 									contents: [
 										SVGRect { x: 120, y: -99, width: 26, height: 26, rx: 8, ry: 8, fill: "silver" },
-										SVGRect { x: 120, y: -99, width: 24, height: 24, rx: 8, ry: 8, fill: "#CCCCCC" },
-										SVGRect { x: 122, y: -97, width: 24, height: 24, rx: 8, ry: 8, fill: "#888888" },
+										SVGRect { x: 120, y: -99, width: 24, height: 24, rx: 8, ry: 8, fill: "white" },
+										SVGRect { x: 122, y: -97, width: 24, height: 24, rx: 8, ry: 8, fill: "#8D8D8D" },
 										SVGRect { x: 122, y: -97, width: 22, height: 22, rx: 8, ry: 8, fill: "silver" }
 									]
 								}

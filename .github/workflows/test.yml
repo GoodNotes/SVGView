@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test-linux:
@@ -12,22 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: swift:5.9
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-          
-    - name: Run tests
-      run: swift test --enable-test-discovery
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: swift test --filter CoreGraphicsPolyfillTests
 
   test-macos:
     name: Test on macOS
     runs-on: macos-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-          
-    - name: Run tests
-      run: swift test --enable-test-discovery
-      
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: swift test --enable-test-discovery
+

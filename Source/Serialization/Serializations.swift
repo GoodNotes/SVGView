@@ -48,9 +48,9 @@ extension CGAffineTransform: SerializableAtom {
 
     func serialize() -> String {
         let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 10
-        formatter.decimalSeparator = "."
         
         let nums = [a, b, c, d, tx, ty]
         
