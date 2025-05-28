@@ -20,7 +20,7 @@ SVGViewport {
 					transform: [1, 0, 0, 1, 180, 64]
 				},
 				SVGGroup {
-					transform: [1,8, 0, 0, 1,8, 0, -270],
+					transform: [1.8, 0, 0, 1.8, 0, -270],
 					contents: [
 						SVGPath {
 							id: "Triangle_stroke_mz",

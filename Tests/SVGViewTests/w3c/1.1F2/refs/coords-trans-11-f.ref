@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1,2, 0, 0, 2,5, 0, 0],
+					transform: [1.2, 0, 0, 2.5, 0, 0],
 					contents: [
 						SVGPath { path: "M20,20 L70,20 L45,60 z", fill: "red" },
 						SVGEllipse { cx: 120, cy: 35, rx: 30, ry: 10, fill: "red" },
@@ -23,7 +23,7 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1,2, 0, 0, 2,5, 0, 0],
+					transform: [1.2, 0, 0, 2.5, 0, 0],
 					contents: [
 						SVGPath {
 							path: "M20,20 L70,20 L45,60 z",
@@ -67,7 +67,7 @@ SVGViewport {
 					transform: [1, 0, 0, 1, 0, 150],
 					contents: [
 						SVGGroup {
-							transform: [1,2, 0, 0, 2,5, 0, 0],
+							transform: [1.2, 0, 0, 2.5, 0, 0],
 							contents: [
 								SVGPath { path: "M20,20 L70,20 L45,60 z", fill: "red" },
 								SVGEllipse { cx: 120, cy: 35, rx: 30, ry: 10, fill: "red" },
@@ -82,7 +82,7 @@ SVGViewport {
 							]
 						},
 						SVGGroup {
-							transform: [1,2, 0, 0, 2,5, 0, 0],
+							transform: [1.2, 0, 0, 2.5, 0, 0],
 							contents: [
 								SVGPath {
 									path: "M20,20 L70,20 L45,60 z",

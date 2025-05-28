@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1,2, 0, 0, 1,2, 72, 36],
+					transform: [1.2, 0, 0, 1.2, 72, 36],
 					contents: [
 						SVGPath {
 							path: "M20,20 L200,30 L20,40",

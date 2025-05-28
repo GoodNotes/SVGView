@@ -15,7 +15,7 @@ SVGViewport {
 							contents: [
 								SVGGroup {
 									id: "elementary-transforms",
-									transform: [2,5, 0, 0, 2,5, 60, 45],
+									transform: [2.5, 0, 0, 2.5, 60, 45],
 									contents: [
 										SVGGroup {
 											transform: [2, 0, 0, 2, 40, 10],
@@ -28,7 +28,7 @@ SVGViewport {
 								},
 								SVGGroup {
 									id: "elementary-transforms-test-markers",
-									transform: [2,5, 0, 0, 2,5, -364, -230],
+									transform: [2.5, 0, 0, 2.5, -364, -230],
 									contents: [
 										SVGText {
 											text: "scale (2)",

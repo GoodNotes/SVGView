@@ -16,7 +16,7 @@ SVGViewport {
 							contents: [
 								SVGGroup {
 									id: "elementary-transforms",
-									transform: [2,5, 0, 0, 2,5, -560, 0],
+									transform: [2.5, 0, 0, 2.5, -560, 0],
 									contents: [
 										SVGGroup {
 											transform: [1, 0, 1, 1, 250, 50],
@@ -36,7 +36,7 @@ SVGViewport {
 								},
 								SVGGroup {
 									id: "elementary-transforms-test-markers",
-									transform: [2,5, 0, 0, 2,5, -560, 0],
+									transform: [2.5, 0, 0, 2.5, -560, 0],
 									contents: [
 										SVGText {
 											text: "skew x (45)",

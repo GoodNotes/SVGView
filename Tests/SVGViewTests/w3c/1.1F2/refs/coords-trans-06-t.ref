@@ -20,10 +20,10 @@ SVGViewport {
 											transform: [1, 0, 0, 1, -102, -450],
 											contents: [
 												SVGGroup {
-													transform: [7,5, 0, 0, 5, 0, 0],
+													transform: [7.5, 0, 0, 5, 0, 0],
 													contents: [
 														SVGGroup {
-															transform: [1, 0, 0, 1, 16,666667, 105],
+															transform: [1, 0, 0, 1, 16.666667, 105],
 															contents: [
 																SVGRect { width: 20, height: 1, fill: "blue" },
 																SVGRect { width: 0.67, height: 20, fill: "red" }
@@ -37,7 +37,7 @@ SVGViewport {
 								},
 								SVGGroup {
 									id: "nested-transforms-test-markers",
-									transform: [2,5, 0, 0, 2,5, -600, -450],
+									transform: [2.5, 0, 0, 2.5, -600, -450],
 									contents: [
 										SVGText {
 											text: "scale(25, 95) then translate(2, 2)",

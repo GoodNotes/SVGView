@@ -702,7 +702,7 @@ SVGViewport {
 									id: "nested-transforms",
 									contents: [
 										SVGGroup {
-											transform: [3, 0, 0, 2, 50,000001, 210],
+											transform: [3, 0, 0, 2, 50.000001, 210],
 											contents: [
 												SVGRect { width: 20, height: 1, fill: "blue" },
 												SVGRect { width: 0.67, height: 20, fill: "red" }
@@ -715,7 +715,7 @@ SVGViewport {
 													transform: [3, 0, 0, 2, 0, 0],
 													contents: [
 														SVGGroup {
-															transform: [1, 0, 0, 1, 16,666667, 105],
+															transform: [1, 0, 0, 1, 16.666667, 105],
 															contents: [
 																SVGRect { width: 20, height: 1, fill: "blue" },
 																SVGRect { width: 0.67, height: 20, fill: "red" }
