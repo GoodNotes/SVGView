@@ -11,15 +11,11 @@ SVGViewport {
 					text: "Testing gradientUnits attribute",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 15 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 25.0000000000]
+					transform: [1, 0, 0, 1, 10, 25]
 				},
 				SVGRect { x: 125, y: 35, width: 200, height: 50 },
 				SVGRect { x: 10, y: 125, width: 430, height: 50 },
-				SVGRect {
-					width: 50,
-					height: 430,
-					transform: [0.0000000000, -1.0000000000, 1.0000000000, 0.0000000000, 10.0000000000, 260.0000000000]
-				}
+				SVGRect { width: 50, height: 430, transform: [0, -1, 1, 0, 10, 260] }
 			]
 		},
 		SVGGroup {
@@ -29,7 +25,7 @@ SVGViewport {
 					text: "$Revision: 1.9 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

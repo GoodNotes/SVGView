@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 30.0000000000, 80.0000000000],
+					transform: [1, 0, 0, 1, 30, 80],
 					contents: [
 						SVGGroup {
 							contents: [
@@ -19,7 +19,7 @@ SVGViewport {
 							]
 						},
 						SVGGroup {
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 200.0000000000, 0.0000000000],
+							transform: [1, 0, 0, 1, 200, 0],
 							contents: [
 								SVGPath {
 									path: "M60,0 l60,0 l60,60 l0,60 l-60,60 l-60,0 l-60,-60 l0,-60 z",
@@ -31,7 +31,7 @@ SVGViewport {
 							text: "Shape fill",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 28 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 130.0000000000, -30.0000000000]
+							transform: [1, 0, 0, 1, 130, -30]
 						}
 					]
 				}
@@ -44,7 +44,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

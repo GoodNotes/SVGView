@@ -19,7 +19,6 @@ class BaseTestCase : XCTestCase {
         let svgURL = bundle.url(forResource: fileName, withExtension: "svg", subdirectory: "w3c/\(dir)/svg/")!
         let refURL = bundle.url(forResource: fileName, withExtension: "ref", subdirectory: "w3c/\(dir)/refs/")!
 
-        print(svgURL)
         let node = SVGParser.parse(contentsOf: svgURL)!
         let content = Serializer.serialize(node)
         let reference = try! String(contentsOf: refURL)

@@ -8,7 +8,7 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, 0.0000000000, 0.0000000000],
+					transform: [1,8, 0, 0, 1,8, 0, 0],
 					contents: [
 						SVGPath {
 							path: "m62,56 l51.96152,90 l-103.92304,0 l51.96152,-90 z m0,15 l38.97114,67.5 l-77.91228,0 l38.97114,-67.5 z",
@@ -30,7 +30,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},

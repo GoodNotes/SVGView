@@ -8,14 +8,14 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.5000000000, 0.0000000000, 0.0000000000],
+					transform: [1, 0, 0, 1,5, 0, 0],
 					contents: [
 						SVGRect { x: 10, y: 10, width: 430, height: 60 },
 						SVGText {
 							text: "Linear gradient filled rectangle",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 90.0000000000]
+							transform: [1, 0, 0, 1, 10, 90]
 						},
 						SVGRect {
 							x: 25,
@@ -28,7 +28,7 @@ SVGViewport {
 							text: "Linear gradient on stroke of rectangle",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 							fill: "black",
-							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 170.0000000000]
+							transform: [1, 0, 0, 1, 10, 170]
 						}
 					]
 				}
@@ -41,7 +41,7 @@ SVGViewport {
 					text: "$Revision: 1.8 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
+					transform: [1, 0, 0, 1, 10, 340]
 				}
 			]
 		},
