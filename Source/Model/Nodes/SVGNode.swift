@@ -14,6 +14,9 @@ public class SVGNode: SerializableElement {
     public var clip: SVGNode?
     public var mask: SVGNode?
     public var id: String?
+    public var markerStart: String?
+    public var markerMid: String?
+    public var markerEnd: String?
 #else
     @Published public var transform: CGAffineTransform = CGAffineTransform.identity
     @Published public var opaque: Bool
@@ -21,16 +24,22 @@ public class SVGNode: SerializableElement {
     @Published public var clip: SVGNode?
     @Published public var mask: SVGNode?
     @Published public var id: String?
+    @Published public var markerStart: String?
+    @Published public var markerMid: String?
+    @Published public var markerEnd: String?
 #endif
 
 
-    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
+    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil, markerStart: String? = nil, markerMid: String? = nil, markerEnd: String? = nil) {
         self.transform = transform
         self.opaque = opaque
         self.opacity = opacity
         self.clip = clip
         self.mask = mask
         self.id = id
+        self.markerStart = markerStart
+        self.markerMid = markerMid
+        self.markerEnd = markerEnd
     }
 
     public func bounds() -> CGRect {

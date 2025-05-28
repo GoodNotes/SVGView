@@ -1,10 +1,17 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
+				SVGDefs {
+					contents: [
+						SVGDefs {  }
+					]
+				},
 				SVGText {
 					text: "element selectors:",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },

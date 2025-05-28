@@ -1,10 +1,23 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
+				SVGDefs {
+					contents: [
+						SVGRect {
+							id: "usedRect",
+							width: 100,
+							height: 100,
+							fill: "aqua",
+							stroke: { fill: "blue", width: 20 }
+						}
+					]
+				},
 				SVGText {
 					text: "Reference",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },

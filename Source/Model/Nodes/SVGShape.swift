@@ -18,6 +18,9 @@ public class SVGShape: SVGNode {
     override func serialize(_ serializer: Serializer) {
         fill?.serialize(key: "fill", serializer: serializer)
         serializer.add("stroke", stroke)
+        serializer.add("marker-start", markerStart)
+        serializer.add("marker-mid", markerMid)
+        serializer.add("marker-end", markerEnd)
         super.serialize(serializer)
     }
 }

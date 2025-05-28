@@ -153,6 +153,10 @@ class SVG11Tests: BaseTestCase {
         compareToReference("painting-fill-05-b")
     }
 
+    func testPaintingMarker01F() {
+        compareToReference("painting-marker-01-f")
+    }
+
     func testPaintingStroke01T() {
         compareToReference("painting-stroke-01-t")
     }

@@ -2,6 +2,7 @@ SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [

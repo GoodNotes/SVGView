@@ -28,6 +28,10 @@ class SVGBaseElementParser: SVGElementParser {
         }
 
         node.id = SVGHelper.parseId(context.properties)
+
+        node.markerStart = SVGHelper.parseMarkerInAttribute(context.properties, key: "marker-start")
+        node.markerMid = SVGHelper.parseMarkerInAttribute(context.properties, key: "marker-mid")
+        node.markerEnd = SVGHelper.parseMarkerInAttribute(context.properties, key: "marker-end")
         return node
     }
 

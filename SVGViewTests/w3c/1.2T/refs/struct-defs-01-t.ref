@@ -1,10 +1,23 @@
 SVGViewport {
 	id: "svg-root",
 	viewBox: { width: 480, height: 360 },
+	scaling: "none",
 	contents: [
+		SVGDefs {  },
 		SVGGroup {
 			id: "test-body-content",
 			contents: [
+				SVGDefs {
+					id: "references",
+					contents: [
+						SVGRect { id: "rect11", width: 480, height: 360, fill: "black" }
+					]
+				},
+				SVGDefs {
+					contents: [
+						SVGRect { x: 160, y: 100, width: 160, height: 160, fill: "green" }
+					]
+				},
 				SVGRect { x: 140, y: 80, width: 200, height: 200, fill: "red" }
 			]
 		},
