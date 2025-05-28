@@ -12,7 +12,7 @@ SVGViewport {
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					textAnchor: "middle",
 					fill: "black",
-					transform: [1, 0, 0, 1, 240, 14]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 240.0000000000, 14.0000000000]
 				},
 				SVGPath {
 					id: "X_curve_MCSmcs",
@@ -30,7 +30,7 @@ SVGViewport {
 					text: "M,C,S,m,c,s",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 5, 82]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 5.0000000000, 82.0000000000]
 				},
 				SVGPath {
 					id: "Infinity_McccCz",
@@ -45,7 +45,7 @@ SVGViewport {
 					text: "M,c,c,c,C,z",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 253, 50]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 253.0000000000, 50.0000000000]
 				},
 				SVGPath {
 					id: "Line_MCZ",
@@ -58,7 +58,7 @@ SVGViewport {
 					text: "M,C,Z",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 110, 190]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 110.0000000000, 190.0000000000]
 				},
 				SVGPath {
 					id: "Inv_V_MCcZ",
@@ -72,7 +72,7 @@ SVGViewport {
 					text: "M,C,c,Z",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 85, 220]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 85.0000000000, 220.0000000000]
 				},
 				SVGPath {
 					id: "Rem_Rib_mcs",
@@ -86,7 +86,7 @@ SVGViewport {
 					text: "m,c,s",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 165, 210]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 165.0000000000, 210.0000000000]
 				},
 				SVGPath {
 					id: "Arc_MC",
@@ -100,7 +100,7 @@ SVGViewport {
 					text: "M,C",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 360, 150]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 360.0000000000, 150.0000000000]
 				},
 				SVGPath {
 					id: "Circle_Mcssz",
@@ -116,7 +116,7 @@ SVGViewport {
 					text: "M,c,s,s,s,z",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 290, 265]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 290.0000000000, 265.0000000000]
 				},
 				SVGPath {
 					id: "Horseshoe_Mcs",
@@ -130,7 +130,7 @@ SVGViewport {
 					text: "m,c,z",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 12 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 380, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 380.0000000000, 340.0000000000]
 				}
 			]
 		},
@@ -141,7 +141,7 @@ SVGViewport {
 					text: "$Revision: 1.13 $",
 					font: { name: "SVGFreeSansISO-8859-1,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

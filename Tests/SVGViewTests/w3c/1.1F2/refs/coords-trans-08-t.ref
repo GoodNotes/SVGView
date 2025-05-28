@@ -12,7 +12,7 @@ SVGViewport {
 					contents: [
 						SVGGroup {
 							id: "object_1",
-							transform: [2, 1, 1, 1, 0, 0],
+							transform: [2.0000000000, 1.0000000000, 1.0000000000, 1.0000000000, 0.0000000000, 0.0000000000],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" },
@@ -25,11 +25,11 @@ SVGViewport {
 							text: "skewX(45)+skewY(45)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 30, 16]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 30.0000000000, 16.0000000000]
 						},
 						SVGGroup {
 							id: "object_2",
-							transform: [1, 1, 1, 2, 200, 0],
+							transform: [1.0000000000, 1.0000000000, 1.0000000000, 2.0000000000, 200.0000000000, 0.0000000000],
 							contents: [
 								SVGRect { width: 150, height: 5, fill: "blue" },
 								SVGRect { width: 5, height: 50, fill: "red" },
@@ -42,7 +42,7 @@ SVGViewport {
 							text: "skewY(45)+skewX(45)",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 230, 16]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 230.0000000000, 16.0000000000]
 						}
 					]
 				}
@@ -55,7 +55,7 @@ SVGViewport {
 					text: "$Revision: 1.5 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

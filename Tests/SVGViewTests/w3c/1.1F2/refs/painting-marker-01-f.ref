@@ -100,7 +100,7 @@ SVGViewport {
 					text: "Basic Markers",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 14 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 170, 30]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 170.0000000000, 30.0000000000]
 				},
 				SVGPath {
 					path: "M130,40 L180,40 L180,90",
@@ -110,26 +110,26 @@ SVGViewport {
 					marker-end: "marker1"
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 120, 0],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 0.0000000000],
 					contents: [
 						SVGPath {
 							path: "M130,40 L180,40 L180,90",
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 122, 32],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 122.0000000000, 32.0000000000],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 172, 32],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 172.0000000000, 32.0000000000],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 172, 82],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 172.0000000000, 82.0000000000],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
@@ -140,7 +140,7 @@ SVGViewport {
 					text: "Start, Middle and End",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 14 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 145, 125]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 145.0000000000, 125.0000000000]
 				},
 				SVGPath {
 					path: "M130,135 L180,135 L180,185",
@@ -150,26 +150,26 @@ SVGViewport {
 					marker-end: "markerEnd"
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 120, 0],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 0.0000000000],
 					contents: [
 						SVGPath {
 							path: "M130,135 L180,135 L180,185",
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 122, 127],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 122.0000000000, 127.0000000000],
 							contents: [
 								SVGRect { width: 10, height: 10, fill: "purple" }
 							]
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 172, 127],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 172.0000000000, 127.0000000000],
 							contents: [
 								SVGCircle { cx: 5, cy: 5, r: 5, fill: "green" }
 							]
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 172, 177],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 172.0000000000, 177.0000000000],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
@@ -180,7 +180,7 @@ SVGViewport {
 					text: "Automatic Orientation",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 14 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 145, 220]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 145.0000000000, 220.0000000000]
 				},
 				SVGPath {
 					path: "M130,230 L180,230 L180,280",
@@ -190,26 +190,26 @@ SVGViewport {
 					marker-end: "marker2"
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 120, 0],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 0.0000000000],
 					contents: [
 						SVGPath {
 							path: "M130,230 L180,230 L180,280",
 							stroke: { fill: "black", width: 8 }
 						},
 						SVGGroup {
-							transform: [1.6, 0, 0, 1.6, 122, 222],
+							transform: [1.6000000000, 0.0000000000, 0.0000000000, 1.6000000000, 122.0000000000, 222.0000000000],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
 						},
 						SVGGroup {
-							transform: [1.1313708499, 1.1313708499, -1.1313708499, 1.1313708499, 180, 218.686291501],
+							transform: [1.1313708499, 1.1313708499, -1.1313708499, 1.1313708499, 180.0000000000, 218.6862915010],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
 						},
 						SVGGroup {
-							transform: [0, 1.6, -1.6, 0, 188, 272],
+							transform: [0.0000000000, 1.6000000000, -1.6000000000, 0.0000000000, 188.0000000000, 272.0000000000],
 							contents: [
 								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
 							]
@@ -225,7 +225,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

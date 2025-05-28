@@ -11,16 +11,16 @@ SVGViewport {
 					text: "Lines drawn with commands:",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 75, 34]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 75.0000000000, 34.0000000000]
 				},
 				SVGText {
 					text: "m and z",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 180, 64]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 180.0000000000, 64.0000000000]
 				},
 				SVGGroup {
-					transform: [1.8, 0, 0, 1.8, 0, -270],
+					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, 0.0000000000, -270.0000000000],
 					contents: [
 						SVGPath {
 							id: "Triangle_stroke_mz",
@@ -56,7 +56,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

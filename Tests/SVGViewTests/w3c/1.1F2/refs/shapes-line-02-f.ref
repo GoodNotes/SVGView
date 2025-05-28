@@ -22,7 +22,7 @@ SVGViewport {
 					y2: 100,
 					fill: "red",
 					stroke: { fill: "black", width: 10 },
-					transform: [0.9659258263, 0.2588190451, -0.2588190451, 0.9659258263, 0, 0]
+					transform: [0.9659258263, 0.2588190451, -0.2588190451, 0.9659258263, 0.0000000000, 0.0000000000]
 				}
 			]
 		},
@@ -33,7 +33,7 @@ SVGViewport {
 					text: "$Revision: 1.4 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

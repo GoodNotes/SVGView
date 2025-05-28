@@ -8,10 +8,10 @@ SVGViewport {
 			id: "test-body-content",
 			contents: [
 				SVGGroup {
-					transform: [1, 0, 0, 1, 200, 0],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 200.0000000000, 0.0000000000],
 					contents: [
 						SVGGroup {
-							transform: [0, 1, -1, 0, 0, 0],
+							transform: [0.0000000000, 1.0000000000, -1.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
 							contents: [
 								SVGPath { path: "M20,20 L70,20 L45,60 z", fill: "red" },
 								SVGEllipse { cx: 120, cy: 35, rx: 30, ry: 10, fill: "red" },
@@ -19,14 +19,14 @@ SVGViewport {
 									text: "Filler Text",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 									fill: "red",
-									transform: [1, 0, 0, 1, 160, 40]
+									transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 160.0000000000, 40.0000000000]
 								},
 								SVGRect { x: 250, y: 20, width: 30, height: 50, fill: "red" },
 								SVGLine { x1: 310, y1: 20, x2: 350, y2: 70, fill: "red" }
 							]
 						},
 						SVGGroup {
-							transform: [0, 1, -1, 0, 0, 0],
+							transform: [0.0000000000, 1.0000000000, -1.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
 							contents: [
 								SVGPath {
 									path: "M20,20 L70,20 L45,60 z",
@@ -46,7 +46,7 @@ SVGViewport {
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 									fill: "black",
 									stroke: { fill: "black" },
-									transform: [1, 0, 0, 1, 160, 40]
+									transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 160.0000000000, 40.0000000000]
 								},
 								SVGRect {
 									x: 250,
@@ -69,10 +69,10 @@ SVGViewport {
 					]
 				},
 				SVGGroup {
-					transform: [1, 0, 0, 1, 310, 0],
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 310.0000000000, 0.0000000000],
 					contents: [
 						SVGGroup {
-							transform: [0, 1, -1, 0, 0, 0],
+							transform: [0.0000000000, 1.0000000000, -1.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
 							contents: [
 								SVGPath { path: "M20,20 L70,20 L45,60 z", fill: "red" },
 								SVGEllipse { cx: 120, cy: 35, rx: 30, ry: 10, fill: "red" },
@@ -80,14 +80,14 @@ SVGViewport {
 									text: "Filler Text",
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 									fill: "red",
-									transform: [1, 0, 0, 1, 160, 40]
+									transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 160.0000000000, 40.0000000000]
 								},
 								SVGRect { x: 250, y: 20, width: 30, height: 50, fill: "red" },
 								SVGLine { x1: 310, y1: 20, x2: 350, y2: 70, fill: "red" }
 							]
 						},
 						SVGGroup {
-							transform: [0, 1, -1, 0, 0, 0],
+							transform: [0.0000000000, 1.0000000000, -1.0000000000, 0.0000000000, 0.0000000000, 0.0000000000],
 							contents: [
 								SVGPath {
 									path: "M20,20 L70,20 L45,60 z",
@@ -107,7 +107,7 @@ SVGViewport {
 									font: { name: "SVGFreeSansASCII,sans-serif", size: 18 },
 									fill: "black",
 									stroke: { fill: "black" },
-									transform: [1, 0, 0, 1, 160, 40]
+									transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 160.0000000000, 40.0000000000]
 								},
 								SVGRect {
 									x: 250,
@@ -138,7 +138,7 @@ SVGViewport {
 					text: "$Revision: 1.5 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

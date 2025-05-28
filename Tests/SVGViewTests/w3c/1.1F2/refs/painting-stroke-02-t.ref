@@ -11,7 +11,7 @@ SVGViewport {
 					text: "Basic paint: stroke properties.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 36 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 40]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 40.0000000000]
 				},
 				SVGRect {
 					id: "stroke-01",
@@ -33,13 +33,13 @@ SVGViewport {
 					text: "stroke-width=\"20\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 40 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 120, 160]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 120.0000000000, 160.0000000000]
 				},
 				SVGText {
 					text: "stroke-linejoin=\"round\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 40 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 58, 290]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 58.0000000000, 290.0000000000]
 				}
 			]
 		},
@@ -50,7 +50,7 @@ SVGViewport {
 					text: "$Revision: 1.7 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

@@ -11,7 +11,7 @@ SVGViewport {
 					text: "Basic paint: fill properties.",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 36 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 30, 42]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 30.0000000000, 42.0000000000]
 				},
 				SVGPath {
 					path: "M110,75 l50,160 l-130,-100 l160,0 l-130,100 z",
@@ -26,13 +26,13 @@ SVGViewport {
 					text: "fill-rule=\"evenodd\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 282]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 282.0000000000]
 				},
 				SVGText {
 					text: "fill-rule=\"nonzero\"",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 260, 282]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 260.0000000000, 282.0000000000]
 				}
 			]
 		},
@@ -43,7 +43,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},

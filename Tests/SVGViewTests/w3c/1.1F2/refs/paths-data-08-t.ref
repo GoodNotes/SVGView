@@ -11,16 +11,16 @@ SVGViewport {
 					text: "Lines drawn with commands:",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 75, 34]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 75.0000000000, 34.0000000000]
 				},
 				SVGText {
 					text: "M and Z",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 24 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 180, 64]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 180.0000000000, 64.0000000000]
 				},
 				SVGGroup {
-					transform: [1.8, 0, 0, 1.8, 0, 0],
+					transform: [1.8000000000, 0.0000000000, 0.0000000000, 1.8000000000, 0.0000000000, 0.0000000000],
 					contents: [
 						SVGPath {
 							id: "Triangle_stroke_MZ",
@@ -37,7 +37,7 @@ SVGViewport {
 							text: "stroked",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 42, 162]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 42.0000000000, 162.0000000000]
 						},
 						SVGPath {
 							id: "Triangle_fill_MZ",
@@ -55,7 +55,7 @@ SVGViewport {
 							text: "filled",
 							font: { name: "SVGFreeSansASCII,sans-serif", size: 12 },
 							fill: "black",
-							transform: [1, 0, 0, 1, 162, 162]
+							transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 162.0000000000, 162.0000000000]
 						}
 					]
 				}
@@ -68,7 +68,7 @@ SVGViewport {
 					text: "$Revision: 1.6 $",
 					font: { name: "SVGFreeSansASCII,sans-serif", size: 32 },
 					fill: "black",
-					transform: [1, 0, 0, 1, 10, 340]
+					transform: [1.0000000000, 0.0000000000, 0.0000000000, 1.0000000000, 10.0000000000, 340.0000000000]
 				}
 			]
 		},
