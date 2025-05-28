@@ -21,7 +21,10 @@ SVGViewport {
 							scaling: "none",
 							refX: "5",
 							refY: "5",
-							viewBox: { width: 10, height: 10 }
+							viewBox: { width: 10, height: 10 },
+							contents: [
+								SVGRect { width: 10, height: 10, fill: "purple" }
+							]
 						},
 						SVGMarker {
 							id: "marker2",
@@ -35,7 +38,10 @@ SVGViewport {
 							scaling: "none",
 							refX: "5",
 							refY: "5",
-							viewBox: { width: 10, height: 10 }
+							viewBox: { width: 10, height: 10 },
+							contents: [
+								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
+							]
 						},
 						SVGMarker {
 							id: "markerStart",
@@ -49,7 +55,10 @@ SVGViewport {
 							scaling: "none",
 							refX: "5",
 							refY: "5",
-							viewBox: { width: 10, height: 10 }
+							viewBox: { width: 10, height: 10 },
+							contents: [
+								SVGRect { width: 10, height: 10, fill: "purple" }
+							]
 						},
 						SVGMarker {
 							id: "markerMiddle",
@@ -63,7 +72,10 @@ SVGViewport {
 							scaling: "none",
 							refX: "5",
 							refY: "5",
-							viewBox: { width: 10, height: 10 }
+							viewBox: { width: 10, height: 10 },
+							contents: [
+								SVGCircle { cx: 5, cy: 5, r: 5, fill: "green" }
+							]
 						},
 						SVGMarker {
 							id: "markerEnd",
@@ -77,7 +89,10 @@ SVGViewport {
 							scaling: "none",
 							refX: "5",
 							refY: "5",
-							viewBox: { width: 10, height: 10 }
+							viewBox: { width: 10, height: 10 },
+							contents: [
+								SVGPath { path: "M5,0 L10,10 L0,10 z", fill: "blue" }
+							]
 						}
 					]
 				},

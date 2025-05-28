@@ -13,7 +13,7 @@ let package = Package(
     	.library(
     		name: "SVGView", 
     		targets: ["SVGView"]
-    	)
+    	),
     ],
     targets: [
     	.target(
@@ -23,7 +23,14 @@ let package = Package(
         .testTarget(
             name: "CoreGraphicsPolyfillTests",
             dependencies: ["SVGView"]
-        )
+        ),
+        .testTarget(
+            name: "SVGViewTests",
+            dependencies: ["SVGView"],
+            resources: [
+                .copy("w3c")
+            ]
+        ),
     ],
     swiftLanguageVersions: [.v5]
 )
