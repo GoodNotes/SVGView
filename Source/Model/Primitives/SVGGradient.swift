@@ -5,7 +5,11 @@
 //  Created by Yuriy Strot on 22.02.2021.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGLinearGradient: SVGGradient {
 
@@ -54,7 +58,8 @@ public class SVGLinearGradient: SVGGradient {
             stops: stops
         )
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI(rect: CGRect) -> LinearGradient {
         let suiStops = stops.map { stop in Gradient.Stop(color: stop.color.toSwiftUI(), location: stop.offset) }
         let nx1 = userSpace ? (x1 - rect.minX) / rect.size.width : x1
@@ -85,6 +90,7 @@ public class SVGLinearGradient: SVGGradient {
                     .mask(view)
             )
     }
+    #endif
 
 }
 
@@ -107,7 +113,8 @@ public class SVGRadialGradient: SVGGradient {
             stops: stops
         )
     }
-
+    
+    #if canImport(SwiftUI)
     public func toSwiftUI(rect: CGRect) -> RadialGradient {
         let suiStops = stops.map { stop in Gradient.Stop(color: stop.color.toSwiftUI(), location: stop.offset) }
         let s = min(rect.size.width, rect.size.height)
@@ -132,6 +139,7 @@ public class SVGRadialGradient: SVGGradient {
                     .mask(view)
             )
     }
+    #endif
 
 }
 

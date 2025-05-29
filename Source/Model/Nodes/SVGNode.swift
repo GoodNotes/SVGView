@@ -1,24 +1,45 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGNode: SerializableElement {
 
+#if os(WASI) || os(Linux)
+    public var transform: CGAffineTransform = CGAffineTransform.identity
+    public var opaque: Bool
+    public var opacity: Double
+    public var clip: SVGNode?
+    public var mask: SVGNode?
+    public var id: String?
+    public var markerStart: String?
+    public var markerMid: String?
+    public var markerEnd: String?
+#else
     @Published public var transform: CGAffineTransform = CGAffineTransform.identity
     @Published public var opaque: Bool
     @Published public var opacity: Double
     @Published public var clip: SVGNode?
     @Published public var mask: SVGNode?
     @Published public var id: String?
+    @Published public var markerStart: String?
+    @Published public var markerMid: String?
+    @Published public var markerEnd: String?
+#endif
 
-    var gestures = [AnyGesture<()>]()
 
-    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil) {
+    public init(transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGNode? = nil, mask: SVGNode? = nil, id: String? = nil, markerStart: String? = nil, markerMid: String? = nil, markerEnd: String? = nil) {
         self.transform = transform
         self.opaque = opaque
         self.opacity = opacity
         self.clip = clip
         self.mask = mask
         self.id = id
+        self.markerStart = markerStart
+        self.markerMid = markerMid
+        self.markerEnd = markerEnd
     }
 
     public func bounds() -> CGRect {
@@ -34,6 +55,8 @@ public class SVGNode: SerializableElement {
         return self.id == id ? self : .none
     }
 
+    #if canImport(SwiftUI)
+    var gestures = [AnyGesture<()>]()
     public func onTapGesture(_ count: Int = 1, tapClosure: @escaping ()->()) {
         let newGesture = TapGesture(count: count).onEnded {
             tapClosure()
@@ -48,6 +71,7 @@ public class SVGNode: SerializableElement {
     public func removeAllGestures() {
         gestures.removeAll()
     }
+    #endif
 
     func serialize(_ serializer: Serializer) {
         if !transform.isIdentity {
@@ -64,6 +88,7 @@ public class SVGNode: SerializableElement {
 
 }
 
+#if canImport(SwiftUI)
 extension SVGNode {
     @ViewBuilder
     public func toSwiftUI() -> some View {
@@ -103,3 +128,4 @@ extension SVGNode {
         }
     }
 }
+#endif

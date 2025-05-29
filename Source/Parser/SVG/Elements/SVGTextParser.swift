@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 class SVGTextParser: SVGBaseElementParser {
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {
@@ -36,7 +40,7 @@ class SVGTextParser: SVGBaseElementParser {
             .compactMap { delegate($0) }
     }
 
-    private func parseTextAnchor(_ string: String?) -> HorizontalAlignment {
+    private func parseTextAnchor(_ string: String?) -> SVGText.Anchor {
         if let anchor = string {
             if anchor == "middle" {
                 return .center

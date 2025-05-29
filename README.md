@@ -1,23 +1,19 @@
-<a href="https://exyte.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/exyte/media/master/common/header-dark.png"><img src="https://raw.githubusercontent.com/exyte/media/master/common/header-light.png"></picture></a>
-
-<a href="https://exyte.com/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/exyte/media/master/common/our-site-dark.png" width="80" height="16"><img src="https://raw.githubusercontent.com/exyte/media/master/common/our-site-light.png" width="80" height="16"></picture></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/exyteHQ"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/exyte/media/master/common/twitter-dark.png" width="74" height="16"><img src="https://raw.githubusercontent.com/exyte/media/master/common/twitter-light.png" width="74" height="16">
-</picture></a> <a href="https://exyte.com/contacts"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/exyte/media/master/common/get-in-touch-dark.png" width="128" height="24" align="right"><img src="https://raw.githubusercontent.com/exyte/media/master/common/get-in-touch-light.png" width="128" height="24" align="right"></picture></a>
-
-<p><h1 align="left">SVGView</h1></p>
-
-<p><h4>SVG parser written in SwiftUI</h4></p>
-
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FSVGView%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/exyte/SVGView)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fexyte%2FSVGView%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/exyte/SVGView)
-[![SPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swiftpackageindex.com/exyte/SVGView)
-[![Cocoapods Compatible](https://img.shields.io/badge/cocoapods-Compatible-brightgreen.svg)](https://cocoapods.org/pods/SVGView)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](https://opensource.org/licenses/MIT)
+# SVGView
 
 # Overview
+This is a fork of [exyte/SVGView](https://github.com/exyte/SVGView) that tailored to Goodnotes's specific needs:
+- Crossplatform compatible (at least the parser logic)
+- Add support for some custom SVG tags 
 
-The goal of this project is to bring the full power of SVG to Apple platforms. Our framework can parse SVG files and represent their content in SwiftUI. It provides you with the ability to not only render SVG files, but also add interactivity to them, handle user input and use SwiftUI to put your art into motion.
+# Development
 
+This uses `make` heavily for relevant scripts. Run `make` without arguments to see the available commands.
+
+## To add a new SVG test:
+- Update `cli.swift` to include the svg file path
+- `make generate-test-cases` to generate the unit test files
+- `make update-references-snapshots` to update the .ref snapshots.
+ 
 # Usage
 
 Get started with `SVGView` in a few lines of code:
@@ -127,14 +123,18 @@ github "Exyte/SVGView"
 
 ## Our other open source SwiftUI libraries
 [PopupView](https://github.com/exyte/PopupView) - Toasts and popups library    
+[AnchoredPopup](https://github.com/exyte/AnchoredPopup) - Anchored Popup grows "out" of a trigger view (similar to Hero animation)    
 [Grid](https://github.com/exyte/Grid) - The most powerful Grid container    
-[ScalingHeaderScrollView](https://github.com/exyte/ScalingHeaderScrollView) - A scroll view with a sticky header which shrinks as you scroll  
-[AnimatedTabBar](https://github.com/exyte/AnimatedTabBar) - A tabbar with number of preset animations     
+[ScalingHeaderScrollView](https://github.com/exyte/ScalingHeaderScrollView) - A scroll view with a sticky header which shrinks as you scroll    
+[AnimatedTabBar](https://github.com/exyte/AnimatedTabBar) - A tabbar with a number of preset animations   
 [MediaPicker](https://github.com/exyte/mediapicker) - Customizable media picker     
-[Chat](https://github.com/exyte/chat) - Chat UI framework with fully customizable message cells, input view, and a built-in media picker      
+[Chat](https://github.com/exyte/chat) - Chat UI framework with fully customizable message cells, input view, and a built-in media picker  
+[OpenAI](https://github.com/exyte/OpenAI) Wrapper lib for [OpenAI REST API](https://platform.openai.com/docs/api-reference/introduction)    
+[AnimatedGradient](https://github.com/exyte/AnimatedGradient) - Animated linear gradient     
 [ConcentricOnboarding](https://github.com/exyte/ConcentricOnboarding) - Animated onboarding flow    
 [FloatingButton](https://github.com/exyte/FloatingButton) - Floating button menu    
 [ActivityIndicatorView](https://github.com/exyte/ActivityIndicatorView) - A number of animated loading indicators    
-[ProgressIndicatorView](https://github.com/exyte/ProgressIndicatorView) - A number of animated progress indicators  
+[ProgressIndicatorView](https://github.com/exyte/ProgressIndicatorView) - A number of animated progress indicators    
+[FlagAndCountryCode](https://github.com/exyte/FlagAndCountryCode) - Phone codes and flags for every country    
 [LiquidSwipe](https://github.com/exyte/LiquidSwipe) - Liquid navigation animation    
 

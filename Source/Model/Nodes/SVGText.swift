@@ -1,7 +1,11 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGText: SVGNode, ObservableObject {
+public class SVGText: SVGNode {
     public struct Shift: Codable {
         public let dx: String?
         public let dy: String?
@@ -9,16 +13,47 @@ public class SVGText: SVGNode, ObservableObject {
         public static let empty = Shift(dx: nil, dy: nil)
     }
 
+    public enum Anchor: String, SerializableEnum {
+        case leading
+        case center
+        case trailing
+    }
+    
+    #if os(WASI) || os(Linux)
+    public var text: String
+    public var font: SVGFont?
+    public var fill: SVGPaint?
+    public var stroke: SVGStroke?
+    public var textAnchor: Anchor = .leading
+    public var textAnchorString: String? = nil
+    public var contents: [SVGNode] = [] // Store tspan and text without tspan
+    public var shift: Shift? = nil
+    #else
     @Published public var text: String
     @Published public var font: SVGFont?
     @Published public var fill: SVGPaint?
     @Published public var stroke: SVGStroke?
-    @Published public var textAnchor: HorizontalAlignment = .leading
+    @Published public var textAnchor: Anchor = .leading
     @Published public var textAnchorString: String? = nil
     @Published public var contents: [SVGNode] = []
     @Published public var shift: Shift? = nil
-
-    public init(text: String, font: SVGFont? = nil, fill: SVGPaint? = SVGColor.black, stroke: SVGStroke? = nil, textAnchor: HorizontalAlignment = .leading, transform: CGAffineTransform = .identity, contents: [SVGNode] = [], opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil, shift: SVGText.Shift = .empty, textAnchorString: String? = nil) {
+    #endif
+    
+    public init(
+        text: String,
+        font: SVGFont? = nil,
+        fill: SVGPaint? = SVGColor.black,
+        stroke: SVGStroke? = nil,
+        textAnchor: Anchor = .leading,
+        transform: CGAffineTransform = .identity,
+        contents: [SVGNode] = [],
+        opaque: Bool = true,
+        opacity: Double = 1,
+        clip: SVGUserSpaceNode? = nil,
+        mask: SVGNode? = nil,
+        shift: SVGText.Shift = .empty,
+        textAnchorString: String? = nil
+    ) {
         self.text = text
         self.font = font
         self.fill = fill
@@ -37,11 +72,28 @@ public class SVGText: SVGNode, ObservableObject {
         super.serialize(serializer)
     }
     
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGTextView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGText: ObservableObject {}
+
+extension SVGText.Anchor {
+    var horizontalAlignment: HorizontalAlignment {
+        switch self {
+        case .leading:
+            return .leading
+        case .center:
+            return .center
+        case .trailing:
+            return .trailing
+        }
+    }
+}
 struct SVGTextView: View {
 
     @ObservedObject var model: SVGText
@@ -66,7 +118,9 @@ struct SVGTextView: View {
         Text(model.text)
            .font(model.font?.toSwiftUI())
            .lineLimit(1)
-           .alignmentGuide(.leading) { d in d[model.textAnchor] }
+           .alignmentGuide(.leading) {
+               d in d[model.textAnchor.horizontalAlignment]
+           }
            .alignmentGuide(VerticalAlignment.top) { d in d[VerticalAlignment.firstTextBaseline] }
            .position(x: 0, y: 0) // just to specify that positioning is global, actual coords are in transform
            .apply(paint: fill)
@@ -74,3 +128,4 @@ struct SVGTextView: View {
            .frame(alignment: .topLeading)
     }
 }
+#endif

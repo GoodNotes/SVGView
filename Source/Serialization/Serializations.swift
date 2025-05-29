@@ -5,8 +5,11 @@
 //  Created by Yuriy Strot on 18.01.2021.
 //
 
+#if os(WASI) || os(Linux)
 import Foundation
+#else
 import SwiftUI
+#endif
 
 extension Bool: SerializableAtom {
 
@@ -45,14 +48,15 @@ extension CGAffineTransform: SerializableAtom {
 
     func serialize() -> String {
         let formatter = NumberFormatter()
+        formatter.decimalSeparator = "."
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 10
-
+        
         let nums = [a, b, c, d, tx, ty]
-
+        
         var result = ""
         for num in nums {
-            result += formatter.string(from: num as NSNumber) ?? "n/a"
+            result += formatter.string(for: num) ?? "n/a"
             result += ", "
         }
         return "[\(result.dropLast(2))]"
@@ -173,7 +177,7 @@ extension CGPathFillRule: SerializableOption {
 
 }
 
-extension HorizontalAlignment: SerializableOption {
+extension SVGText.Anchor: SerializableOption {
 
     func isDefault() -> Bool {
         return self == .leading

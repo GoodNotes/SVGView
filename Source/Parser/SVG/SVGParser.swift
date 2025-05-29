@@ -5,7 +5,7 @@
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
 
-import SwiftUI
+import Foundation
 
 public struct SVGParser {
 
@@ -64,6 +64,8 @@ public struct SVGParser {
         "polygon": SVGPolygonParser(),
         "polyline": SVGPolylineParser(),
         "path": SVGPathParser(),
+        "marker": SVGMarkerParser(),
+        "defs": SVGVDefParser(),
     ]
 
     private static func parse(context: SVGNodeContext) -> SVGNode? {

@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 17/07/2020.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 extension SVGHelper {
 

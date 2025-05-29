@@ -5,8 +5,13 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
+#if canImport(SwiftUI)
 public struct SVGView: View {
 
     public let svg: SVGNode?
@@ -49,3 +54,4 @@ public struct SVGView: View {
     }
 
 }
+#endif

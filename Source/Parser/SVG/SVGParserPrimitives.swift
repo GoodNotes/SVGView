@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGHelper: NSObject {
 
@@ -19,6 +23,14 @@ public class SVGHelper: NSObject {
 
     static func parseId(_ dict: [String: String]) -> String? {
         return dict["id"] ?? dict["xml:id"]
+    }
+
+    static func parseMarkerInAttribute(_ dict: [String: String], key: String) -> String? {
+        guard let markerId = dict[key] else {
+            return .none
+        }
+        return markerId.replacingOccurrences(of: "url(#", with: "")
+            .replacingOccurrences(of: ")", with: "")
     }
 
     static func parseStroke(_ style: [String: String], index: SVGIndex) -> SVGStroke? {
@@ -175,5 +187,75 @@ public class SVGHelper: NSObject {
         let scale = SVGPreserveAspectRatio(scaling: .none).layout(size: respectiveBounds.size, into: finalSize)
         let move = CGAffineTransform(translationX: absoluteBounds.minX, y: absoluteBounds.minY)
         return scale.concatenating(move)
+    }
+
+    static func parseViewBox(_ attributes: [String: String], context: SVGContext) -> CGRect? {
+        // TODO: temporary solution, all attributes should be case insensitive
+        if let string = attributes[ignoreCase: "viewBox"] {
+            let nums = string.components(separatedBy: .whitespaces)
+            if nums.count == 4,
+               let x = SVGLengthParser.xAxis.double(string: nums[0], context: context),
+               let y = SVGLengthParser.yAxis.double(string: nums[1], context: context),
+               let width = SVGLengthParser.xAxis.double(string: nums[2], context: context),
+               let height = SVGLengthParser.yAxis.double(string: nums[3], context: context) {
+                return CGRect(x: x, y: y, width: width, height: height)
+            }
+        }
+        return nil
+    }
+
+    static func parseDimension(_ attributes: [String: String], _ key: String) -> SVGLength? {
+        guard let string = attributes[key] else {
+            return .none
+        }
+        if string.hasSuffix("%"), let value = Double(string.dropLast()) {
+            return SVGLength(percent: CGFloat(value))
+        }
+        if let value = Double(string) {
+            return SVGLength(pixels: CGFloat(value))
+        }
+        return .none
+    }
+
+    static func parsePreserveAspectRatio(string: String?, context: SVGContext, defaultValue: SVGPreserveAspectRatio) -> SVGPreserveAspectRatio {
+        if let contentModeString = string {
+            let strings = contentModeString.components(separatedBy: CharacterSet(charactersIn: " "))
+            if strings.count == 1 { // none
+                return SVGPreserveAspectRatio(scaling: parseScaling(strings[0]))
+            }
+            guard strings.count == 2 else {
+                context.log(message: "Invalid content mode \(contentModeString)")
+                return SVGPreserveAspectRatio()
+            }
+
+            let alignString = strings[0]
+            var xAlign = alignString.prefix(4).lowercased()
+            xAlign.remove(at: xAlign.startIndex)
+            let xAligningMode = parseAlign(xAlign)
+
+            var yAlign = alignString.suffix(4).lowercased()
+            yAlign.remove(at: yAlign.startIndex)
+            let yAligningMode = parseAlign(yAlign)
+
+            let scalingMode = parseScaling(strings[1])
+            return SVGPreserveAspectRatio(scaling: scalingMode, xAlign: xAligningMode, yAlign: yAligningMode)
+        }
+        return SVGPreserveAspectRatio(scaling: parseScaling("xMidYMid"))
+    }
+
+    static func parseAlign(_ string: String) -> SVGPreserveAspectRatio.Align {
+        switch string {
+            case "min": return .min
+            case "max": return .max
+            default: return .mid
+        }
+    }
+
+    static func parseScaling(_ string: String) -> SVGPreserveAspectRatio.Scaling {
+        switch string {
+            case "meet": return .meet
+            case "slice": return .slice
+            default: return .none
+        }
     }
 }

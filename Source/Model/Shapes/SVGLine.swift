@@ -1,12 +1,23 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGLine: SVGShape, ObservableObject {
+public class SVGLine: SVGShape {
 
+    #if os(WASI) || os(Linux)
+    public var x1: CGFloat
+    public var y1: CGFloat
+    public var x2: CGFloat
+    public var y2: CGFloat
+    #else
     @Published public var x1: CGFloat
     @Published public var y1: CGFloat
     @Published public var x2: CGFloat
     @Published public var y2: CGFloat
+    #endif
 
     public init(_ x1: CGFloat, _ y1: CGFloat, _ x2: CGFloat, _ y2: CGFloat) {
         self.x1 = x1
@@ -31,11 +42,15 @@ public class SVGLine: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGLineView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGLine: ObservableObject {}
 struct SVGLineView: View {
 
     @ObservedObject var model = SVGLine()
@@ -51,4 +66,5 @@ struct SVGLineView: View {
         return line
     }
 }
+#endif
 

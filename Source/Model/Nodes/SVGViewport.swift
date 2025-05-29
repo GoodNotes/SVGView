@@ -1,8 +1,17 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
 public class SVGViewport: SVGGroup {
-
+    #if os(WASI) || os(Linux)
+    public var width: SVGLength
+    public var height: SVGLength
+    public var viewBox: CGRect?
+    public var preserveAspectRatio: SVGPreserveAspectRatio
+    #else
     @Published public var width: SVGLength {
         willSet {
             self.objectWillChange.send()
@@ -26,6 +35,7 @@ public class SVGViewport: SVGGroup {
             self.objectWillChange.send()
         }
     }
+    #endif
 
     public init(width: SVGLength, height: SVGLength, viewBox: CGRect? = .none, preserveAspectRatio: SVGPreserveAspectRatio, contents: [SVGNode] = []) {
         self.width = width
@@ -57,6 +67,7 @@ public class SVGViewport: SVGGroup {
 
 }
 
+#if canImport(SwiftUI)
 struct SVGViewportView: View {
 
     @ObservedObject var model: SVGViewport
@@ -89,3 +100,4 @@ struct SVGViewportView: View {
     }
 
 }
+#endif

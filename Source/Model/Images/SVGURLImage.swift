@@ -5,9 +5,13 @@
 //  Created by Alisa Mylnikova on 22/09/2021.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
-public class SVGURLImage: SVGImage, ObservableObject {
+public class SVGURLImage: SVGImage {
 
     public let src: String
     public let data: Data?
@@ -23,11 +27,15 @@ public class SVGURLImage: SVGImage, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGUrlImageView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGURLImage: ObservableObject {}
 struct SVGUrlImageView: View {
 
     @ObservedObject var model: SVGURLImage
@@ -56,4 +64,5 @@ struct SVGUrlImageView: View {
             .applyNodeAttributes(model: model)
     }
 }
+#endif
 

@@ -5,7 +5,11 @@
 //  Created by Yuriy Strot on 21.02.2021.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 class SVGIndex {
 

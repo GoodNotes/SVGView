@@ -1,10 +1,19 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGPath: SVGShape, ObservableObject {
+public class SVGPath: SVGShape {
 
+    #if os(WASI) || os(Linux)
+    public var segments: [PathSegment]
+    public var fillRule: CGPathFillRule
+    #else
     @Published public var segments: [PathSegment]
     @Published public var fillRule: CGPathFillRule
+    #endif
 
     public init(segments: [PathSegment] = [], fillRule: CGPathFillRule = .winding) {
         self.segments = segments
@@ -26,11 +35,15 @@ public class SVGPath: SVGShape, ObservableObject {
         super.serialize(serializer)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGPathView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGPath: ObservableObject {}
 struct SVGPathView: View {
 
     @ObservedObject var model = SVGPath()
@@ -39,7 +52,9 @@ struct SVGPathView: View {
         model.toBezierPath().toSwiftUI(model: model, eoFill: model.fillRule == .evenOdd)
     }
 }
+#endif
 
+#if canImport(SwiftUI)
 extension MBezierPath {
 
     func toSwiftUI(model: SVGShape, eoFill: Bool = false) -> some View {
@@ -55,4 +70,5 @@ extension MBezierPath {
             }
     }
 }
+#endif
 

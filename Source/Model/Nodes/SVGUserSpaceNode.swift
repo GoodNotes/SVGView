@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 14/10/2020.
 //
 
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGUserSpaceNode: SVGNode {
 
@@ -28,11 +32,14 @@ public class SVGUserSpaceNode: SVGNode {
         super.serialize(serializer)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGUserSpaceNodeView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
 struct SVGUserSpaceNodeView: View {
     let model: SVGUserSpaceNode
 
@@ -44,3 +51,4 @@ struct SVGUserSpaceNodeView: View {
         }
     }
 }
+#endif

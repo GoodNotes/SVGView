@@ -5,8 +5,11 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
+#if os(WASI) || os(Linux)
 import Foundation
+#else
 import SwiftUI
+#endif
 
 public class SVGPaint {
 
@@ -20,6 +23,7 @@ public class SVGPaint {
 
 }
 
+#if canImport(SwiftUI)
 extension View {
 
     @ViewBuilder
@@ -41,3 +45,4 @@ extension View {
     }
 
 }
+#endif

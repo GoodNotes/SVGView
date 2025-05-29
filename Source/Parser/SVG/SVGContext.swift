@@ -5,7 +5,7 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
-import CoreGraphics
+import Foundation
 
 protocol SVGContext {
 
@@ -115,7 +115,7 @@ class SVGNodeContext: SVGContext {
 
     private static func replaceRoot(element: XMLElement, context: SVGContext) -> SVGRootContext {
         if element.name == "svg" {
-            if let viewBox = SVGViewportParser.parseViewBox(element.attributes, context: context) {
+            if let viewBox = SVGHelper.parseViewBox(element.attributes, context: context) {
                 let screen = SVGScreen(ppi: context.screen.ppi, width: viewBox.width, height: viewBox.height)
                 return SVGRootContext(logger: context.logger, linker: context.linker, screen: screen, index: context.index, defaultFontSize: context.defaultFontSize)
             }

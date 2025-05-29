@@ -1,11 +1,24 @@
+#if os(WASI) || os(Linux)
+import Foundation
+#else
 import SwiftUI
 import Combine
+#endif
 
-public class SVGGroup: SVGNode, ObservableObject {
-
+public class SVGGroup: SVGNode {
+    #if os(WASI) || os(Linux)
+    public var contents: [SVGNode] = []
+    #else
     @Published public var contents: [SVGNode] = []
-
-    public init(contents: [SVGNode], transform: CGAffineTransform = .identity, opaque: Bool = true, opacity: Double = 1, clip: SVGUserSpaceNode? = nil, mask: SVGNode? = nil) {
+    #endif
+    public init(
+        contents: [SVGNode],
+        transform: CGAffineTransform = .identity,
+        opaque: Bool = true,
+        opacity: Double = 1,
+        clip: SVGUserSpaceNode? = nil,
+        mask: SVGNode? = nil
+    ) {
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
         self.contents = contents
     }
@@ -31,11 +44,15 @@ public class SVGGroup: SVGNode, ObservableObject {
         serializer.add("contents", contents)
     }
 
+    #if canImport(SwiftUI)
     public func contentView() -> some View {
         SVGGroupView(model: self)
     }
+    #endif
 }
 
+#if canImport(SwiftUI)
+extension SVGGroup: ObservableObject {}
 struct SVGGroupView: View {
 
     @ObservedObject var model: SVGGroup
@@ -52,4 +69,5 @@ struct SVGGroupView: View {
         .applyNodeAttributes(model: model)
     }
 }
+#endif
 
