@@ -23,11 +23,21 @@ class SVGTextParser: SVGBaseElementParser {
         let y = SVGHelper.parseCGFloat(context.properties, "y")
         let transform = CGAffineTransform(translationX: x, y: y)
 
+        let shift = SVGText.Shift(dx: context.properties["dx"], dy: context.properties["dy"])
+
         if let textNode = context.element.contents.first as? XMLText {
             let trimmed = textNode.text.trimmingCharacters(in: .whitespacesAndNewlines).processingWhitespaces()
-            return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform)
+
+            return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform, shift: shift, textAnchorString: context.style("text-anchor"))
         }
-        return .none
+        return SVGGroup(contents: parseContents(context: context, delegate: delegate))
+        //return .none
+    }
+
+    func parseContents(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> [SVGNode] {
+        return context.element.contents
+            .compactMap { $0 as? XMLElement }
+            .compactMap { delegate($0) }
     }
 
     private func parseTextAnchor(_ string: String?) -> SVGText.Anchor {
