@@ -70,7 +70,7 @@ public struct SVGParser {
 
     private static func parse(context: SVGNodeContext) -> SVGNode? {
         if context.element.name == "tspan" {
-            print("[PACO] HELLO")
+            // TODO: handle differently
         }
         return parsers[context.element.name]?.parse(context: context) {
             parse(element: $0, parentContext: context)
