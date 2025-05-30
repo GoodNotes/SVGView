@@ -21,13 +21,38 @@ class SVGTextParser: SVGBaseElementParser {
 
         let x = SVGHelper.parseCGFloat(context.properties, "x")
         let y = SVGHelper.parseCGFloat(context.properties, "y")
-        let transform = CGAffineTransform(translationX: x, y: y)
+        let translation = CGAffineTransform(translationX: x, y: y)
 
-        if let textNode = context.element.contents.first as? XMLText {
-            let trimmed = textNode.text.trimmingCharacters(in: .whitespacesAndNewlines).processingWhitespaces()
-            return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform)
+        var nodes: [SVGNode] = []
+        for content in context.element.contents {
+            if let textNode = content as? XMLText {
+                let trimmed = textNode.text.trimmingCharacters(in: .whitespacesAndNewlines).processingWhitespaces()
+                if !trimmed.isEmpty {
+                    let node = SVGText(
+                        text: trimmed,
+                        font: font,
+                        fill: SVGHelper.parseFill(context.styles, context.index),
+                        stroke: SVGHelper.parseStroke(
+                            context.styles,
+                            index: context.index
+                        ),
+                        textAnchor: textAnchor,
+                        transform: .identity
+                    )
+                    nodes.append(node)
+                }
+            } else if let element = content as? XMLElement, element.name == "tspan" {
+                if let childNode = delegate(element) {
+                    nodes.append(childNode)
+                }
+            }
         }
-        return .none
+        guard !nodes.isEmpty else { return nil }
+        if nodes.count == 1, let single = nodes.first as? SVGText {
+            single.transform = translation.concatenating(single.transform)
+            return single
+        }
+        return SVGGroup(contents: nodes, transform: translation)
     }
 
     private func parseTextAnchor(_ string: String?) -> SVGText.Anchor {

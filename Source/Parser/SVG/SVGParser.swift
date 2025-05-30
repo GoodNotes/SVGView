@@ -55,6 +55,7 @@ public struct SVGParser {
         "g": SVGGroupParser(),
         "use": SVGUseParser(),
         "text": SVGTextParser(),
+        "tspan": SVGTextParser(),
         "image": SVGImageParser(),
         "rect": SVGRectParser(),
         "circle": SVGCircleParser(),
