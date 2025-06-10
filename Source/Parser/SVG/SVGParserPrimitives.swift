@@ -200,6 +200,11 @@ public class SVGHelper: NSObject {
                let height = SVGLengthParser.yAxis.double(string: nums[3], context: context) {
                 return CGRect(x: x, y: y, width: width, height: height)
             }
+        } else if let widthAttr = attributes[ignoreCase: "width"],
+                  let heightAttr = attributes[ignoreCase: "height"],
+                  let width = SVGLengthParser.xAxis.double(string: widthAttr, context: context),
+                  let height = SVGLengthParser.yAxis.double(string: heightAttr, context: context) {
+          return CGRect(x: 0.0, y: 0.0, width: width, height: height)
         }
         return nil
     }
