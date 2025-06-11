@@ -1,0 +1,15 @@
+SVGViewport {
+	width: "780",
+	height: "950",
+	scaling: "none",
+	contents: [
+		SVGRect { width: 780, height: 950, fill: "#F4F4F4" },
+		SVGText {
+			text: "1-to-1 Meeting Template",
+			font: { size: 24, weight: "bold" },
+			textAnchor: "middle",
+			fill: "black",
+			transform: [1, 0, 0, 1, 390, 50]
+		}
+	]
+}
