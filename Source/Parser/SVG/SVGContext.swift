@@ -115,7 +115,9 @@ class SVGNodeContext: SVGContext {
 
     private static func replaceRoot(element: XMLElement, context: SVGContext) -> SVGRootContext {
         if element.name == "svg" {
-            if let viewBox = SVGHelper.parseViewBox(element.attributes, context: context) {
+            let viewPort = SVGHelper.parseViewPort(element.attributes, context: context)
+            // Each SVG viewport generates a viewport coordinate system and a user coordinate system, initially identical. Providing a ‘viewBox’ on a viewport's element transforms the user coordinate system relative to the viewport coordinate system
+            if let viewBox = SVGHelper.parseViewBox(element.attributes, context: context) ?? viewPort {
                 let screen = SVGScreen(ppi: context.screen.ppi, width: viewBox.width, height: viewBox.height)
                 return SVGRootContext(logger: context.logger, linker: context.linker, screen: screen, index: context.index, defaultFontSize: context.defaultFontSize)
             }
