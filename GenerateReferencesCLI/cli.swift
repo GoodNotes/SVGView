@@ -147,6 +147,7 @@ struct cli: ParsableCommand {
 
     static let customRefs: [String] = [
         "viewport-01",
+        "viewport-02",
     ]
 
     mutating func run() throws {
