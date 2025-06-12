@@ -24,7 +24,6 @@ class SVGShapeParser: SVGBaseElementParser {
 
 class SVGRectParser: SVGShapeParser {
     override func parseLocus(context: SVGNodeContext) -> SVGShape? {
-      // SVGHelper.parseDimension(attributes, "markerWidth") ?? SVGLength(percent: 100)
         let rx = context.optional(.rx)
         let ry = context.optional(.ry)
         return SVGRect(
