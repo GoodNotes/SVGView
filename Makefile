@@ -39,7 +39,8 @@ generate-test-cases: # Generate test cases from w3c reference files
 		printf "}" >> ../SVGViewTests/$$class.swift; \
 	}; \
 	generateTest "1.1F2" "SVG11Tests"; \
-	generateTest "1.2T" "SVG12Tests"
+	generateTest "1.2T" "SVG12Tests"; \
+	generateTest "Custom" "SVGCustomTests"
 
 update-references-snapshots: # Update .ref from .svg files
 	swift run GenerateReferencesCLI Tests/SVGViewTests/w3c/
