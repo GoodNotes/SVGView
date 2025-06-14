@@ -127,7 +127,7 @@ extension SVGHelper {
             let x = Array(cleanedHexString)
             cleanedHexString = "\(x[0])\(x[0])\(x[1])\(x[1])\(x[2])\(x[2])"
         }
-        return SVGColor(hex: cleanedHexString)
+        return SVGColor(hex: cleanedHexString).opacity(1.0)
     }
 
     static func parseRGBANotation(colorString: String) -> SVGColor {
@@ -142,8 +142,8 @@ extension SVGHelper {
         var red = 0.0
         var green = 0.0
         var blue = 0.0
-        var alpha = 1.0 // Default to fully opaque
-        if x.count == 3 {
+        var alpha = 1.0 // Default to fully opaque, always from 0 to 1 in CSS
+        if x.count <= 3 {
             if let r = Double(x[0]), let g = Double(x[1]), let b = Double(x[2]) {
                 blue = b
                 green = g
@@ -157,11 +157,11 @@ extension SVGHelper {
             red *= 2.55
             green *= 2.55
             blue *= 2.55
-            if x.count == 4, let a = Double(x[3]) {
-                alpha *= 2.55
+            if x.count == 4 {
+                alpha *= 0.01
             }
         }
-        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue)))
+        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue))).opacity(round(alpha))
     }
 
     static private func parseIdFromUrl(_ urlString: String) -> String? {
