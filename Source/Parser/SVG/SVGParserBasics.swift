@@ -143,7 +143,7 @@ extension SVGHelper {
         var green = 0.0
         var blue = 0.0
         var alpha = 1.0 // Default to fully opaque, always from 0 to 1 in CSS
-        if x.count <= 3 {
+        if x.count >= 3 {
             if let r = Double(x[0]), let g = Double(x[1]), let b = Double(x[2]) {
                 blue = b
                 green = g
@@ -161,7 +161,7 @@ extension SVGHelper {
                 alpha *= 0.01
             }
         }
-        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue))).opacity(round(alpha))
+        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue))).opacity(min(max(alpha, 0.0), 1.0))
     }
 
     static private func parseIdFromUrl(_ urlString: String) -> String? {
