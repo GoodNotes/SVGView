@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000">
+  <rect x="0" y="0" width="2000" height="2000" rx="0.0" ry="0.0" fill="rgb(244, 244, 244)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <rect x="0" y="0" width="2000" height="2000" rx="10.0" ry="10.0" fill="rgb(255, 255, 255)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <rect x="900" y="900" width="200" height="200" rx="50.0" ry="50.0" fill="rgb(232, 33, 39)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <text x="917.34375" y="1008.0" fill="rgb(255, 255, 255)" font-family="Arial, sans-serif" font-size="20px" font-weight="700" font-style="normal">Tesla RoboTaxi</text>
+  <rect x="1425" y="925" width="150" height="150" rx="50.0" ry="50.0" fill="rgb(0, 0, 0)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <text x="1455.1875" y="1006.5" fill="rgb(255, 255, 255)" font-family="Arial, sans-serif" font-size="16px" font-weight="400" font-style="normal">Technology</text>
+  <rect x="1000.0" y="1000.0" width="500.0" height="2.0" rx="0.0" ry="0.0" fill="rgb(136, 136, 136)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="matrix(1, 0, 0, 1, 0, 0)" transform-origin="0px 1px" />
+  <rect x="1709.796875" y="800" width="104" height="104" rx="50.0" ry="50.0" fill="rgb(255, 255, 255)" stroke="rgb(232, 33, 39)" stroke-width="2.0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <text x="1714.921875" y="850.0" fill="rgb(0, 0, 0)" font-family="Arial, sans-serif" font-size="12px" font-weight="400" font-style="normal">Full Self-Driving</text>
+  <text x="1714.921875" y="864.0" fill="rgb(0, 0, 0)" font-family="Arial, sans-serif" font-size="12px" font-weight="400" font-style="normal">(FSD)</text>
+  <rect x="1500.0" y="999.9999971679687" width="300.0" height="2.0" rx="0.0" ry="0.0" fill="rgb(136, 136, 136)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="matrix(0.866025, -0.5, 0.5, 0.866025, 0, 0)" transform-origin="0px 1px" />
+  <rect x="1735.3125" y="857.28125" width="104" height="104" rx="50.0" ry="50.0" fill="rgb(255, 255, 255)" stroke="rgb(232, 33, 39)" stroke-width="2.0" style="transform-box: fill-box" transform="none" transform-origin="0.0" />
+  <text x="1737.671875" y="914.28125" fill="rgb(0, 0, 0)" font-family="Arial, sans-serif" font-size="12px" font-weight="400" font-style="normal">Computer Vision</text>
+  <rect x="1500.0000570390625" y="1000.0000290703125" width="300.0" height="2.0" rx="0.0" ry="0.0" fill="rgb(136, 136, 136)" stroke="none" stroke-width="0" style="transform-box: fill-box" transform="matrix(0.951057, -0.309017, 0.309017, 0.951057, 0, 0)" transform-origin="0px 1px" />
+</svg>

@@ -9,8 +9,16 @@ class SVGCustomTests: BaseTestCase {
         return "Custom"
     }
 
+    func testGraph01() {
+        compareToReference("graph-01")
+    }
+
     func testViewport01() {
         compareToReference("viewport-01")
+    }
+
+    func testViewport02() {
+        compareToReference("viewport-02")
     }
 
 }
