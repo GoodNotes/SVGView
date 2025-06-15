@@ -189,6 +189,16 @@ public class SVGHelper: NSObject {
         return scale.concatenating(move)
     }
 
+    static func parseViewPort(_ attributes: [String: String], context: SVGContext) -> CGRect? {
+        if let widthAttr = attributes[ignoreCase: "width"],
+                  let heightAttr = attributes[ignoreCase: "height"],
+                  let width = SVGLengthParser.xAxis.double(string: widthAttr, context: context),
+                  let height = SVGLengthParser.yAxis.double(string: heightAttr, context: context) {
+          return CGRect(x: 0.0, y: 0.0, width: width, height: height)
+        }
+        return nil
+    }
+
     static func parseViewBox(_ attributes: [String: String], context: SVGContext) -> CGRect? {
         // TODO: temporary solution, all attributes should be case insensitive
         if let string = attributes[ignoreCase: "viewBox"] {

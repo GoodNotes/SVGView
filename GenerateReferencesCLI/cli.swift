@@ -6,7 +6,7 @@ import ArgumentParser
 #if os(macOS)
 @main
 struct cli: ParsableCommand {
-    @Argument(help: "Path to a folder that contains 1.1F2/ and 1.2T/")
+    @Argument(help: "Path to a folder that contains 1.1F2/, 1.2T/ and Custom/")
     var input: String
 
     static let v11Refs: [String] = [
@@ -144,7 +144,12 @@ struct cli: ParsableCommand {
         "struct-frag-01-t",
         "struct-use-03-t",
     ]
-    
+
+    static let customRefs: [String] = [
+        "viewport-01",
+        "viewport-02",
+    ]
+
     mutating func run() throws {
         let inputURL = URL(fileURLWithPath: input)
         
@@ -154,9 +159,10 @@ struct cli: ParsableCommand {
 
         let v11FolderURL = inputURL.appendingPathComponent("1.1F2")
         let v12FolderURL = inputURL.appendingPathComponent("1.2T")
-        
-        guard FileManager.default.fileExists(atPath: v11FolderURL.path) || FileManager.default.fileExists(atPath: v12FolderURL.path) else {
-            throw ValidationError("1.1F2/ or 1.2T/ folder does not exist in '\(input)'")
+        let customFolderURL = inputURL.appendingPathComponent("Custom")
+
+        guard FileManager.default.fileExists(atPath: v11FolderURL.path) || FileManager.default.fileExists(atPath: v12FolderURL.path) || FileManager.default.fileExists(atPath: customFolderURL.path) else {
+            throw ValidationError("1.1F2/, 1.2T/ or Custom/ folder does not exist in '\(input)'")
         }
         
         for ref in Self.v11Refs {
@@ -170,6 +176,13 @@ struct cli: ParsableCommand {
             let svgURL = v12FolderURL.appending(path: "svg/\(ref).svg")
             let svgContent = try serialize(inputURL: svgURL)
             let refURL = v12FolderURL.appending(path: "refs/\(ref).ref")
+            try svgContent.write(to: refURL, atomically: true, encoding: .utf8)
+        }
+
+        for ref in Self.customRefs {
+            let svgURL = customFolderURL.appending(path: "svg/\(ref).svg")
+            let svgContent = try serialize(inputURL: svgURL)
+            let refURL = customFolderURL.appending(path: "refs/\(ref).ref")
             try svgContent.write(to: refURL, atomically: true, encoding: .utf8)
         }
     }
