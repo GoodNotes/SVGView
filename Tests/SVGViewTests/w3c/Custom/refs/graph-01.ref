@@ -1,0 +1,78 @@
+SVGViewport {
+	width: "2000",
+	height: "2000",
+	scaling: "none",
+	contents: [
+		SVGRect { width: 2000, height: 2000, fill: "#F4F4F4" },
+		SVGRect { width: 2000, height: 2000, rx: 10, ry: 10, fill: "white" },
+		SVGRect { x: 900, y: 900, width: 200, height: 200, rx: 50, ry: 50, fill: "#E82127" },
+		SVGText {
+			text: "Tesla RoboTaxi",
+			font: { name: "Arial, sans-serif", size: 20, weight: "700" },
+			fill: "white",
+			transform: [1, 0, 0, 1, 917.34375, 1008]
+		},
+		SVGRect { x: 1425, y: 925, width: 150, height: 150, rx: 50, ry: 50, fill: "black" },
+		SVGText {
+			text: "Technology",
+			font: { name: "Arial, sans-serif", weight: "400" },
+			fill: "white",
+			transform: [1, 0, 0, 1, 1455.1875, 1006.5]
+		},
+		SVGRect { x: 1000, y: 1000, width: 500, height: 2, fill: "#888888" },
+		SVGRect {
+			x: 1709.796875,
+			y: 800,
+			width: 104,
+			height: 104,
+			rx: 50,
+			ry: 50,
+			fill: "white",
+			stroke: { fill: "#E82127", width: 2 }
+		},
+		SVGText {
+			text: "Full Self-Driving",
+			font: { name: "Arial, sans-serif", size: 12, weight: "400" },
+			fill: "black",
+			transform: [1, 0, 0, 1, 1714.921875, 850]
+		},
+		SVGText {
+			text: "(FSD)",
+			font: { name: "Arial, sans-serif", size: 12, weight: "400" },
+			fill: "black",
+			transform: [1, 0, 0, 1, 1714.921875, 864]
+		},
+		SVGRect {
+			x: 1500,
+			y: 999.9999971679687,
+			width: 300,
+			height: 2,
+			fill: "#888888",
+			transform: [0.866025, -0.5, 0.5, 0.866025, 0, 0]
+		},
+		SVGRect {
+			x: 1735.3125,
+			y: 857.28125,
+			width: 104,
+			height: 104,
+			rx: 50,
+			ry: 50,
+			fill: "white",
+			stroke: { fill: "#E82127", width: 2 }
+		},
+		SVGText {
+			text: "Computer Vision",
+			font: { name: "Arial, sans-serif", size: 12, weight: "400" },
+			fill: "black",
+			transform: [1, 0, 0, 1, 1737.671875, 914.28125]
+		},
+		SVGRect {
+			x: 1500.0000570390625,
+			y: 1000.0000290703125,
+			width: 300,
+			height: 2,
+			fill: "#888888",
+			transform: [0.951057, -0.309017, 0.309017, 0.951057, 0, 0]
+		}
+	]
+}
