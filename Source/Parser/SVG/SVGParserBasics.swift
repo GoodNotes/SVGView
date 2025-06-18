@@ -97,7 +97,7 @@ extension SVGHelper {
             }
         }
         if let color = parseColor(colorString, style) {
-            return color.opacity(parseOpacity(style, "fill-opacity", alternativeKeys: ["opacity"]))
+            return color.opacity(color.opacity * parseOpacity(style, "fill-opacity", alternativeKeys: ["opacity"]))
         }
         
         return .none
@@ -112,7 +112,7 @@ extension SVGHelper {
         } else if let defaultColor = SVGColor.by(name: normalized) {
             return defaultColor
         } else if normalized.hasPrefix("rgb") {
-            return parseRGBNotation(colorString: normalized)
+            return parseRGBANotation(colorString: normalized)
         } else {
             return createColorFromHex(normalized)
         }
@@ -127,11 +127,12 @@ extension SVGHelper {
             let x = Array(cleanedHexString)
             cleanedHexString = "\(x[0])\(x[0])\(x[1])\(x[1])\(x[2])\(x[2])"
         }
-        return SVGColor(hex: cleanedHexString)
+        return SVGColor(hex: cleanedHexString).opacity(1.0)
     }
 
-    static func parseRGBNotation(colorString: String) -> SVGColor {
-        let from = colorString.index(colorString.startIndex, offsetBy: 4)
+    static func parseRGBANotation(colorString: String) -> SVGColor {
+        let fromIndex = colorString.hasPrefix("rgba") ? 5 : 4
+        let from = colorString.index(colorString.startIndex, offsetBy: fromIndex)
         let inPercentage = colorString.contains("%")
         let sp = String(colorString.suffix(from: from))
             .replacingOccurrences(of: "%", with: "")
@@ -141,19 +142,26 @@ extension SVGHelper {
         var red = 0.0
         var green = 0.0
         var blue = 0.0
-        if x.count == 3 {
+        var alpha = 1.0 // Default to fully opaque, always from 0 to 1 in CSS
+        if x.count >= 3 {
             if let r = Double(x[0]), let g = Double(x[1]), let b = Double(x[2]) {
                 blue = b
                 green = g
                 red = r
             }
         }
+        if x.count == 4, let a = Double(x[3]) {
+            alpha = a
+        }
         if inPercentage {
             red *= 2.55
             green *= 2.55
             blue *= 2.55
+            if x.count == 4 {
+                alpha *= 0.01
+            }
         }
-        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue)))
+        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue))).opacity(min(max(alpha, 0.0), 1.0))
     }
 
     static private func parseIdFromUrl(_ urlString: String) -> String? {
