@@ -59,14 +59,14 @@ public class PathSegment {
     }
 }
 
-class PathReader {
+public class PathReader {
 
     private let input: String
     private var current: UnicodeScalar?
     private var previous: UnicodeScalar?
     private var iterator: String.UnicodeScalarView.Iterator
 
-    init(input: String) {
+    public init(input: String) {
         self.input = input
         self.iterator = input.unicodeScalars.makeIterator()
     }
