@@ -6,6 +6,13 @@ import Combine
 #endif
 
 public class SVGText: SVGNode {
+    public struct Shift: Codable {
+        public let dx: String?
+        public let dy: String?
+
+        public static let empty = Shift(dx: nil, dy: nil)
+    }
+
     public enum Anchor: String, SerializableEnum {
         case leading
         case center
@@ -18,12 +25,18 @@ public class SVGText: SVGNode {
     public var fill: SVGPaint?
     public var stroke: SVGStroke?
     public var textAnchor: Anchor = .leading
+    public var textAnchorString: String? = nil
+    public var contents: [SVGNode] = [] // Store tspan and text without tspan
+    public var shift: Shift? = nil
     #else
     @Published public var text: String
     @Published public var font: SVGFont?
     @Published public var fill: SVGPaint?
     @Published public var stroke: SVGStroke?
     @Published public var textAnchor: Anchor = .leading
+    @Published public var textAnchorString: String? = nil
+    @Published public var contents: [SVGNode] = []
+    @Published public var shift: Shift? = nil
     #endif
     
     public init(
@@ -33,16 +46,22 @@ public class SVGText: SVGNode {
         stroke: SVGStroke? = nil,
         textAnchor: Anchor = .leading,
         transform: CGAffineTransform = .identity,
+        contents: [SVGNode] = [],
         opaque: Bool = true,
         opacity: Double = 1,
         clip: SVGUserSpaceNode? = nil,
-        mask: SVGNode? = nil
+        mask: SVGNode? = nil,
+        shift: SVGText.Shift = .empty,
+        textAnchorString: String? = nil
     ) {
         self.text = text
         self.font = font
         self.fill = fill
         self.stroke = stroke
         self.textAnchor = textAnchor
+        self.contents = contents
+        self.shift = shift
+        self.textAnchorString = textAnchorString
         super.init(transform: transform, opaque: opaque, opacity: opacity, clip: clip, mask: mask)
     }
 
