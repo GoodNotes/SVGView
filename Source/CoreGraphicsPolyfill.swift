@@ -316,12 +316,12 @@ import Foundation
 
         public func concatenating(_ t: CGAffineTransform) -> CGAffineTransform {
             return CGAffineTransform(
-                a: a * t.a + c * t.b,
-                b: b * t.a + d * t.b,
-                c: a * t.c + c * t.d,
-                d: b * t.c + d * t.d,
-                tx: a * t.tx + c * t.ty + tx,
-                ty: b * t.tx + d * t.ty + ty
+                a: a * t.a + b * t.c,
+                b: a * t.b + b * t.d,
+                c: c * t.a + d * t.c,
+                d: c * t.b + d * t.d,
+                tx: tx * t.a + ty * t.c + t.tx,
+                ty: tx * t.b + ty * t.d + t.ty
             )
         }
 
