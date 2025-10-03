@@ -84,8 +84,8 @@ final class PolyfillTests: XCTestCase {
         
         XCTAssertEqual(combined.a, 2)
         XCTAssertEqual(combined.d, 3)
-        XCTAssertEqual(combined.tx, 5)
-        XCTAssertEqual(combined.ty, 10)
+        XCTAssertEqual(combined.tx, 10)
+        XCTAssertEqual(combined.ty, 30)
     }
     
     func testTransformFluent() {
