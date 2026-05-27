@@ -20,6 +20,10 @@ class SVGBaseElementParser: SVGElementParser {
         let transform = SVGHelper.parseTransform(context.properties["transform"] ?? "")
         node.transform = node.transform.concatenating(transform)
         node.opacity = SVGHelper.parseOpacity(context.properties, "opacity")
+        if let colorValue = context.style("color") {
+            node.currentColor = SVGHelper.parseColor(colorValue, context.styles)
+        }
+        node.hasExplicitCurrentColor = context.hasElementStyle("color")
 
         if let clipId = SVGHelper.parseUse(context.properties["clip-path"]),
            let clipNode = context.index.element(by: clipId),

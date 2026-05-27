@@ -10,15 +10,323 @@ struct SVGCustomTests: SVGTestHelper {
     }
 
     @Test func graph01() async throws {
+        // Baseline parsing snapshot for a large graph-like SVG fixture.
         try await compareToReference("graph-01")
     }
 
     @Test func viewport01() async throws {
+        // Verifies viewport handling for the first custom viewport fixture.
         try await compareToReference("viewport-01")
     }
 
     @Test func viewport02() async throws {
+        // Verifies viewport handling for the second custom viewport fixture.
         try await compareToReference("viewport-02")
+    }
+
+    @Test func scriptGating01() async throws {
+        // Unsupported script MIME type must be ignored, so the square stays blue.
+        try await compareToReference("script-gating-01")
+    }
+
+    @Test func scriptGating02() async throws {
+        // Unsupported root contentScriptType should prevent untyped script execution.
+        try await compareToReference("script-gating-02")
+    }
+
+    @Test func scriptGating03() async throws {
+        // Supported script MIME type should execute and turn the square red.
+        try await compareToReference("script-gating-03")
+    }
+
+    @Test func scriptGating04() async throws {
+        // Untyped script should execute with default script MIME handling.
+        try await compareToReference("script-gating-04")
+    }
+
+    @Test func scriptStroke01() async throws {
+        // Unsupported script MIME type must not mutate stroke properties.
+        try await compareToReference("script-stroke-01")
+    }
+
+    @Test func scriptStroke02() async throws {
+        // Supported script MIME type should mutate stroke color/width/opacity.
+        try await compareToReference("script-stroke-02")
+    }
+
+    @Test func scriptStroke03() async throws {
+        // Unsupported script MIME type must not mutate stroke dash properties.
+        try await compareToReference("script-stroke-03")
+    }
+
+    @Test func scriptStroke04() async throws {
+        // Supported script MIME type should mutate stroke dasharray/dashoffset.
+        try await compareToReference("script-stroke-04")
+    }
+
+    @Test func scriptStroke05() async throws {
+        // Unsupported script MIME type must not mutate cap/join/miterlimit.
+        try await compareToReference("script-stroke-05")
+    }
+
+    @Test func scriptStroke06() async throws {
+        // Supported script MIME type should mutate cap/join/miterlimit.
+        try await compareToReference("script-stroke-06")
+    }
+
+    @Test func scriptFillRule01() async throws {
+        // Unsupported script MIME type must not mutate path fill-rule.
+        try await compareToReference("script-fillrule-01")
+    }
+
+    @Test func scriptFillRule02() async throws {
+        // Supported script MIME type should mutate path fill-rule.
+        try await compareToReference("script-fillrule-02")
+    }
+
+    @Test func scriptCurrentColor01() async throws {
+        // Unsupported script MIME type must not mutate fill via currentColor.
+        try await compareToReference("script-currentcolor-01")
+    }
+
+    @Test func scriptCurrentColor02() async throws {
+        // fill=currentColor then color=red should resolve to red.
+        try await compareToReference("script-currentcolor-02")
+    }
+
+    @Test func scriptCurrentColor03() async throws {
+        // color=lime then fill=currentColor should resolve to lime.
+        try await compareToReference("script-currentcolor-03")
+    }
+
+    @Test func scriptCurrentColor04() async throws {
+        // Unsupported script MIME type must not mutate stroke via currentColor.
+        try await compareToReference("script-currentcolor-04")
+    }
+
+    @Test func scriptCurrentColor05() async throws {
+        // stroke=currentColor then color=red should resolve stroke to red.
+        try await compareToReference("script-currentcolor-05")
+    }
+
+    @Test func scriptCurrentColor06() async throws {
+        // color=lime then stroke=currentColor should resolve stroke to lime.
+        try await compareToReference("script-currentcolor-06")
+    }
+
+    @Test func scriptCurrentColor07() async throws {
+        // Unsupported script MIME type must not mutate inherited currentColor fill.
+        try await compareToReference("script-currentcolor-07")
+    }
+
+    @Test func scriptCurrentColor08() async throws {
+        // Updating parent color should update descendant fill=currentColor.
+        try await compareToReference("script-currentcolor-08")
+    }
+
+    @Test func scriptCurrentColor09() async throws {
+        // Child explicit color should override inherited parent color changes.
+        try await compareToReference("script-currentcolor-09")
+    }
+
+    @Test func scriptCurrentColor10() async throws {
+        // Unsupported script MIME type must not update text currentColor fill.
+        try await compareToReference("script-currentcolor-10")
+    }
+
+    @Test func scriptCurrentColor11() async throws {
+        // Supported script MIME type should update text fill via currentColor.
+        try await compareToReference("script-currentcolor-11")
+    }
+
+    @Test func scriptCurrentColor12() async throws {
+        // Concrete fill should unlink currentColor so later color changes do not update it.
+        try await compareToReference("script-currentcolor-12")
+    }
+
+    @Test func scriptCurrentColor13() async throws {
+        // Setting fill back to currentColor should relink and follow later color updates.
+        try await compareToReference("script-currentcolor-13")
+    }
+
+    @Test func scriptCurrentColor14() async throws {
+        // Concrete stroke should unlink text stroke from currentColor updates.
+        try await compareToReference("script-currentcolor-14")
+    }
+
+    @Test func scriptCurrentColor15() async throws {
+        // Setting text stroke back to currentColor should relink to later color updates.
+        try await compareToReference("script-currentcolor-15")
+    }
+
+    @Test func scriptCurrentColor16() async throws {
+        // Stroke none should clear binding; setting currentColor later should relink using current color.
+        try await compareToReference("script-currentcolor-16")
+    }
+
+    @Test func scriptCurrentColor17() async throws {
+        // Parent color updates should propagate to both shape and text children using currentColor.
+        try await compareToReference("script-currentcolor-17")
+    }
+
+    @Test func scriptCurrentColor18() async throws {
+        // Child text relinking to currentColor should bind to inherited parent color updates.
+        try await compareToReference("script-currentcolor-18")
+    }
+
+    @Test func scriptCurrentColor19() async throws {
+        // Explicit child text color override should remain stable while sibling shape tracks parent color.
+        try await compareToReference("script-currentcolor-19")
+    }
+
+    @Test func scriptCurrentColor20() async throws {
+        // Runtime fill=currentColor should override earlier concrete style fill and follow later color changes.
+        try await compareToReference("script-currentcolor-20")
+    }
+
+    @Test func scriptCurrentColor21() async throws {
+        // Inline style color should be the source color when runtime fill binds to currentColor.
+        try await compareToReference("script-currentcolor-21")
+    }
+
+    @Test func scriptCurrentColor22() async throws {
+        // Text runtime fill=currentColor should bind after parse-time style/attribute precedence resolution.
+        try await compareToReference("script-currentcolor-22")
+    }
+
+    @Test func scriptCurrentColor23() async throws {
+        // Shape fill-opacity should be preserved while fill follows currentColor updates.
+        try await compareToReference("script-currentcolor-23")
+    }
+
+    @Test func scriptCurrentColor24() async throws {
+        // Text fill-opacity should be preserved while fill follows currentColor updates.
+        try await compareToReference("script-currentcolor-24")
+    }
+
+    @Test func scriptCurrentColor25() async throws {
+        // Text stroke-opacity should remain controllable across none -> currentColor relink.
+        try await compareToReference("script-currentcolor-25")
+    }
+
+    @Test func scriptCurrentColor26() async throws {
+        // Shape relink to currentColor should resume color tracking while preserving runtime fill-opacity.
+        try await compareToReference("script-currentcolor-26")
+    }
+
+    @Test func scriptCurrentColor27() async throws {
+        // Text stroke relink should restore currentColor tracking with latest runtime stroke-opacity.
+        try await compareToReference("script-currentcolor-27")
+    }
+
+    @Test func scriptCurrentColor28() async throws {
+        // Mixed descendants should preserve opacity while relinked nodes follow parent color updates.
+        try await compareToReference("script-currentcolor-28")
+    }
+
+    @Test func scriptCurrentColor29() async throws {
+        // fill-opacity values above 1 should clamp while fill remains linked to currentColor updates.
+        try await compareToReference("script-currentcolor-29")
+    }
+
+    @Test func scriptCurrentColor30() async throws {
+        // Text fill-opacity below 0 should clamp and later in-range opacity should apply.
+        try await compareToReference("script-currentcolor-30")
+    }
+
+    @Test func scriptCurrentColor31() async throws {
+        // Text stroke-opacity should clamp around none -> currentColor relink and accept later valid updates.
+        try await compareToReference("script-currentcolor-31")
+    }
+
+    @Test func scriptCurrentColor32() async throws {
+        // Invalid shape fill-opacity token should be ignored while currentColor updates still apply.
+        try await compareToReference("script-currentcolor-32")
+    }
+
+    @Test func scriptCurrentColor33() async throws {
+        // Invalid text fill-opacity token should be ignored after a valid opacity update.
+        try await compareToReference("script-currentcolor-33")
+    }
+
+    @Test func scriptCurrentColor34() async throws {
+        // Invalid text stroke-opacity token should be ignored across none -> currentColor relink.
+        try await compareToReference("script-currentcolor-34")
+    }
+
+    @Test func scriptCurrentColor35() async throws {
+        // Invalid shape color token should be ignored while later valid color updates still apply.
+        try await compareToReference("script-currentcolor-35")
+    }
+
+    @Test func scriptCurrentColor36() async throws {
+        // Invalid text color token should not block later fill-opacity and valid color updates.
+        try await compareToReference("script-currentcolor-36")
+    }
+
+    @Test func scriptCurrentColor37() async throws {
+        // Invalid text stroke color token should be ignored across none -> currentColor relink.
+        try await compareToReference("script-currentcolor-37")
+    }
+
+    @Test func scriptCurrentColor38() async throws {
+        // Empty color token should be ignored while a later valid color update applies.
+        try await compareToReference("script-currentcolor-38")
+    }
+
+    @Test func scriptCurrentColor39() async throws {
+        // Whitespace color token should not block later fill-opacity and valid color updates.
+        try await compareToReference("script-currentcolor-39")
+    }
+
+    @Test func scriptCurrentColor40() async throws {
+        // Quoted color token should be ignored across stroke none -> currentColor relink.
+        try await compareToReference("script-currentcolor-40")
+    }
+
+    @Test func scriptCurrentColor41() async throws {
+        // Out-of-range rgb token should be ignored while a later valid color update applies.
+        try await compareToReference("script-currentcolor-41")
+    }
+
+    @Test func scriptCurrentColor42() async throws {
+        // Negative rgb token should not block later fill-opacity and valid color updates.
+        try await compareToReference("script-currentcolor-42")
+    }
+
+    @Test func scriptCurrentColor43() async throws {
+        // Malformed hex token should be ignored across stroke none -> currentColor relink.
+        try await compareToReference("script-currentcolor-43")
+    }
+
+    @Test func scriptCurrentColor44() async throws {
+        // Malformed rgb argument count should be ignored while later valid color applies.
+        try await compareToReference("script-currentcolor-44")
+    }
+
+    @Test func scriptCurrentColor45() async throws {
+        // Out-of-range rgba alpha should not block later fill-opacity and valid color updates.
+        try await compareToReference("script-currentcolor-45")
+    }
+
+    @Test func scriptCurrentColor46() async throws {
+        // Malformed hsl argument count should be ignored across stroke none -> currentColor relink.
+        try await compareToReference("script-currentcolor-46")
+    }
+
+    @Test func scriptCurrentColor47() async throws {
+        // CSS-wide inherit keyword token should not block later fill-opacity and valid color updates.
+        try await compareToReference("script-currentcolor-47")
+    }
+
+    @Test func scriptCurrentColor48() async throws {
+        // CSS-wide initial keyword token should be ignored while later valid color applies.
+        try await compareToReference("script-currentcolor-48")
+    }
+
+    @Test func scriptCurrentColor49() async throws {
+        // CSS-wide unset keyword token should be ignored across stroke none -> currentColor relink.
+        try await compareToReference("script-currentcolor-49")
     }
 
 }

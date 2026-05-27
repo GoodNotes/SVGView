@@ -66,8 +66,375 @@ final class SVGJSElement: NSObject, SVGJSElementExports {
     }
 
     func setAttribute(_ name: String, _ value: String) {
-        if name == "fill", let shape = node as? SVGShape {
+        let normalizedName = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let normalizedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        switch normalizedName {
+        case "fill":
+            setFill(normalizedValue)
+        case "color":
+            setColor(normalizedValue)
+        case "opacity":
+            if let parsedOpacity = Double(normalizedValue) {
+                node.opacity = min(max(parsedOpacity, 0), 1)
+            }
+        case "visibility":
+            node.opaque = normalizedValue.lowercased() != "hidden"
+        case "display":
+            node.opaque = normalizedValue.lowercased() != "none"
+        case "transform":
+            node.transform = SVGHelper.parseTransform(normalizedValue)
+        case "stroke":
+            setStroke(normalizedValue)
+        case "stroke-width":
+            setStrokeWidth(normalizedValue)
+        case "fill-opacity":
+            setFillOpacity(normalizedValue)
+        case "stroke-opacity":
+            setStrokeOpacity(normalizedValue)
+        case "stroke-dasharray":
+            setStrokeDashArray(normalizedValue)
+        case "stroke-dashoffset":
+            setStrokeDashOffset(normalizedValue)
+        case "stroke-linecap":
+            setStrokeLineCap(normalizedValue)
+        case "stroke-linejoin":
+            setStrokeLineJoin(normalizedValue)
+        case "stroke-miterlimit":
+            setStrokeMiterLimit(normalizedValue)
+        case "fill-rule":
+            setFillRule(normalizedValue)
+        default:
+            break
+        }
+    }
+
+    private func setColor(_ value: String) {
+        guard let color = SVGHelper.parseColor(value, [:]) else { return }
+        node.hasExplicitCurrentColor = true
+        propagateCurrentColor(color, to: node, forceCurrentNode: true)
+    }
+
+    private func setFill(_ value: String) {
+        if let shape = node as? SVGShape {
+            if value.lowercased() == "currentcolor" {
+                shape.fillUsesCurrentColor = true
+                shape.fill = node.currentColor ?? SVGColor.black
+                return
+            }
+
+            shape.fillUsesCurrentColor = false
             shape.fill = SVGHelper.parseColor(value, [:])
+            return
+        }
+
+        if let text = node as? SVGText {
+            if value.lowercased() == "currentcolor" {
+                text.fillUsesCurrentColor = true
+                text.fill = node.currentColor ?? SVGColor.black
+                return
+            }
+
+            text.fillUsesCurrentColor = false
+            text.fill = SVGHelper.parseColor(value, [:])
+        }
+    }
+
+    private func setStroke(_ value: String) {
+        if let shape = node as? SVGShape {
+            if value.lowercased() == "none" {
+                shape.strokeUsesCurrentColor = false
+                shape.stroke = nil
+                return
+            }
+
+            if value.lowercased() == "currentcolor" {
+                shape.strokeUsesCurrentColor = true
+                let currentOpacity = (shape.stroke?.fill as? SVGColor)?.opacity ?? 1
+                replaceStrokeFill(for: shape, with: (node.currentColor ?? SVGColor.black).opacity(currentOpacity))
+                return
+            }
+
+            guard let color = SVGHelper.parseColor(value, [:]) else { return }
+            shape.strokeUsesCurrentColor = false
+            replaceStrokeFill(for: shape, with: color)
+            return
+        }
+
+        if let text = node as? SVGText {
+            if value.lowercased() == "none" {
+                text.strokeUsesCurrentColor = false
+                text.stroke = nil
+                return
+            }
+
+            if value.lowercased() == "currentcolor" {
+                text.strokeUsesCurrentColor = true
+                let currentOpacity = (text.stroke?.fill as? SVGColor)?.opacity ?? 1
+                replaceStrokeFill(for: text, with: (node.currentColor ?? SVGColor.black).opacity(currentOpacity))
+                return
+            }
+
+            guard let color = SVGHelper.parseColor(value, [:]) else { return }
+            text.strokeUsesCurrentColor = false
+            replaceStrokeFill(for: text, with: color)
+        }
+    }
+
+    private func setStrokeWidth(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let width = SVGHelper.doubleFromString(value)
+        else { return }
+
+        let current = shape.stroke
+        shape.stroke = SVGStroke(
+            fill: current?.fill ?? SVGColor.black,
+            width: CGFloat(width),
+            cap: current?.cap ?? .butt,
+            join: current?.join ?? .miter,
+            miterLimit: current?.miterLimit ?? 4,
+            dashes: current?.dashes ?? [],
+            offset: current?.offset ?? 0
+        )
+    }
+
+    private func setFillOpacity(_ value: String) {
+        guard let opacity = SVGHelper.doubleFromString(value) else { return }
+        let clamped = min(max(opacity, 0), 1)
+
+        if let shape = node as? SVGShape,
+           let fill = shape.fill {
+            shape.fill = fill.opacity(clamped)
+            return
+        }
+
+        if let text = node as? SVGText,
+           let fill = text.fill {
+            text.fill = fill.opacity(clamped)
+        }
+    }
+
+    private func setStrokeOpacity(_ value: String) {
+        guard let opacity = SVGHelper.doubleFromString(value) else { return }
+        let clamped = min(max(opacity, 0), 1)
+
+        if let shape = node as? SVGShape,
+           let current = shape.stroke {
+            shape.stroke = SVGStroke(
+                fill: current.fill.opacity(clamped),
+                width: current.width,
+                cap: current.cap,
+                join: current.join,
+                miterLimit: current.miterLimit,
+                dashes: current.dashes,
+                offset: current.offset
+            )
+            return
+        }
+
+        if let text = node as? SVGText,
+           let current = text.stroke {
+            text.stroke = SVGStroke(
+                fill: current.fill.opacity(clamped),
+                width: current.width,
+                cap: current.cap,
+                join: current.join,
+                miterLimit: current.miterLimit,
+                dashes: current.dashes,
+                offset: current.offset
+            )
+        }
+    }
+
+    private func setStrokeDashArray(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let current = shape.stroke
+        else { return }
+
+        let dashes: [CGFloat]
+        if value.lowercased() == "none" {
+            dashes = []
+        } else {
+            let parts = value.components(separatedBy: CharacterSet(charactersIn: " ,"))
+                .filter { !$0.isEmpty }
+            dashes = parts.compactMap { token in
+                guard let parsed = SVGHelper.doubleFromString(token) else { return nil }
+                return CGFloat(parsed)
+            }
+        }
+
+        shape.stroke = SVGStroke(
+            fill: current.fill,
+            width: current.width,
+            cap: current.cap,
+            join: current.join,
+            miterLimit: current.miterLimit,
+            dashes: dashes,
+            offset: current.offset
+        )
+    }
+
+    private func setStrokeDashOffset(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let current = shape.stroke,
+              let offset = SVGHelper.doubleFromString(value)
+        else { return }
+
+        shape.stroke = SVGStroke(
+            fill: current.fill,
+            width: current.width,
+            cap: current.cap,
+            join: current.join,
+            miterLimit: current.miterLimit,
+            dashes: current.dashes,
+            offset: CGFloat(offset)
+        )
+    }
+
+    private func setStrokeLineCap(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let current = shape.stroke
+        else { return }
+
+        let cap: CGLineCap
+        switch value.lowercased() {
+        case "round":
+            cap = .round
+        case "square":
+            cap = .square
+        default:
+            cap = .butt
+        }
+
+        shape.stroke = SVGStroke(
+            fill: current.fill,
+            width: current.width,
+            cap: cap,
+            join: current.join,
+            miterLimit: current.miterLimit,
+            dashes: current.dashes,
+            offset: current.offset
+        )
+    }
+
+    private func setStrokeLineJoin(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let current = shape.stroke
+        else { return }
+
+        let join: CGLineJoin
+        switch value.lowercased() {
+        case "round":
+            join = .round
+        case "bevel":
+            join = .bevel
+        default:
+            join = .miter
+        }
+
+        shape.stroke = SVGStroke(
+            fill: current.fill,
+            width: current.width,
+            cap: current.cap,
+            join: join,
+            miterLimit: current.miterLimit,
+            dashes: current.dashes,
+            offset: current.offset
+        )
+    }
+
+    private func setStrokeMiterLimit(_ value: String) {
+        guard let shape = node as? SVGShape,
+              let current = shape.stroke,
+              let miterLimit = SVGHelper.doubleFromString(value)
+        else { return }
+
+        shape.stroke = SVGStroke(
+            fill: current.fill,
+            width: current.width,
+            cap: current.cap,
+            join: current.join,
+            miterLimit: CGFloat(miterLimit),
+            dashes: current.dashes,
+            offset: current.offset
+        )
+    }
+
+    private func setFillRule(_ value: String) {
+        guard let path = node as? SVGPath else { return }
+        path.fillRule = value.lowercased() == "evenodd" ? .evenOdd : .winding
+    }
+
+    private func replaceStrokeFill(for shape: SVGShape, with fill: SVGPaint) {
+        let current = shape.stroke
+        shape.stroke = SVGStroke(
+            fill: fill,
+            width: current?.width ?? 1,
+            cap: current?.cap ?? .butt,
+            join: current?.join ?? .miter,
+            miterLimit: current?.miterLimit ?? 4,
+            dashes: current?.dashes ?? [],
+            offset: current?.offset ?? 0
+        )
+    }
+
+    private func replaceStrokeFill(for text: SVGText, with fill: SVGPaint) {
+        let current = text.stroke
+        text.stroke = SVGStroke(
+            fill: fill,
+            width: current?.width ?? 1,
+            cap: current?.cap ?? .butt,
+            join: current?.join ?? .miter,
+            miterLimit: current?.miterLimit ?? 4,
+            dashes: current?.dashes ?? [],
+            offset: current?.offset ?? 0
+        )
+    }
+
+    private func propagateCurrentColor(_ color: SVGColor, to node: SVGNode, forceCurrentNode: Bool = false) {
+        let resolvedColor: SVGColor
+        if node.hasExplicitCurrentColor && !forceCurrentNode {
+            resolvedColor = node.currentColor ?? color
+            node.currentColor = resolvedColor
+        } else {
+            node.currentColor = color
+            resolvedColor = color
+        }
+
+        applyCurrentColorBindings(on: node)
+
+        if let group = node as? SVGGroup {
+            for child in group.contents {
+                propagateCurrentColor(resolvedColor, to: child)
+            }
+        }
+
+        if let userSpaceNode = node as? SVGUserSpaceNode {
+            propagateCurrentColor(resolvedColor, to: userSpaceNode.node)
+        }
+    }
+
+    private func applyCurrentColorBindings(on node: SVGNode) {
+        guard let currentColor = node.currentColor else { return }
+
+        if let shape = node as? SVGShape {
+            if shape.fillUsesCurrentColor {
+                shape.fill = currentColor
+            }
+            if shape.strokeUsesCurrentColor {
+                let currentOpacity = (shape.stroke?.fill as? SVGColor)?.opacity ?? 1
+                replaceStrokeFill(for: shape, with: currentColor.opacity(currentOpacity))
+            }
+        }
+
+        if let text = node as? SVGText {
+            if text.fillUsesCurrentColor {
+                text.fill = currentColor
+            }
+            if text.strokeUsesCurrentColor {
+                let currentOpacity = (text.stroke?.fill as? SVGColor)?.opacity ?? 1
+                replaceStrokeFill(for: text, with: currentColor.opacity(currentOpacity))
+            }
         }
     }
 }
@@ -221,6 +588,18 @@ final class SVGJSMatrix: NSObject, SVGJSMatrixExports {
 
 enum SVGScriptRunner {
 
+    private static let supportedScriptMIMETypes: Set<String> = [
+        "application/ecmascript",
+        "application/javascript",
+        "application/x-ecmascript",
+        "application/x-javascript",
+        "text/ecmascript",
+        "text/javascript",
+        "text/jscript",
+    ]
+
+    private static let defaultScriptMIMEType = "application/ecmascript"
+
     static func executeIfNeeded(xmlRoot: XMLElement, nodeRoot: SVGNode, logger: SVGLogger) {
 #if canImport(JavaScriptCore)
         let scripts = collectScripts(from: xmlRoot)
@@ -264,8 +643,26 @@ enum SVGScriptRunner {
     private static func collectScripts(from root: XMLElement) -> [String] {
         var result: [String] = []
 
+        let explicitDefaultType = root.attributes["contentScriptType"]
+        let defaultScriptType: String? = {
+            if let explicitDefaultType {
+                return normalizedSupportedScriptType(explicitDefaultType)
+            }
+            return defaultScriptMIMEType
+        }()
+
         func walk(_ element: XMLElement) {
             if element.name == "script" {
+                let hasExplicitType = element.attributes["type"] != nil
+                let effectiveType: String? = {
+                    if let scriptType = element.attributes["type"] {
+                        return normalizedSupportedScriptType(scriptType)
+                    }
+                    return hasExplicitType ? nil : defaultScriptType
+                }()
+
+                guard effectiveType != nil else { return }
+
                 let script = element.contents
                     .compactMap { ($0 as? XMLText)?.text }
                     .joined()
@@ -282,5 +679,19 @@ enum SVGScriptRunner {
 
         walk(root)
         return result
+    }
+
+    private static func normalizedSupportedScriptType(_ rawValue: String) -> String? {
+        let trimmed = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+
+        let typeOnly = trimmed
+            .split(separator: ";", maxSplits: 1, omittingEmptySubsequences: true)
+            .first?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+
+        guard let typeOnly else { return nil }
+        return supportedScriptMIMETypes.contains(typeOnly) ? typeOnly : nil
     }
 }
