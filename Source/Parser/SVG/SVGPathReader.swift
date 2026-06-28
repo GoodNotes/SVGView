@@ -571,9 +571,20 @@ extension SVGPath {
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
                 #endif
 
-                var transform = CGAffineTransform(translationX: cx, y: cy)
+                // Compose as S * R * T so a point P on the unit-radius arc is
+                // first scaled to ellipse size, then rotated around the origin,
+                // then translated to (cx, cy). The previous T * R * S order
+                // translated P first, then rotated the *translated* point
+                // around the canvas origin, dragging small arcs near (cx, cy)
+                // hundreds of user-units away from their intended position.
+                // Apple's UIBezierPath.apply silently compensated; the polyfill
+                // MBezierPath.apply on WASI/Linux/Android exposed the bug as
+                // "exploded thin colored streaks" in fixtures with many small
+                // elliptical arcs (e.g. the animal-music SVGs).
+                var transform = CGAffineTransform(scaleX: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize)
                 transform = transform.rotated(by: CGFloat(rotation))
-                path.apply(transform.scaledBy(x: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize))
+                transform = transform.translatedBy(x: cx, y: cy)
+                path.apply(transform)
 
                 bezierPath.append(path)
             }
