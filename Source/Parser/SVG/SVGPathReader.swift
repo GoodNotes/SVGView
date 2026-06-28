@@ -346,6 +346,10 @@ extension SVGPath {
         var cubicPoint: CGPoint?
         var quadrPoint: CGPoint?
         var initialPoint: CGPoint?
+        // Most recent endpoint emitted by the inline arc-to-cubic in E().
+        // Cross-platform stand-in for `bezierPath.currentPoint` which the
+        // polyfill MBezierPath doesn't expose. Only used inside E().
+        var lastEmittedPoint: CGPoint? = nil
 
         func M(_ x: CGFloat, y: CGFloat) {
             let point = CGPoint(x: CGFloat(x), y: CGFloat(y))
@@ -606,17 +610,24 @@ extension SVGPath {
 
                 // Honour the same "implicit move vs explicit lineTo" rule as
                 // MBezierPath.addArcTo so multi-arc segments stitch correctly.
-                if bezierPath.cgPath.isEmpty {
+                // Use lastEmittedPoint to track the most recent emitted
+                // endpoint across both Apple (UIBezierPath / NSBezierPath) and
+                // the polyfill MBezierPath, where the cross-platform
+                // `bezierPath.currentPoint` accessor is not available.
+                let isPathEmpty: Bool
+                #if os(WASI) || os(Linux) || os(Android)
+                isPathEmpty = bezierPath.cgPath.elements.isEmpty
+                #else
+                isPathEmpty = bezierPath.isEmpty
+                #endif
+
+                if isPathEmpty {
                     bezierPath.move(to: initialPoint)
-                } else {
-                    // currentPoint can disagree with the arc start by a few
-                    // rounding ULPs; coalesce when they match, otherwise
-                    // emit a connecting line.
-                    let cp = bezierPath.currentPoint
-                    if hypot(cp.x - initialPoint.x, cp.y - initialPoint.y) > 1e-9 {
-                        bezierPath.addLine(to: initialPoint)
-                    }
+                } else if let lp = lastEmittedPoint,
+                          hypot(lp.x - initialPoint.x, lp.y - initialPoint.y) > 1e-9 {
+                    bezierPath.addLine(to: initialPoint)
                 }
+                lastEmittedPoint = initialPoint
 
                 for _ in 0 ..< segmentCount {
                     let nextAngle = currentAngle + perSegmentSweep
@@ -634,14 +645,13 @@ extension SVGPath {
                     let c2 = transformedPoint(c2Local.x, c2Local.y)
                     let endP = transformedPoint(endLocal.x, endLocal.y)
 
-                    #if os(WASI) || os(Linux) || os(Android)
-                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
-                    #elseif os(iOS) || os(tvOS) || os(watchOS)
-                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
-                    #else
+                    #if os(OSX)
                     bezierPath.curve(to: endP, controlPoint1: c1, controlPoint2: c2)
+                    #else
+                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
                     #endif
 
+                    lastEmittedPoint = endP
                     currentAngle = nextAngle
                 }
             }
