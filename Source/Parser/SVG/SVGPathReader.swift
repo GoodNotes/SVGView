@@ -346,10 +346,6 @@ extension SVGPath {
         var cubicPoint: CGPoint?
         var quadrPoint: CGPoint?
         var initialPoint: CGPoint?
-        // Most recent endpoint emitted by the inline arc-to-cubic in E().
-        // Cross-platform stand-in for `bezierPath.currentPoint` which the
-        // polyfill MBezierPath doesn't expose. Only used inside E().
-        var lastEmittedPoint: CGPoint? = nil
 
         func M(_ x: CGFloat, y: CGFloat) {
             let point = CGPoint(x: CGFloat(x), y: CGFloat(y))
@@ -569,23 +565,15 @@ extension SVGPath {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
                 #if os(WASI) || os(Linux) || os(Android)
-                // Inline arc-to-cubic conversion for the polyfill MBezierPath.
-                // The polyfill's `MBezierPath.apply` is straight per-point
-                // math, so feeding it the original SVGView pattern
-                //
-                //     path = MBezierPath(arcCenter: .zero, radius: maxSize / 2, …)
-                //     path.apply(translate(cx,cy)·rotate(rot)·scale(w/max,h/max))
-                //     bezierPath.append(path)
-                //
-                // translates a unit-arc point to (cx, cy) **first**, then
-                // rotates the already-translated point around the canvas
-                // origin — for small arcs near (cx, cy) deep inside an SVG
-                // viewBox this drags the arc hundreds of user-units off, which
-                // surfaces as the "exploded thin colored streaks" pattern on
-                // Web in the animal-music fixtures. Constructing each segment's
-                // cubic control points directly in target coordinates removes
-                // the round-trip through `apply` entirely.
-
+                // Inline arc-to-cubic emission for the polyfill MBezierPath.
+                // The polyfill's `apply(_:)` does straight per-point math:
+                // `T * R * S` composed in row-vector convention translates a
+                // unit-arc point to `(cx, cy)` first and then rotates the
+                // already-translated point around the canvas origin, which
+                // drags small arcs near `(cx, cy)` deep inside an SVG viewBox
+                // hundreds of user-units off. Emit each cubic segment's
+                // control points directly in target coordinates so the
+                // polyfill never has to apply that matrix.
                 let rx = CGFloat(w / 2)
                 let ry = CGFloat(h / 2)
                 let cosA = cos(rotation)
@@ -605,17 +593,10 @@ extension SVGPath {
                 var currentAngle = extent
                 let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
 
-                // Polyfill MBezierPath doesn't expose `currentPoint`, so we
-                // thread `lastEmittedPoint` through E() ourselves and gate
-                // the implicit move-to / connecting line-to on it.
-                let isPathEmpty = bezierPath.cgPath.elements.isEmpty
-                if isPathEmpty {
-                    bezierPath.move(to: initialPoint)
-                } else if let lp = lastEmittedPoint,
-                          hypot(lp.x - initialPoint.x, lp.y - initialPoint.y) > 1e-9 {
-                    bezierPath.addLine(to: initialPoint)
-                }
-                lastEmittedPoint = initialPoint
+                // Mirror `bezierPath.append(MBezierPath(arcCenter:…))`: the
+                // appended path always starts with a `move(to:)` to the arc
+                // start, which opens a new subpath in the main bezierPath.
+                bezierPath.move(to: initialPoint)
 
                 for _ in 0 ..< segmentCount {
                     let nextAngle = currentAngle + perSegmentSweep
@@ -635,25 +616,16 @@ extension SVGPath {
 
                     bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
 
-                    lastEmittedPoint = endP
                     currentAngle = nextAngle
                 }
                 #else
-                // Apple (iOS / macOS): preserve the original UIBezierPath /
-                // NSBezierPath arc-init + apply + append flow exactly as it was
-                // before any of this branch's iterations. UIBezierPath's
-                // `init(arcCenter:radius:startAngle:endAngle:clockwise:)` keeps
-                // the arc in a representation that UIBezierPath rasterises
-                // identically across iOS runtime versions when its
-                // `apply(_:)` lands the arc at (cx, cy). Re-emitting the same
-                // shape as cubic curves directly into the main path produces
-                // pixel-different output even though the geometry is
-                // mathematically equivalent.
                 let maxSize = CGFloat(max(w, h))
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+
                 var transform = CGAffineTransform(translationX: cx, y: cy)
                 transform = transform.rotated(by: CGFloat(rotation))
                 path.apply(transform.scaledBy(x: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize))
+
                 bezierPath.append(path)
                 #endif
             }
