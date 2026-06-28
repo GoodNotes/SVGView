@@ -564,42 +564,86 @@ extension SVGPath {
             if w == h && rotation == 0 {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
-                let maxSize = CGFloat(max(w, h))
-                #if os(WASI) || os(Linux) || os(Android)
-                var path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
-                #else
-                let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
-                #endif
+                // Inline arc-to-cubic conversion that emits cubic Bezier
+                // segments directly in target coordinates. The previous
+                // implementation generated a unit arc via
+                // MBezierPath(arcCenter:CGPoint.zero, ...) and then applied a
+                // compose-order-sensitive CGAffineTransform to land the arc at
+                // its destination ellipse. Apple's UIBezierPath.apply changed
+                // behaviour between iOS runtime versions (the same
+                // T * R * S compose now rasterises differently than it did at
+                // the time the baseline animal-music snapshots were recorded),
+                // and the polyfill MBezierPath.apply does straight per-point
+                // math that was wrong-in-a-different-way (exploded streaks).
+                // Constructing the cubic control points directly here removes
+                // the round-trip through the apply matrix, so both Apple and
+                // the polyfill see the same explicit absolute coordinates and
+                // the rasterisation reproduces what the original animal-music
+                // fixtures were captured at.
 
-                #if os(WASI) || os(Linux) || os(Android)
-                // The polyfill MBezierPath.apply is straight per-point math
-                // (P_new = P * matrix). With the T * R * S compose order used
-                // by Apple's UIBezierPath, a point P on the unit-radius arc
-                // would be translated to (cx, cy) first, then rotated around
-                // the canvas origin, dragging small arcs near (cx, cy)
-                // hundreds of user-units away from their intended position
-                // — the "exploded thin colored streaks" pattern observed in
-                // the animal-music SVG fixtures.
-                //
-                // S * R * T composes the transform so the unit arc is first
-                // scaled to ellipse size, then rotated around the origin,
-                // then translated to (cx, cy). UIBezierPath.apply silently
-                // produces the right pixels with T * R * S — likely because
-                // it stores arcs symbolically or lazily defers the matrix
-                // application — but the polyfill's literal per-point math
-                // does not. Keep the Apple branch untouched so Apple
-                // rasterisation matches its established baselines.
-                var transform = CGAffineTransform(scaleX: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize)
-                transform = transform.rotated(by: CGFloat(rotation))
-                transform = transform.translatedBy(x: cx, y: cy)
-                path.apply(transform)
-                #else
-                var transform = CGAffineTransform(translationX: cx, y: cy)
-                transform = transform.rotated(by: CGFloat(rotation))
-                path.apply(transform.scaledBy(x: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize))
-                #endif
+                let rx = CGFloat(w / 2)
+                let ry = CGFloat(h / 2)
+                let cosA = cos(rotation)
+                let sinA = sin(rotation)
 
-                bezierPath.append(path)
+                // Same segmentation policy as MBezierPath.addArcTo (≤90° per
+                // cubic): at most ⌈|arcAngle| / (π/2)⌉ segments.
+                let absSweep = abs(arcAngle)
+                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 2))))
+                let perSegmentSweep = arcAngle / CGFloat(segmentCount)
+                let L = (4.0 / 3.0) * tan(abs(perSegmentSweep) / 4.0)
+
+                func transformedPoint(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
+                    // x, y are in unit-radius arc-local coords. Scale into the
+                    // ellipse, rotate around the ellipse centre, then translate.
+                    let xs = x * rx
+                    let ys = y * ry
+                    return CGPoint(x: cx + cosA * xs - sinA * ys, y: cy + sinA * xs + cosA * ys)
+                }
+
+                var currentAngle = extent
+                let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
+
+                // Honour the same "implicit move vs explicit lineTo" rule as
+                // MBezierPath.addArcTo so multi-arc segments stitch correctly.
+                if bezierPath.cgPath.isEmpty {
+                    bezierPath.move(to: initialPoint)
+                } else {
+                    // currentPoint can disagree with the arc start by a few
+                    // rounding ULPs; coalesce when they match, otherwise
+                    // emit a connecting line.
+                    let cp = bezierPath.currentPoint
+                    if hypot(cp.x - initialPoint.x, cp.y - initialPoint.y) > 1e-9 {
+                        bezierPath.addLine(to: initialPoint)
+                    }
+                }
+
+                for _ in 0 ..< segmentCount {
+                    let nextAngle = currentAngle + perSegmentSweep
+                    let c1Local = CGPoint(
+                        x: cos(currentAngle) - L * sin(currentAngle),
+                        y: sin(currentAngle) + L * cos(currentAngle)
+                    )
+                    let c2Local = CGPoint(
+                        x: cos(nextAngle) + L * sin(nextAngle),
+                        y: sin(nextAngle) - L * cos(nextAngle)
+                    )
+                    let endLocal = CGPoint(x: cos(nextAngle), y: sin(nextAngle))
+
+                    let c1 = transformedPoint(c1Local.x, c1Local.y)
+                    let c2 = transformedPoint(c2Local.x, c2Local.y)
+                    let endP = transformedPoint(endLocal.x, endLocal.y)
+
+                    #if os(WASI) || os(Linux) || os(Android)
+                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
+                    #elseif os(iOS) || os(tvOS) || os(watchOS)
+                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
+                    #else
+                    bezierPath.curve(to: endP, controlPoint1: c1, controlPoint2: c2)
+                    #endif
+
+                    currentAngle = nextAngle
+                }
             }
         }
 
