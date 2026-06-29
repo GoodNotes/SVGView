@@ -580,14 +580,12 @@ extension SVGPath {
                 let sinA = sin(rotation)
 
                 let absSweep = abs(arcAngle)
-                // Tighter segmentation than the standard 90°/segment: at
-                // most 45° per cubic. UIBezierPath's internal arc->cubic
-                // conversion samples noticeably more often than the bare
-                // (4/3)·tan(θ/4) approximation requires, and matching its
-                // density is what keeps the polyfill output visually flush
-                // with the Apple snapshots on small arcs (otter forelock,
-                // pelican beak interior, harp body strings).
-                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 4))))
+                // Standard 90°/segment cap. UIBezierPath(arcCenter:…) uses
+                // four cubics per full circle, matching the standard arc-
+                // approximation literature, so the polyfill output stays
+                // visually flush with Apple snapshots when the same cap is
+                // used here.
+                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 2))))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
                 // L's sign must follow the sweep so the cubic handles point
                 // in the same direction the arc is traversed. With abs() the
