@@ -451,12 +451,27 @@ import Foundation
             let initialPoint = CGPoint(
                 x: center.x + radius * cos(currentAngle), y: center.y + radius * sin(currentAngle))
 
+            // `UIBezierPath.addArc(withCenter:…)` documents that it implicitly
+            // sets the current point to the arc's starting point before
+            // emitting any cubics. With a non-empty path whose previous
+            // segment ends elsewhere, that "set current point" is a `move`,
+            // i.e. it opens a NEW subpath at the arc's start — Apple does not
+            // stitch the previous subpath to the arc with an implicit line.
+            //
+            // The original polyfill emitted `addLine(to: initialPoint)` here,
+            // which fuses the previous subpath and the arc into a single big
+            // subpath. When the SVG fixture uses evenodd-rule fills built up
+            // from many `M…A…` subpaths (animal-music body outlines stitched
+            // from 15+ arcs), that fusion flips which regions the fill rule
+            // considers "inside", which is exactly the cream/white blob over
+            // the pelican beak and otter forelock on Web. Always `move` to
+            // match Apple's UIBezierPath semantics.
             if path.elements.isEmpty || (path.elements.last?.isCloseSubpath ?? false) {
                 path.move(to: initialPoint)
             } else if let lastElement = path.elements.last, let lastPoint = lastElement.lastPoint,
                 lastPoint != initialPoint
             {
-                path.addLine(to: initialPoint)
+                path.move(to: initialPoint)
             }
 
             for _ in 0..<numSegments {
