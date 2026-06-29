@@ -461,7 +461,14 @@ import Foundation
 
             for _ in 0..<numSegments {
                 let nextAngle = currentAngle + segmentAngleSweep
-                let L = radius * (4.0 / 3.0) * tan(abs(segmentAngleSweep) / 4.0)
+                // L's sign must follow the sweep so the cubic handles point in
+                // the direction the arc is traversed. `abs(segmentAngleSweep)`
+                // here orients the handles as if the sweep were CW, which
+                // mirrors counter-clockwise arcs and yields self-intersecting
+                // cubic approximations. The downstream fill rule then flips
+                // inside/outside on those self-intersections, producing the
+                // "white blob" we see on pelican beak / otter forelock fills.
+                let L = radius * (4.0 / 3.0) * tan(segmentAngleSweep / 4.0)
 
                 let cp1_centerRelative = CGPoint(
                     x: radius * cos(currentAngle) - L * sin(currentAngle),
