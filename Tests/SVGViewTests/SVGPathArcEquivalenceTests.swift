@@ -107,6 +107,56 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
         }
     }
 
+    func testApplePathInteriorLiesOnEllipse() {
+        for c in Self.cases {
+            let apple = applePath(for: c)
+            let samples = densePathSamples(of: apple, samplesPerCurve: 50)
+            XCTAssertFalse(samples.isEmpty, "Apple path empty — \(c.label)")
+
+            let cosA = cos(c.rotation)
+            let sinA = sin(c.rotation)
+            let rx = c.w / 2
+            let ry = c.h / 2
+            for (i, p) in samples.enumerated() {
+                let dx = p.x - c.cx
+                let dy = p.y - c.cy
+                let xs =  cosA * dx + sinA * dy
+                let ys = -sinA * dx + cosA * dy
+                let normSq = (xs / rx) * (xs / rx) + (ys / ry) * (ys / ry)
+                XCTAssertEqual(normSq, 1, accuracy: 2e-3,
+                    "Apple cubic sample \(i) off-ellipse for \(c.label) (normSq=\(normSq))")
+            }
+        }
+    }
+
+    func testApplePathAndPolylineHausdorffWithinTolerance() {
+        for c in Self.cases {
+            let apple = applePath(for: c)
+            let poly = polylinePath(for: c)
+
+            let appleSamples = densePathSamples(of: apple, samplesPerCurve: 50)
+            let polylineSamples = allEndpoints(of: poly)
+            let appleSegments = consecutivePairs(appleSamples)
+            let polylineSegments = consecutivePairs(polylineSamples)
+
+            XCTAssertFalse(appleSegments.isEmpty, "Apple has no segments — \(c.label)")
+            XCTAssertFalse(polylineSegments.isEmpty, "Polyline has no segments — \(c.label)")
+
+            let h_AtoP = appleSamples
+                .map { p in polylineSegments.map { pointToSegmentDistance(p, $0.0, $0.1) }.min() ?? .infinity }
+                .max() ?? 0
+            let h_PtoA = polylineSamples
+                .map { p in appleSegments.map { pointToSegmentDistance(p, $0.0, $0.1) }.min() ?? .infinity }
+                .max() ?? 0
+            let hausdorff = Swift.max(h_AtoP, h_PtoA)
+
+            let r = Swift.max(c.w, c.h) / 2
+            let tolerance = Swift.max(0.05, 0.005 * r)
+            XCTAssertLessThan(hausdorff, tolerance,
+                "Hausdorff \(hausdorff) exceeds tolerance \(tolerance) for \(c.label)")
+        }
+    }
+
     // MARK: - Helpers
 
     private func applePath(for c: ArcCase) -> MBezierPath {
@@ -168,5 +218,76 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
             }
         }
         return points
+    }
+
+    /// Dense samples along every drawing element of `path`. Move/line endpoints
+    /// produce 1 sample; quad/cubic curves produce `samplesPerCurve` interior
+    /// samples (t ∈ (0, 1]) plus the starting endpoint is captured by the
+    /// previous element. Used by both Apple-interior-on-ellipse and Hausdorff
+    /// tests.
+    private func densePathSamples(of path: MBezierPath, samplesPerCurve: Int) -> [CGPoint] {
+        var samples: [CGPoint] = []
+        var current = CGPoint.zero
+        var subpathStart = CGPoint.zero
+        path.cgPath.applyWithBlock { elemPtr in
+            let elem = elemPtr.pointee
+            switch elem.type {
+            case .moveToPoint:
+                current = elem.points[0]
+                subpathStart = current
+                samples.append(current)
+            case .addLineToPoint:
+                let next = elem.points[0]
+                samples.append(next)
+                current = next
+            case .addQuadCurveToPoint:
+                let cp = elem.points[0]
+                let next = elem.points[1]
+                for i in 1...samplesPerCurve {
+                    let t = CGFloat(i) / CGFloat(samplesPerCurve)
+                    let mt = 1 - t
+                    samples.append(CGPoint(
+                        x: mt*mt*current.x + 2*mt*t*cp.x + t*t*next.x,
+                        y: mt*mt*current.y + 2*mt*t*cp.y + t*t*next.y))
+                }
+                current = next
+            case .addCurveToPoint:
+                let cp1 = elem.points[0]
+                let cp2 = elem.points[1]
+                let next = elem.points[2]
+                for i in 1...samplesPerCurve {
+                    let t = CGFloat(i) / CGFloat(samplesPerCurve)
+                    let mt = 1 - t
+                    samples.append(CGPoint(
+                        x: mt*mt*mt*current.x + 3*mt*mt*t*cp1.x + 3*mt*t*t*cp2.x + t*t*t*next.x,
+                        y: mt*mt*mt*current.y + 3*mt*mt*t*cp1.y + 3*mt*t*t*cp2.y + t*t*t*next.y))
+                }
+                current = next
+            case .closeSubpath:
+                current = subpathStart
+            @unknown default:
+                break
+            }
+        }
+        return samples
+    }
+
+    private func consecutivePairs(_ points: [CGPoint]) -> [(CGPoint, CGPoint)] {
+        guard points.count >= 2 else { return [] }
+        return (1..<points.count).map { (points[$0 - 1], points[$0]) }
+    }
+
+    private func pointToSegmentDistance(_ p: CGPoint, _ a: CGPoint, _ b: CGPoint) -> CGFloat {
+        let dx = b.x - a.x
+        let dy = b.y - a.y
+        let lenSq = dx * dx + dy * dy
+        if lenSq < 1e-12 {
+            return hypot(p.x - a.x, p.y - a.y)
+        }
+        let t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / lenSq
+        let clamped = Swift.min(Swift.max(t, 0), 1)
+        let cx = a.x + clamped * dx
+        let cy = a.y + clamped * dy
+        return hypot(p.x - cx, p.y - cy)
     }
 }
