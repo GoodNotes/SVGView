@@ -604,37 +604,22 @@ extension SVGPath {
                 let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
 
-                var currentAngle = extent
+                // DIAGNOSTIC STUB 0.2.14: emit arc as a single straight
+                // line from start endpoint to end endpoint. This destroys
+                // arc fidelity intentionally; the goal is a one-shot
+                // signal test — if Pelican beak / Otter forelock wedges
+                // VANISH or visibly shift, then arc interior geometry is
+                // causal for the wedges; if wedges persist unchanged,
+                // the wedges live in non-arc rendering and arc handling
+                // should not be touched again.
+                let currentAngle = extent
+                let endAngle = extent + arcAngle
                 let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
-                // UIBezierPath.append(arcPath) on Apple stitches the
-                // incoming arc seamlessly to the prior pen position when
-                // the prior segment ended *at* the arc's initial point
-                // (chained SVG arcs A...A...A). The polyfill's blind
-                // `move(to:)` opens a new subpath even when the pen is
-                // already there, and float drift in trig sample points
-                // pushes the `move`-target ~1e-12 away from the previous
-                // `addLine`-endpoint — far enough that downstream
-                // flatteners that *don't* coalesce see a subpath break
-                // where Apple sees one continuous polyline. The cluster
-                // step then merges the broken pieces back into one fill
-                // with a bridge line, which under nonzero winding carves
-                // visible wedges out of the orange (pelican beak / otter
-                // forelock). Continue the existing subpath with a line
-                // when the pen is approximately at the arc start; only
-                // emit a true `move` when starting fresh.
-                if let last = bezierPath.cgPath.elements.last, !last.isCloseSubpath,
-                   let lastPoint = last.lastPoint,
-                   abs(lastPoint.x - initialPoint.x) < 1e-6, abs(lastPoint.y - initialPoint.y) < 1e-6 {
-                    bezierPath.addLine(to: initialPoint)
-                } else {
-                    bezierPath.move(to: initialPoint)
-                }
-
-                for _ in 0 ..< segmentCount {
-                    currentAngle += perSegmentSweep
-                    let p = transformedPoint(cos(currentAngle), sin(currentAngle))
-                    bezierPath.addLine(to: p)
-                }
+                let endPoint = transformedPoint(cos(endAngle), sin(endAngle))
+                bezierPath.move(to: initialPoint)
+                bezierPath.addLine(to: endPoint)
+                _ = perSegmentSweep
+                _ = segmentCount
                 #else
                 let maxSize = CGFloat(max(w, h))
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
