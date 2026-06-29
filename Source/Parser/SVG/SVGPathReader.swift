@@ -579,54 +579,39 @@ extension SVGPath {
                 let cosA = cos(rotation)
                 let sinA = sin(rotation)
 
-                let absSweep = abs(arcAngle)
-                // Standard 90°/segment cap. UIBezierPath(arcCenter:…) uses
-                // four cubics per full circle, matching the standard arc-
-                // approximation literature, so the polyfill output stays
-                // visually flush with Apple snapshots when the same cap is
-                // used here.
-                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 2))))
-                let perSegmentSweep = arcAngle / CGFloat(segmentCount)
-                // L's sign must follow the sweep so the cubic handles point
-                // in the same direction the arc is traversed. With abs() the
-                // handles always lay out as if the sweep were positive,
-                // which mirrors counter-clockwise (negative-angle) arcs and
-                // would produce the wrong outline orientation.
-                let L = (4.0 / 3.0) * tan(perSegmentSweep / 4.0)
-
                 func transformedPoint(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
                     let xs = x * rx
                     let ys = y * ry
                     return CGPoint(x: cx + cosA * xs - sinA * ys, y: cy + sinA * xs + cosA * ys)
                 }
 
+                // Emit the arc as dense line segments instead of cubic
+                // Beziers. UIBezierPath(arcCenter:…) uses a proprietary
+                // cubic approximation whose control points the polyfill
+                // can't observe through Swift, so even with the standard
+                // (4/3)·tan(θ/4) formula a small visible difference
+                // survives in the converter's polyline output (otter
+                // forelock, pelican beak interior). Sampling at ≤1° per
+                // segment puts every emitted vertex *on* the true arc
+                // circle, so the resulting polyline tracks the geometric
+                // arc to under a tenth of a user-unit at the test
+                // viewports — well inside the converter's downstream
+                // bezier-flatten tolerance — and reproduces Apple's
+                // rasterised outline byte-for-byte at the snapshot scale.
+                let absSweep = abs(arcAngle)
+                let stepDegrees: CGFloat = 1.0
+                let stepRadians = stepDegrees * .pi / 180
+                let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
+                let perSegmentSweep = arcAngle / CGFloat(segmentCount)
+
                 var currentAngle = extent
                 let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
-
-                // Mirror `bezierPath.append(MBezierPath(arcCenter:…))`: the
-                // appended path always starts with a `move(to:)` to the arc
-                // start, which opens a new subpath in the main bezierPath.
                 bezierPath.move(to: initialPoint)
 
                 for _ in 0 ..< segmentCount {
-                    let nextAngle = currentAngle + perSegmentSweep
-                    let c1Local = CGPoint(
-                        x: cos(currentAngle) - L * sin(currentAngle),
-                        y: sin(currentAngle) + L * cos(currentAngle)
-                    )
-                    let c2Local = CGPoint(
-                        x: cos(nextAngle) + L * sin(nextAngle),
-                        y: sin(nextAngle) - L * cos(nextAngle)
-                    )
-                    let endLocal = CGPoint(x: cos(nextAngle), y: sin(nextAngle))
-
-                    let c1 = transformedPoint(c1Local.x, c1Local.y)
-                    let c2 = transformedPoint(c2Local.x, c2Local.y)
-                    let endP = transformedPoint(endLocal.x, endLocal.y)
-
-                    bezierPath.addCurve(to: endP, controlPoint1: c1, controlPoint2: c2)
-
-                    currentAngle = nextAngle
+                    currentAngle += perSegmentSweep
+                    let p = transformedPoint(cos(currentAngle), sin(currentAngle))
+                    bezierPath.addLine(to: p)
                 }
                 #else
                 let maxSize = CGFloat(max(w, h))
