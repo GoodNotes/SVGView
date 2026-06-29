@@ -565,63 +565,19 @@ extension SVGPath {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
                 #if os(WASI) || os(Linux) || os(Android)
-                // Inline arc-to-cubic emission for the polyfill MBezierPath.
-                // The polyfill's `apply(_:)` does straight per-point math:
-                // `T * R * S` composed in row-vector convention translates a
-                // unit-arc point to `(cx, cy)` first and then rotates the
-                // already-translated point around the canvas origin, which
-                // drags small arcs near `(cx, cy)` deep inside an SVG viewBox
-                // hundreds of user-units off. Emit each cubic segment's
-                // control points directly in target coordinates so the
-                // polyfill never has to apply that matrix.
-                let rx = CGFloat(w / 2)
-                let ry = CGFloat(h / 2)
-                let cosA = cos(rotation)
-                let sinA = sin(rotation)
-
-                func transformedPoint(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
-                    let xs = x * rx
-                    let ys = y * ry
-                    return CGPoint(x: cx + cosA * xs - sinA * ys, y: cy + sinA * xs + cosA * ys)
-                }
-
-                // Emit the arc as dense line segments instead of cubic
-                // Beziers. UIBezierPath(arcCenter:…) uses a proprietary
-                // cubic approximation whose control points the polyfill
-                // can't observe through Swift, so even with the standard
-                // (4/3)·tan(θ/4) formula a small visible difference
-                // survives in the converter's polyline output (otter
-                // forelock, pelican beak interior). Sampling at ≤1° per
-                // segment puts every emitted vertex *on* the true arc
-                // circle, so the resulting polyline tracks the geometric
-                // arc to under a tenth of a user-unit at the test
-                // viewports — well inside the converter's downstream
-                // bezier-flatten tolerance — and reproduces Apple's
-                // rasterised outline byte-for-byte at the snapshot scale.
-                let absSweep = abs(arcAngle)
-                let stepDegrees: CGFloat = 1.0
-                let stepRadians = stepDegrees * .pi / 180
-                let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
-                let perSegmentSweep = arcAngle / CGFloat(segmentCount)
-
-                var currentAngle = extent
-                let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
-                bezierPath.move(to: initialPoint)
-
-                for _ in 0 ..< segmentCount {
-                    currentAngle += perSegmentSweep
-                    let p = transformedPoint(cos(currentAngle), sin(currentAngle))
-                    bezierPath.addLine(to: p)
-                }
+                SVGPath.appendEllipticalArcAsPolyline(
+                    to: bezierPath,
+                    cx: cx, cy: cy, w: w, h: h,
+                    rotation: rotation,
+                    startAngle: extent, arcAngle: arcAngle
+                )
                 #else
-                let maxSize = CGFloat(max(w, h))
-                let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
-
-                var transform = CGAffineTransform(translationX: cx, y: cy)
-                transform = transform.rotated(by: CGFloat(rotation))
-                path.apply(transform.scaledBy(x: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize))
-
-                bezierPath.append(path)
+                SVGPath.appendEllipticalArcViaTransform(
+                    to: bezierPath,
+                    cx: cx, cy: cy, w: w, h: h,
+                    rotation: rotation,
+                    startAngle: extent, arcAngle: arcAngle
+                )
                 #endif
             }
         }
@@ -742,5 +698,61 @@ extension SVGPath {
         return bezierPath
     }
 
+    /// Apple/CoreGraphics implementation: build a unit-arc-radius MBezierPath
+    /// at the origin and apply a translate · rotate · scale transform.
+    /// This is the path used on iOS/macOS/tvOS/watchOS where
+    /// `MBezierPath.apply` is `UIBezierPath.apply` / `NSBezierPath.transform`
+    /// and renders the arc identically to native UIKit/AppKit.
+    static func appendEllipticalArcViaTransform(
+        to bezierPath: MBezierPath,
+        cx: CGFloat, cy: CGFloat,
+        w: CGFloat, h: CGFloat,
+        rotation: CGFloat,
+        startAngle: CGFloat, arcAngle: CGFloat
+    ) {
+        let maxSize = max(w, h)
+        let end = startAngle + arcAngle
+        let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: startAngle, endAngle: end, clockwise: arcAngle >= 0)
+        var transform = CGAffineTransform(translationX: cx, y: cy)
+        transform = transform.rotated(by: rotation)
+        path.apply(transform.scaledBy(x: w / maxSize, y: h / maxSize))
+        bezierPath.append(path)
+    }
+
+    /// Polyfill implementation: emit the elliptical arc as a 1°/segment
+    /// polyline in target coordinates. Used on WASI/Linux/Android because
+    /// the polyfill `MBezierPath.apply` does literal per-point math under
+    /// row-vector convention, which composes `T * R * S` incorrectly for
+    /// arcs whose centers are deep inside an SVG viewBox.
+    static func appendEllipticalArcAsPolyline(
+        to bezierPath: MBezierPath,
+        cx: CGFloat, cy: CGFloat,
+        w: CGFloat, h: CGFloat,
+        rotation: CGFloat,
+        startAngle: CGFloat, arcAngle: CGFloat
+    ) {
+        let rx = w / 2
+        let ry = h / 2
+        let cosA = cos(rotation)
+        let sinA = sin(rotation)
+
+        func transformedPoint(_ a: CGFloat) -> CGPoint {
+            let xs = cos(a) * rx
+            let ys = sin(a) * ry
+            return CGPoint(x: cx + cosA * xs - sinA * ys, y: cy + sinA * xs + cosA * ys)
+        }
+
+        let absSweep = abs(arcAngle)
+        let stepRadians = CGFloat.pi / 180
+        let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
+        let perSegmentSweep = arcAngle / CGFloat(segmentCount)
+
+        var currentAngle = startAngle
+        bezierPath.move(to: transformedPoint(currentAngle))
+        for _ in 0 ..< segmentCount {
+            currentAngle += perSegmentSweep
+            bezierPath.addLine(to: transformedPoint(currentAngle))
+        }
+    }
 
 }
