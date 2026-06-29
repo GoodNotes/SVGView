@@ -604,16 +604,22 @@ extension SVGPath {
                 let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
 
-                // DIAGNOSTIC 0.2.16: fatalError to confirm whether the
-                // polyfill elliptical-arc branch is reached at runtime.
-                // If the Web test run aborts with this trap, the branch
-                // IS reached and previous stubs were just outshadowed by
-                // Q/C path data. If tests pass cleanly, the branch is
-                // genuinely dead and the bug lives elsewhere.
-                _ = transformedPoint
-                _ = perSegmentSweep
-                _ = segmentCount
-                fatalError("POLYFILL_ARC_REACHED w=\(w) h=\(h) rotation=\(rotation)")
+                // 0.2.17: restore the dense 1°/segment polyline arc
+                // emission. Stubbing this branch (0.2.14/0.2.15) showed
+                // that arc removal leaves PelicanViolin/OtterHarp byte-
+                // identical on Web — those fixtures' wedges are NOT in
+                // elliptical-arc geometry, they come from Q/C beziers or
+                // renderer behavior. Stop touching this code; further
+                // iterations should target Q/C path handling or the
+                // Web renderer.
+                var currentAngle = extent
+                let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
+                bezierPath.move(to: initialPoint)
+                for _ in 0 ..< segmentCount {
+                    currentAngle += perSegmentSweep
+                    let p = transformedPoint(cos(currentAngle), sin(currentAngle))
+                    bezierPath.addLine(to: p)
+                }
                 #else
                 let maxSize = CGFloat(max(w, h))
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
