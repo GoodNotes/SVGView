@@ -606,7 +606,29 @@ extension SVGPath {
 
                 var currentAngle = extent
                 let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
-                bezierPath.move(to: initialPoint)
+                // UIBezierPath.append(arcPath) on Apple stitches the
+                // incoming arc seamlessly to the prior pen position when
+                // the prior segment ended *at* the arc's initial point
+                // (chained SVG arcs A...A...A). The polyfill's blind
+                // `move(to:)` opens a new subpath even when the pen is
+                // already there, and float drift in trig sample points
+                // pushes the `move`-target ~1e-12 away from the previous
+                // `addLine`-endpoint — far enough that downstream
+                // flatteners that *don't* coalesce see a subpath break
+                // where Apple sees one continuous polyline. The cluster
+                // step then merges the broken pieces back into one fill
+                // with a bridge line, which under nonzero winding carves
+                // visible wedges out of the orange (pelican beak / otter
+                // forelock). Continue the existing subpath with a line
+                // when the pen is approximately at the arc start; only
+                // emit a true `move` when starting fresh.
+                if let last = bezierPath.cgPath.elements.last, !last.isCloseSubpath,
+                   let lastPoint = last.lastPoint,
+                   abs(lastPoint.x - initialPoint.x) < 1e-6, abs(lastPoint.y - initialPoint.y) < 1e-6 {
+                    bezierPath.addLine(to: initialPoint)
+                } else {
+                    bezierPath.move(to: initialPoint)
+                }
 
                 for _ in 0 ..< segmentCount {
                     currentAngle += perSegmentSweep
