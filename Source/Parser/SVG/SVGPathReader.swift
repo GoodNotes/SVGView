@@ -604,20 +604,17 @@ extension SVGPath {
                 let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
 
-                // DIAGNOSTIC STUB 0.2.14: emit arc as a single straight
-                // line from start endpoint to end endpoint. This destroys
-                // arc fidelity intentionally; the goal is a one-shot
-                // signal test — if Pelican beak / Otter forelock wedges
-                // VANISH or visibly shift, then arc interior geometry is
-                // causal for the wedges; if wedges persist unchanged,
-                // the wedges live in non-arc rendering and arc handling
-                // should not be touched again.
-                let currentAngle = extent
-                let endAngle = extent + arcAngle
-                let initialPoint = transformedPoint(cos(currentAngle), sin(currentAngle))
-                let endPoint = transformedPoint(cos(endAngle), sin(endAngle))
-                bezierPath.move(to: initialPoint)
-                bezierPath.addLine(to: endPoint)
+                // DIAGNOSTIC STUB 0.2.15: emit ABSOLUTELY NOTHING for any
+                // elliptical arc on the polyfill platforms. If the polyfill
+                // branch is reached at runtime, all elliptical-arc geometry
+                // in the SVG fixtures (e.g. PelicanViolin's 478 arcs)
+                // disappears; the resulting Web snapshot must be visibly
+                // broken (large gaps in pelican body, no arc-outlined
+                // limbs). If the snapshot looks visually identical to a
+                // run WITH arcs, then this branch is dead code on Web —
+                // meaning the converter takes a different path entirely
+                // (e.g. the parser pre-decomposed arcs into something else).
+                _ = transformedPoint
                 _ = perSegmentSweep
                 _ = segmentCount
                 #else
