@@ -582,7 +582,14 @@ extension SVGPath {
                 let absSweep = abs(arcAngle)
                 let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 2))))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
-                let L = (4.0 / 3.0) * tan(abs(perSegmentSweep) / 4.0)
+                // L's sign must follow the sweep so the cubic handles point
+                // in the same direction the arc is traversed. With abs() the
+                // handles are always laid out as if the sweep were positive,
+                // which mirrors counter-clockwise (negative-angle) arcs and
+                // produces the wrong fill outline — visible as the oversized
+                // white forehead on the otter / inside the harp body in
+                // PlatypusHarp & friends.
+                let L = (4.0 / 3.0) * tan(perSegmentSweep / 4.0)
 
                 func transformedPoint(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
                     let xs = x * rx
