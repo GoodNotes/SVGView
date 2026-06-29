@@ -580,15 +580,20 @@ extension SVGPath {
                 let sinA = sin(rotation)
 
                 let absSweep = abs(arcAngle)
-                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 2))))
+                // Tighter segmentation than the standard 90°/segment: at
+                // most 45° per cubic. UIBezierPath's internal arc->cubic
+                // conversion samples noticeably more often than the bare
+                // (4/3)·tan(θ/4) approximation requires, and matching its
+                // density is what keeps the polyfill output visually flush
+                // with the Apple snapshots on small arcs (otter forelock,
+                // pelican beak interior, harp body strings).
+                let segmentCount = Swift.max(1, Int(ceil(absSweep / (.pi / 4))))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
                 // L's sign must follow the sweep so the cubic handles point
                 // in the same direction the arc is traversed. With abs() the
-                // handles are always laid out as if the sweep were positive,
+                // handles always lay out as if the sweep were positive,
                 // which mirrors counter-clockwise (negative-angle) arcs and
-                // produces the wrong fill outline — visible as the oversized
-                // white forehead on the otter / inside the harp body in
-                // PlatypusHarp & friends.
+                // would produce the wrong outline orientation.
                 let L = (4.0 / 3.0) * tan(perSegmentSweep / 4.0)
 
                 func transformedPoint(_ x: CGFloat, _ y: CGFloat) -> CGPoint {
