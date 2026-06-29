@@ -604,19 +604,16 @@ extension SVGPath {
                 let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
                 let perSegmentSweep = arcAngle / CGFloat(segmentCount)
 
-                // DIAGNOSTIC STUB 0.2.15: emit ABSOLUTELY NOTHING for any
-                // elliptical arc on the polyfill platforms. If the polyfill
-                // branch is reached at runtime, all elliptical-arc geometry
-                // in the SVG fixtures (e.g. PelicanViolin's 478 arcs)
-                // disappears; the resulting Web snapshot must be visibly
-                // broken (large gaps in pelican body, no arc-outlined
-                // limbs). If the snapshot looks visually identical to a
-                // run WITH arcs, then this branch is dead code on Web —
-                // meaning the converter takes a different path entirely
-                // (e.g. the parser pre-decomposed arcs into something else).
+                // DIAGNOSTIC 0.2.16: fatalError to confirm whether the
+                // polyfill elliptical-arc branch is reached at runtime.
+                // If the Web test run aborts with this trap, the branch
+                // IS reached and previous stubs were just outshadowed by
+                // Q/C path data. If tests pass cleanly, the branch is
+                // genuinely dead and the bug lives elsewhere.
                 _ = transformedPoint
                 _ = perSegmentSweep
                 _ = segmentCount
+                fatalError("POLYFILL_ARC_REACHED w=\(w) h=\(h) rotation=\(rotation)")
                 #else
                 let maxSize = CGFloat(max(w, h))
                 let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
