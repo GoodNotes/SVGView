@@ -564,18 +564,21 @@ extension SVGPath {
             if w == h && rotation == 0 {
                 bezierPath.addArc(withCenter: CGPoint(x: cx, y: cy), radius: CGFloat(w / 2), startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
             } else {
-                let maxSize = CGFloat(max(w, h))
                 #if os(WASI) || os(Linux) || os(Android)
-                var path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+                SVGPath.appendEllipticalArcAsPolyline(
+                    to: bezierPath,
+                    cx: cx, cy: cy, w: w, h: h,
+                    rotation: rotation,
+                    startAngle: extent, arcAngle: arcAngle
+                )
                 #else
-                let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: extent, endAngle: end, clockwise: arcAngle >= 0)
+                SVGPath.appendEllipticalArcViaTransform(
+                    to: bezierPath,
+                    cx: cx, cy: cy, w: w, h: h,
+                    rotation: rotation,
+                    startAngle: extent, arcAngle: arcAngle
+                )
                 #endif
-
-                var transform = CGAffineTransform(translationX: cx, y: cy)
-                transform = transform.rotated(by: CGFloat(rotation))
-                path.apply(transform.scaledBy(x: CGFloat(w) / maxSize, y: CGFloat(h) / maxSize))
-
-                bezierPath.append(path)
             }
         }
 
@@ -695,5 +698,61 @@ extension SVGPath {
         return bezierPath
     }
 
+    /// Apple/CoreGraphics implementation: build a unit-arc-radius MBezierPath
+    /// at the origin and apply a translate · rotate · scale transform.
+    /// This is the path used on iOS/macOS/tvOS/watchOS where
+    /// `MBezierPath.apply` is `UIBezierPath.apply` / `NSBezierPath.transform`
+    /// and renders the arc identically to native UIKit/AppKit.
+    static func appendEllipticalArcViaTransform(
+        to bezierPath: MBezierPath,
+        cx: CGFloat, cy: CGFloat,
+        w: CGFloat, h: CGFloat,
+        rotation: CGFloat,
+        startAngle: CGFloat, arcAngle: CGFloat
+    ) {
+        let maxSize = max(w, h)
+        let end = startAngle + arcAngle
+        let path = MBezierPath(arcCenter: CGPoint.zero, radius: maxSize / 2, startAngle: startAngle, endAngle: end, clockwise: arcAngle >= 0)
+        var transform = CGAffineTransform(translationX: cx, y: cy)
+        transform = transform.rotated(by: rotation)
+        path.apply(transform.scaledBy(x: w / maxSize, y: h / maxSize))
+        bezierPath.append(path)
+    }
+
+    /// Polyfill implementation: emit the elliptical arc as a 1°/segment
+    /// polyline in target coordinates. Used on WASI/Linux/Android because
+    /// the polyfill `MBezierPath.apply` does literal per-point math under
+    /// row-vector convention, which composes `T * R * S` incorrectly for
+    /// arcs whose centers are deep inside an SVG viewBox.
+    static func appendEllipticalArcAsPolyline(
+        to bezierPath: MBezierPath,
+        cx: CGFloat, cy: CGFloat,
+        w: CGFloat, h: CGFloat,
+        rotation: CGFloat,
+        startAngle: CGFloat, arcAngle: CGFloat
+    ) {
+        let rx = w / 2
+        let ry = h / 2
+        let cosA = cos(rotation)
+        let sinA = sin(rotation)
+
+        func transformedPoint(_ a: CGFloat) -> CGPoint {
+            let xs = cos(a) * rx
+            let ys = sin(a) * ry
+            return CGPoint(x: cx + cosA * xs - sinA * ys, y: cy + sinA * xs + cosA * ys)
+        }
+
+        let absSweep = abs(arcAngle)
+        let stepRadians = CGFloat.pi / 180
+        let segmentCount = Swift.max(1, Int(ceil(absSweep / stepRadians)))
+        let perSegmentSweep = arcAngle / CGFloat(segmentCount)
+
+        var currentAngle = startAngle
+        bezierPath.move(to: transformedPoint(currentAngle))
+        for _ in 0 ..< segmentCount {
+            currentAngle += perSegmentSweep
+            bezierPath.addLine(to: transformedPoint(currentAngle))
+        }
+    }
 
 }

@@ -311,7 +311,7 @@ import Foundation
         }
 
         public func translatedBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(translationX: x, y: y))
+            return CGAffineTransform(translationX: x, y: y).concatenating(self)
         }
 
         public func concatenating(_ t: CGAffineTransform) -> CGAffineTransform {
@@ -326,11 +326,11 @@ import Foundation
         }
 
         public func scaledBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(scaleX: x, y: y))
+            return CGAffineTransform(scaleX: x, y: y).concatenating(self)
         }
 
         public func rotated(by angle: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(rotationAngle: angle))
+            return CGAffineTransform(rotationAngle: angle).concatenating(self)
         }
     }
 
@@ -451,17 +451,39 @@ import Foundation
             let initialPoint = CGPoint(
                 x: center.x + radius * cos(currentAngle), y: center.y + radius * sin(currentAngle))
 
+            // `UIBezierPath.addArc(withCenter:…)` documents that it implicitly
+            // sets the current point to the arc's starting point before
+            // emitting any cubics. With a non-empty path whose previous
+            // segment ends elsewhere, that "set current point" is a `move`,
+            // i.e. it opens a NEW subpath at the arc's start — Apple does not
+            // stitch the previous subpath to the arc with an implicit line.
+            //
+            // The original polyfill emitted `addLine(to: initialPoint)` here,
+            // which fuses the previous subpath and the arc into a single big
+            // subpath. When the SVG fixture uses evenodd-rule fills built up
+            // from many `M…A…` subpaths (animal-music body outlines stitched
+            // from 15+ arcs), that fusion flips which regions the fill rule
+            // considers "inside", which is exactly the cream/white blob over
+            // the pelican beak and otter forelock on Web. Always `move` to
+            // match Apple's UIBezierPath semantics.
             if path.elements.isEmpty || (path.elements.last?.isCloseSubpath ?? false) {
                 path.move(to: initialPoint)
             } else if let lastElement = path.elements.last, let lastPoint = lastElement.lastPoint,
                 lastPoint != initialPoint
             {
-                path.addLine(to: initialPoint)
+                path.move(to: initialPoint)
             }
 
             for _ in 0..<numSegments {
                 let nextAngle = currentAngle + segmentAngleSweep
-                let L = radius * (4.0 / 3.0) * tan(abs(segmentAngleSweep) / 4.0)
+                // L's sign must follow the sweep so the cubic handles point in
+                // the direction the arc is traversed. `abs(segmentAngleSweep)`
+                // here orients the handles as if the sweep were CW, which
+                // mirrors counter-clockwise arcs and yields self-intersecting
+                // cubic approximations. The downstream fill rule then flips
+                // inside/outside on those self-intersections, producing the
+                // "white blob" we see on pelican beak / otter forelock fills.
+                let L = radius * (4.0 / 3.0) * tan(segmentAngleSweep / 4.0)
 
                 let cp1_centerRelative = CGPoint(
                     x: radius * cos(currentAngle) - L * sin(currentAngle),
