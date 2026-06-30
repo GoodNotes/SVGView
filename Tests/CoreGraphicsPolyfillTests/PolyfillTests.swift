@@ -98,6 +98,49 @@ final class PolyfillTests: XCTestCase {
         XCTAssertNotEqual(transform.tx, 0)
         XCTAssertNotEqual(transform.ty, 0)
     }
+
+    func testTranslatedByMatchesCoreGraphicsPrependingSemantics() {
+        let transform = CGAffineTransform(scaleX: 2, y: 3).translatedBy(x: 5, y: 7)
+
+        XCTAssertEqual(transform.a, 2)
+        XCTAssertEqual(transform.d, 3)
+        XCTAssertEqual(transform.tx, 10)
+        XCTAssertEqual(transform.ty, 21)
+    }
+
+    func testScaledByMatchesCoreGraphicsPrependingSemantics() {
+        let transform = CGAffineTransform(translationX: 5, y: 7).scaledBy(x: 2, y: 3)
+
+        XCTAssertEqual(transform.a, 2)
+        XCTAssertEqual(transform.d, 3)
+        XCTAssertEqual(transform.tx, 5)
+        XCTAssertEqual(transform.ty, 7)
+    }
+
+    func testRotatedByMatchesCoreGraphicsPrependingSemantics() {
+        let transform = CGAffineTransform(translationX: 20, y: 125).rotated(by: -.pi / 2)
+
+        XCTAssertEqual(transform.a, cos(-.pi / 2), accuracy: 1e-10)
+        XCTAssertEqual(transform.b, sin(-.pi / 2), accuracy: 1e-10)
+        XCTAssertEqual(transform.c, -sin(-.pi / 2), accuracy: 1e-10)
+        XCTAssertEqual(transform.d, cos(-.pi / 2), accuracy: 1e-10)
+        XCTAssertEqual(transform.tx, 20, accuracy: 1e-10)
+        XCTAssertEqual(transform.ty, 125, accuracy: 1e-10)
+    }
+
+    func testRotateAroundPointKeepsPivotFixed() {
+        let pivot = CGPoint(x: 20, y: 125)
+        let transform = CGAffineTransform.identity
+            .translatedBy(x: pivot.x, y: pivot.y)
+            .rotated(by: -.pi / 2)
+            .translatedBy(x: -pivot.x, y: -pivot.y)
+
+        let transformedPivot = pivot.applying(transform)
+        XCTAssertEqual(transformedPivot.x, pivot.x, accuracy: 1e-10)
+        XCTAssertEqual(transformedPivot.y, pivot.y, accuracy: 1e-10)
+        XCTAssertEqual(transform.tx, -105, accuracy: 1e-10)
+        XCTAssertEqual(transform.ty, 145, accuracy: 1e-10)
+    }
     
     func testComplexTransform() {
         let point = CGPoint(x: 5, y: 5)

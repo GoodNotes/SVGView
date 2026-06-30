@@ -311,7 +311,7 @@ import Foundation
         }
 
         public func translatedBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(translationX: x, y: y))
+            return CGAffineTransform(translationX: x, y: y).concatenating(self)
         }
 
         public func concatenating(_ t: CGAffineTransform) -> CGAffineTransform {
@@ -326,11 +326,11 @@ import Foundation
         }
 
         public func scaledBy(x: CGFloat, y: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(scaleX: x, y: y))
+            return CGAffineTransform(scaleX: x, y: y).concatenating(self)
         }
 
         public func rotated(by angle: CGFloat) -> CGAffineTransform {
-            return self.concatenating(CGAffineTransform(rotationAngle: angle))
+            return CGAffineTransform(rotationAngle: angle).concatenating(self)
         }
     }
 
