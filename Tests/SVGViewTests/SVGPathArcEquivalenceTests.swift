@@ -1,9 +1,12 @@
 import XCTest
 @testable import SVGView
 
-#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+#if canImport(CoreGraphics)
+import CoreGraphics
+
+#if canImport(UIKit)
 import UIKit
-#elseif os(macOS)
+#elseif canImport(AppKit)
 import AppKit
 #endif
 
@@ -220,6 +223,24 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
         return points
     }
 
+    private static func quadBezier(_ p0: CGPoint, _ cp: CGPoint, _ p1: CGPoint, at t: CGFloat) -> CGPoint {
+        let mt = 1 - t
+        let x = mt * mt * p0.x + 2 * mt * t * cp.x + t * t * p1.x
+        let y = mt * mt * p0.y + 2 * mt * t * cp.y + t * t * p1.y
+        return CGPoint(x: x, y: y)
+    }
+
+    private static func cubicBezier(_ p0: CGPoint, _ p1: CGPoint, _ p2: CGPoint, _ p3: CGPoint, at t: CGFloat) -> CGPoint {
+        let mt = 1 - t
+        let mt2 = mt * mt
+        let mt3 = mt2 * mt
+        let t2 = t * t
+        let t3 = t2 * t
+        let x = mt3 * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t3 * p3.x
+        let y = mt3 * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t3 * p3.y
+        return CGPoint(x: x, y: y)
+    }
+
     /// Dense samples along every drawing element of `path`. Move/line endpoints
     /// produce 1 sample; quad/cubic curves produce `samplesPerCurve` interior
     /// samples (t ∈ (0, 1]) plus the starting endpoint is captured by the
@@ -233,22 +254,20 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
             let elem = elemPtr.pointee
             switch elem.type {
             case .moveToPoint:
-                current = elem.points[0]
-                subpathStart = current
-                samples.append(current)
+                let p = elem.points[0]
+                samples.append(p)
+                current = p
+                subpathStart = p
             case .addLineToPoint:
-                let next = elem.points[0]
-                samples.append(next)
-                current = next
+                let p = elem.points[0]
+                samples.append(p)
+                current = p
             case .addQuadCurveToPoint:
                 let cp = elem.points[0]
                 let next = elem.points[1]
                 for i in 1...samplesPerCurve {
                     let t = CGFloat(i) / CGFloat(samplesPerCurve)
-                    let mt = 1 - t
-                    samples.append(CGPoint(
-                        x: mt*mt*current.x + 2*mt*t*cp.x + t*t*next.x,
-                        y: mt*mt*current.y + 2*mt*t*cp.y + t*t*next.y))
+                    samples.append(Self.quadBezier(current, cp, next, at: t))
                 }
                 current = next
             case .addCurveToPoint:
@@ -257,10 +276,7 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
                 let next = elem.points[2]
                 for i in 1...samplesPerCurve {
                     let t = CGFloat(i) / CGFloat(samplesPerCurve)
-                    let mt = 1 - t
-                    samples.append(CGPoint(
-                        x: mt*mt*mt*current.x + 3*mt*mt*t*cp1.x + 3*mt*t*t*cp2.x + t*t*t*next.x,
-                        y: mt*mt*mt*current.y + 3*mt*mt*t*cp1.y + 3*mt*t*t*cp2.y + t*t*t*next.y))
+                    samples.append(Self.cubicBezier(current, cp1, cp2, next, at: t))
                 }
                 current = next
             case .closeSubpath:
@@ -291,3 +307,4 @@ final class SVGPathArcEquivalenceTests: XCTestCase {
         return hypot(p.x - cx, p.y - cy)
     }
 }
+#endif
