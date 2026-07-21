@@ -5,7 +5,13 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#elseif canImport(CoreGraphics)
+import CoreGraphics
+#else
 import Foundation
+#endif
 
 extension CGFloat {
     var degreesToRadians: CGFloat {
@@ -37,7 +43,7 @@ extension Dictionary where Key == String {
 
     subscript(ignoreCase key: Key) -> Value? {
         get {
-            if let k = keys.first(where: { $0.caseInsensitiveCompare(key) == .orderedSame }) {
+            if let k = keys.first(where: { $0.lowercased() == key.lowercased() }) {
                 return self[k]
             }
             return nil
