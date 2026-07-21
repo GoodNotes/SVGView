@@ -5,7 +5,9 @@
 //  Created by Alisa Mylnikova on 17/07/2020.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#elseif os(WASI) || os(Linux) || os(Android)
 import Foundation
 #else
 import SwiftUI
@@ -37,29 +39,21 @@ extension SVGHelper {
             return 0
         }
 
-        let scanner = Scanner(string: string)
-        let value = scanner.scanDouble()
-        let unit = scanner.scanCharacters(from: .unitCharacters)
+        guard let parsed = SVGNumberParser.numberAndUnit(from: string) else {
+            return nil
+        }
 
-        switch unit {
+        switch parsed.unit {
         case nil, "px":
-            return value
+            return parsed.value
         default:
-            print("SVG parsing error. Unit \"\(unit ?? "")\" is not supported")
-            return value
+            print("SVG parsing error. Unit \"\(parsed.unit ?? "")\" is not supported")
+            return parsed.value
         }
     }
 
     static func parsePointsArray(_ string: String) -> [CGPoint] {
-        var numbers: [Double] = []
-
-        let scanner = Scanner(string: string)
-        while !scanner.isAtEnd {
-            if let value = scanner.scanDouble() {
-                numbers.append(value)
-            }
-            _ = scanner.scanCharacters(from: [","])
-        }
+        let numbers = SVGNumberParser.numbers(in: string)
 
         var points: [CGPoint] = []
         var i = 0
@@ -104,7 +98,7 @@ extension SVGHelper {
     }
 
     static func parseColor(_ string: String, _ style: [String: String]) -> SVGColor? {
-        let normalized = string.replacingOccurrences(of: " ", with: "")
+        let normalized = SVGStringUtilities.removingWhitespace(from: string)
         if normalized == "none" || normalized == "transparent" {
             return .none
         } else if normalized == "currentColor", let currentColor = style["color"] {
@@ -121,7 +115,7 @@ extension SVGHelper {
     static func createColorFromHex(_ hexString: String) -> SVGColor {
         var cleanedHexString = hexString
         if hexString.hasPrefix("#") {
-            cleanedHexString = hexString.replacingOccurrences(of: "#", with: "")
+            cleanedHexString = String(hexString.dropFirst())
         }
         if cleanedHexString.count == 3 {
             let x = Array(cleanedHexString)
@@ -134,11 +128,12 @@ extension SVGHelper {
         let fromIndex = colorString.hasPrefix("rgba") ? 5 : 4
         let from = colorString.index(colorString.startIndex, offsetBy: fromIndex)
         let inPercentage = colorString.contains("%")
-        let sp = String(colorString.suffix(from: from))
-            .replacingOccurrences(of: "%", with: "")
-            .replacingOccurrences(of: ")", with: "")
-            .replacingOccurrences(of: " ", with: "")
-        let x = sp.components(separatedBy: ",")
+        let sp = SVGStringUtilities.removing(
+            from: String(colorString.suffix(from: from))
+        ) { character in
+            character == "%" || character == ")" || character.isWhitespace
+        }
+        let x = sp.split(separator: ",").map(String.init)
         var red = 0.0
         var green = 0.0
         var blue = 0.0
@@ -161,32 +156,15 @@ extension SVGHelper {
                 alpha *= 0.01
             }
         }
-        return SVGColor(r: Int(round(red)), g: Int(round(green)), b: Int(round(blue))).opacity(min(max(alpha, 0.0), 1.0))
+        return SVGColor(
+            r: Int(red.rounded()),
+            g: Int(green.rounded()),
+            b: Int(blue.rounded())
+        ).opacity(min(max(alpha, 0.0), 1.0))
     }
 
     static private func parseIdFromUrl(_ urlString: String) -> String? {
-        if urlString.hasPrefix("url") {
-            return urlString.substringWithOffset(fromStart: 5, fromEnd: 1)
-        }
-        return .none
+        SVGStringUtilities.stripURLIdentifier(urlString)
     }
 
-}
-
-fileprivate extension String {
-    func substringWithOffset(fromStart: Int, fromEnd: Int) -> String {
-        let start = index(startIndex, offsetBy: fromStart)
-        let end = index(endIndex, offsetBy: -fromEnd)
-        return String(self[start..<end])
-    }
-}
-
-extension CharacterSet {
-    /// Latin alphabet characters.
-    static let latinAlphabet = CharacterSet(charactersIn: "a"..."z")
-        .union(CharacterSet(charactersIn: "A"..."Z"))
-
-    static let unitCharacters = CharacterSet.latinAlphabet
-
-    static let transformationAttributeCharacters = CharacterSet.latinAlphabet
 }
