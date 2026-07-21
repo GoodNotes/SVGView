@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 protocol SVGContext {
 
@@ -76,7 +80,13 @@ class SVGNodeContext: SVGContext {
 
     func create(for child: XMLElement) -> SVGNodeContext? {
         var useIds = self.useIds
-        if child.name == "use", let useId = child.attributes["xlink:href"]?.replacingOccurrences(of: "#", with: "") {
+        if child.name == "use",
+           let href = child.attributes["xlink:href"] {
+            let useId = SVGStringUtilities.removing(from: href, where: { $0 == "#" })
+            guard !useId.isEmpty else {
+                return nil
+            }
+
             if useIds.contains(useId) {
                 log(message: "<use> recursion detected!")
                 return nil
