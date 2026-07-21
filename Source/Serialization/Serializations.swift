@@ -5,7 +5,9 @@
 //  Created by Yuriy Strot on 18.01.2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#elseif os(WASI) || os(Linux) || os(Android)
 import Foundation
 #else
 import SwiftUI
@@ -22,7 +24,18 @@ extension Bool: SerializableAtom {
 extension String: SerializableAtom {
 
     func serialize() -> String {
-        return "\"\(self.replacingOccurrences(of: "\"", with: "\\\""))\""
+        var escaped = String()
+        escaped.reserveCapacity(count)
+
+        for character in self {
+            if character == "\"" {
+                escaped.append("\\\"")
+            } else {
+                escaped.append(character)
+            }
+        }
+
+        return "\"\(escaped)\""
     }
 
 }
@@ -36,6 +49,7 @@ extension CGFloat: SerializableAtom {
 
 }
 
+#if !FOUNDATION_ESSENTIALS_BUILD
 extension Double: SerializableAtom {
 
     func serialize() -> String {
@@ -43,23 +57,60 @@ extension Double: SerializableAtom {
     }
 
 }
+#endif
+
+private enum SVGPortableDecimalFormatter {
+    private static let maxFractionDigits = 10
+    private static let scale: Double = 10_000_000_000.0
+    private static let scaleInteger: UInt64 = 10_000_000_000
+
+    static func string(for value: Double) -> String {
+        let rounded = (value * scale).rounded() / scale
+        if rounded == 0 {
+            return "0"
+        }
+        if !rounded.isFinite {
+            return rounded.description
+        }
+
+        let sign = rounded < 0 ? "-" : ""
+        let absoluteValue = Swift.abs(rounded)
+        if absoluteValue >= Double(UInt64.max) {
+            let fallback = rounded.description
+            return fallback.hasSuffix(".0")
+                ? String(fallback.dropLast(2))
+                : fallback
+        }
+        var integerPart = UInt64(absoluteValue.rounded(.towardZero))
+        var fractionalPart = UInt64(((absoluteValue - Double(integerPart)) * scale).rounded())
+
+        if fractionalPart == scaleInteger {
+            integerPart += 1
+            fractionalPart = 0
+        }
+
+        if fractionalPart == 0 {
+            return "\(sign)\(integerPart)"
+        }
+
+        var fraction = String(fractionalPart)
+        if fraction.count < maxFractionDigits {
+            fraction = String(repeating: "0", count: maxFractionDigits - fraction.count) + fraction
+        }
+
+        while fraction.last == "0" {
+            fraction.removeLast()
+        }
+
+        return "\(sign)\(integerPart).\(fraction)"
+    }
+}
 
 extension CGAffineTransform: SerializableAtom {
 
     func serialize() -> String {
-        let formatter = NumberFormatter()
-        formatter.decimalSeparator = "."
-        formatter.minimumFractionDigits = 0
-        formatter.maximumFractionDigits = 10
-        
         let nums = [a, b, c, d, tx, ty]
-        
-        var result = ""
-        for num in nums {
-            result += formatter.string(for: num) ?? "n/a"
-            result += ", "
-        }
-        return "[\(result.dropLast(2))]"
+        return "[\(nums.map { SVGPortableDecimalFormatter.string(for: Double($0)) }.joined(separator: ", "))]"
     }
 }
 
