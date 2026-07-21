@@ -6,7 +6,11 @@
 //  Copyright © 2017 Exyte. All rights reserved.
 //
 
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 #if os(OSX)
 import AppKit

@@ -6,7 +6,11 @@
 //
 
 
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 class SVGLengthAttribute: SVGDefaultAttribute<CGFloat> {
     

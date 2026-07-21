@@ -5,7 +5,9 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#elseif os(WASI) || os(Linux) || os(Android)
 import Foundation
 #else
 import SwiftUI
@@ -33,9 +35,11 @@ public struct SVGView: View {
         self.svg = SVGParser.parse(string: string)
     }
 
+    #if !FOUNDATION_ESSENTIALS_BUILD
     public init(stream: InputStream) {
         self.svg = SVGParser.parse(stream: stream)
     }
+    #endif
 
     public init(xml: XMLElement) {
         self.svg = SVGParser.parse(xml: xml)

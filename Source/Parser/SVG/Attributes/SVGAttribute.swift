@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 class SVGAttribute<Value> {
 

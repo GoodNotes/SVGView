@@ -5,7 +5,10 @@
 //  Created by Yuriy Strot on 22.02.2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
+#if FOUNDATION_ESSENTIALS_BUILD
+import FoundationEssentials
+import WASILibc
+#elseif os(WASI) || os(Linux) || os(Android)
 import Foundation
 #else
 import SwiftUI
