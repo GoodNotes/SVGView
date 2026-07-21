@@ -2,6 +2,42 @@
 
 import PackageDescription
 
+var dependencies: [Package.Dependency] = [
+    .package(
+        url: "https://github.com/apple/swift-argument-parser.git",
+        from: "1.5.0"
+    ),
+]
+var svgViewDependencies: [Target.Dependency] = []
+var svgViewSwiftSettings: [SwiftSetting] = []
+
+#if compiler(>=6.2)
+dependencies.append(
+    .package(
+        url: "https://github.com/compnerd/xylem.git",
+        revision: "9881c95ce3a139f4ccfa584676201516c2a5751d"
+    )
+)
+svgViewDependencies.append(contentsOf: [
+    .product(
+        name: "SAXParser",
+        package: "xylem",
+        condition: .when(platforms: [.wasi])
+    ),
+    .product(
+        name: "XMLCore",
+        package: "xylem",
+        condition: .when(platforms: [.wasi])
+    ),
+])
+svgViewSwiftSettings.append(
+    .define(
+        "FOUNDATION_ESSENTIALS_BUILD",
+        .when(platforms: [.wasi])
+    )
+)
+#endif
+
 let package = Package(
 	name: "SVGView",
     platforms: [
@@ -19,12 +55,7 @@ let package = Package(
             targets: ["GenerateReferencesCLI"]
         )
     ],
-    dependencies: [
-        .package(
-            url: "https://github.com/apple/swift-argument-parser.git",
-            from: "1.5.0"
-        ),
-    ],
+    dependencies: dependencies,
     targets: [
         .executableTarget(
             name: "GenerateReferencesCLI",
@@ -34,9 +65,11 @@ let package = Package(
             ],
             path: "GenerateReferencesCLI"
         ),
-    	.target(
-    		name: "SVGView",
-            path: "Source"
+        .target(
+            name: "SVGView",
+            dependencies: svgViewDependencies,
+            path: "Source",
+            swiftSettings: svgViewSwiftSettings
         ),
         .testTarget(
             name: "CoreGraphicsPolyfillTests",
