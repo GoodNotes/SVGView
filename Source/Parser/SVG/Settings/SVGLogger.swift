@@ -5,7 +5,7 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentials)
 import FoundationEssentials
 #else
 import Foundation
@@ -20,7 +20,7 @@ public class SVGLogger {
     }
 
     public func log(error: Error) {
-        #if FOUNDATION_ESSENTIALS_BUILD
+        #if canImport(FoundationEssentials)
         log(message: String(describing: error))
         #else
         log(message: error.localizedDescription)

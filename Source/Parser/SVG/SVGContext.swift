@@ -5,7 +5,7 @@
 //  Created by Yuri Strot on 26.05.2022.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentials)
 import FoundationEssentials
 #else
 import Foundation

@@ -5,7 +5,7 @@
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentials)
 import FoundationEssentials
 #else
 import Foundation
@@ -28,7 +28,7 @@ public struct SVGParser {
         return parse(xml: xml, settings: settings)
     }
 
-    #if !FOUNDATION_ESSENTIALS_BUILD
+    #if !canImport(SAXParser)
     static public func parse(stream: InputStream, settings: SVGSettings = .default) -> SVGNode? {
         let xml = DOMParser.parse(stream: stream, logger: settings.logger)
         return parse(xml: xml, settings: settings)

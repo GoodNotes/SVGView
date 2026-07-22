@@ -48,26 +48,20 @@ let package = Package(
                 .product(
                     name: "FoundationEssentialsExtras",
                     package: "FoundationEssentialsExtras",
-                    condition: .when(platforms: [.wasi])
+                    condition: .when(platforms: [.wasi, .linux, .android, .windows])
                 ),
                 .product(
                     name: "SAXParser",
                     package: "xylem",
-                    condition: .when(platforms: [.wasi])
+                    condition: .when(platforms: [.wasi, .linux, .android, .windows])
                 ),
                 .product(
                     name: "XMLCore",
                     package: "xylem",
-                    condition: .when(platforms: [.wasi])
+                    condition: .when(platforms: [.wasi, .linux, .android, .windows])
                 ),
             ],
-            path: "Source",
-            swiftSettings: [
-                .define(
-                    "FOUNDATION_ESSENTIALS_BUILD",
-                    .when(platforms: [.wasi])
-                ),
-            ]
+            path: "Source"
         ),
         .testTarget(
             name: "CoreGraphicsPolyfillTests",

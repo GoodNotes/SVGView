@@ -5,11 +5,16 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentials)
 import FoundationEssentials
-import WASILibc
 #else
 import Foundation
+#endif
+
+#if os(WASI)
+import WASILibc
+#elseif os(Linux) || os(Android)
+import Glibc
 #endif
 
 enum SVGLengthAxis {

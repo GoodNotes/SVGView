@@ -5,12 +5,12 @@
 //  Created by Yuriy Strot on 18.01.2021.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
-import FoundationEssentials
-#elseif os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 extension Bool: SerializableAtom {
@@ -49,7 +49,7 @@ extension CGFloat: SerializableAtom {
 
 }
 
-#if !FOUNDATION_ESSENTIALS_BUILD
+#if !canImport(FoundationEssentialsExtras)
 extension Double: SerializableAtom {
 
     func serialize() -> String {

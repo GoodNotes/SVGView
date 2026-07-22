@@ -5,7 +5,7 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(SAXParser)
 import FoundationEssentials
 import SAXParser
 import XMLCore
@@ -19,7 +19,7 @@ import FoundationXML
 public struct DOMParser {
 
     static public func parse(contentsOf url: URL, logger: SVGLogger = .console) -> XMLElement? {
-        #if FOUNDATION_ESSENTIALS_BUILD
+        #if canImport(SAXParser)
         guard let data = try? Data(contentsOf: url) else {
             return nil
         }
@@ -35,7 +35,7 @@ public struct DOMParser {
     }
 
     static public func parse(data: Data, logger: SVGLogger = .console) -> XMLElement? {
-        #if FOUNDATION_ESSENTIALS_BUILD
+        #if canImport(SAXParser)
         return parse(bytes: Array(data), logger: logger)
         #else
         return parse(XMLParser(data: data), logger: logger)
@@ -47,7 +47,7 @@ public struct DOMParser {
             return nil
         }
 
-        #if FOUNDATION_ESSENTIALS_BUILD
+        #if canImport(SAXParser)
         return parse(bytes: Array(string.utf8), logger: logger)
         #else
         guard let data = string.data(using: encoding) else {
@@ -57,13 +57,13 @@ public struct DOMParser {
         #endif
     }
 
-    #if !FOUNDATION_ESSENTIALS_BUILD
+    #if !canImport(SAXParser)
     static public func parse(stream: InputStream, logger: SVGLogger = .console) -> XMLElement? {
         parse(XMLParser(stream: stream), logger: logger)
     }
     #endif
 
-    #if FOUNDATION_ESSENTIALS_BUILD
+    #if canImport(SAXParser)
     static private func parse(bytes: [UInt8], logger: SVGLogger) -> XMLElement? {
         var parser = SAXParser(handler: XylemXMLDelegate())
 
@@ -85,7 +85,7 @@ public struct DOMParser {
     #endif
 }
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(SAXParser)
 private struct XylemXMLDelegate: Handler {
 
     typealias Failure = XML.Error

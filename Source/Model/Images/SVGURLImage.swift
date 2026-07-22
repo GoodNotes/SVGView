@@ -5,12 +5,12 @@
 //  Created by Alisa Mylnikova on 22/09/2021.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
-import FoundationEssentials
-#elseif os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 public class SVGURLImage: SVGImage {

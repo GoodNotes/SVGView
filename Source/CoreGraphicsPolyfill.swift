@@ -5,14 +5,19 @@
 //  Created by khoi on 10/5/25.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentialsExtras)
 import FoundationEssentialsExtras
-import WASILibc
 #else
 import Foundation
 #endif
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if os(WASI)
+import WASILibc
+#elseif os(Linux) || os(Android)
+import Glibc
+#endif
+
+#if canImport(FoundationEssentialsExtras)
 public typealias CGFloat = FoundationEssentialsExtras.CGFloat
 public typealias CGPoint = FoundationEssentialsExtras.CGPoint
 public typealias CGSize = FoundationEssentialsExtras.CGSize

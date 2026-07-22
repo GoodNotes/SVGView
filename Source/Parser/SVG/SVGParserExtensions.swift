@@ -5,7 +5,7 @@
 //  Created by Yuri Strot on 25.05.2022.
 //
 
-#if FOUNDATION_ESSENTIALS_BUILD
+#if canImport(FoundationEssentials)
 import FoundationEssentials
 #elseif canImport(CoreGraphics)
 import CoreGraphics
