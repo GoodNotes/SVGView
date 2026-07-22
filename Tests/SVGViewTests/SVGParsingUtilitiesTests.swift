@@ -36,6 +36,54 @@ final class SVGParsingUtilitiesTests: XCTestCase {
         }
     }
 
+    func testCollapsingWhitespaceTrimsEdgesAndCollapsesRuns() {
+        let values = [
+            ("", ""),
+            ("   ", ""),
+            ("  hello  ", "hello"),
+            ("hello   world", "hello world"),
+            ("\thello\n\rworld  ", "hello world"),
+        ]
+
+        for (value, expected) in values {
+            XCTAssertEqual(
+                SVGStringUtilities.collapsingWhitespace(in: value),
+                expected,
+                value
+            )
+        }
+    }
+
+    func testRemovingCharactersMatchingPredicate() {
+        XCTAssertEqual(
+            SVGStringUtilities.removing(from: "##shape#", where: { $0 == "#" }),
+            "shape"
+        )
+        XCTAssertEqual(
+            SVGStringUtilities.removing(from: "100%%", where: { $0 == "%" }),
+            "100"
+        )
+    }
+
+    func testSplitOmitsEmptySubsequences() {
+        XCTAssertEqual(
+            SVGStringUtilities.split(",10,, 20\t30,") {
+                $0 == "," || $0.isWhitespace
+            },
+            ["10", "20", "30"]
+        )
+    }
+
+    func testStripURLIdentifierRequiresCompleteWrapper() {
+        XCTAssertEqual(
+            SVGStringUtilities.stripURLIdentifier("url(#gradient)"),
+            "gradient"
+        )
+        XCTAssertNil(SVGStringUtilities.stripURLIdentifier("#gradient"))
+        XCTAssertNil(SVGStringUtilities.stripURLIdentifier("url(#gradient"))
+        XCTAssertNil(SVGStringUtilities.stripURLIdentifier("gradient)"))
+    }
+
     func testHexUtilitiesMatchFoundationFormatting() {
         for value in [0, 1, 15, 16, 127, 255, 256, -1] {
             XCTAssertEqual(
@@ -50,6 +98,12 @@ final class SVGParsingUtilitiesTests: XCTestCase {
             var expected: UInt64 = 0
             XCTAssertTrue(scanner.scanHexInt64(&expected), value)
             XCTAssertEqual(SVGStringUtilities.parseHex(value), expected, value)
+        }
+    }
+
+    func testParseHexRejectsInvalidInput() {
+        for value in ["", "xyz", "FFgarbage", " FF"] {
+            XCTAssertNil(SVGStringUtilities.parseHex(value), value)
         }
     }
 
