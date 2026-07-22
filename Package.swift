@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.2
 
 import PackageDescription
 
@@ -11,7 +11,6 @@ var dependencies: [Package.Dependency] = [
 var svgViewDependencies: [Target.Dependency] = []
 var svgViewSwiftSettings: [SwiftSetting] = []
 
-#if compiler(>=6.2)
 dependencies.append(
     .package(
         url: "https://github.com/GoodNotes/FoundationEssentialsExtras.git",
@@ -47,7 +46,6 @@ svgViewSwiftSettings.append(
         .when(platforms: [.wasi])
     )
 )
-#endif
 
 let package = Package(
 	name: "SVGView",
@@ -94,5 +92,5 @@ let package = Package(
             ]
         ),
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v5]
 )
