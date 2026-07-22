@@ -1,14 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "foundationessentialsextras",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/GoodNotes/FoundationEssentialsExtras.git",
-      "state" : {
-        "revision" : "dace29232ec271389cc1e4c4258c8162d1ac3f5f"
-      }
-    },
-    {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
