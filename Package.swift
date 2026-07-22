@@ -14,11 +14,22 @@ var svgViewSwiftSettings: [SwiftSetting] = []
 #if compiler(>=6.2)
 dependencies.append(
     .package(
+        url: "https://github.com/GoodNotes/FoundationEssentialsExtras.git",
+        revision: "dace29232ec271389cc1e4c4258c8162d1ac3f5f"
+    )
+)
+dependencies.append(
+    .package(
         url: "https://github.com/compnerd/xylem.git",
         revision: "9881c95ce3a139f4ccfa584676201516c2a5751d"
     )
 )
 svgViewDependencies.append(contentsOf: [
+    .product(
+        name: "FoundationEssentialsExtras",
+        package: "FoundationEssentialsExtras",
+        condition: .when(platforms: [.wasi])
+    ),
     .product(
         name: "SAXParser",
         package: "xylem",

@@ -6,72 +6,17 @@
 //
 
 #if FOUNDATION_ESSENTIALS_BUILD
-import FoundationEssentials
+import FoundationEssentialsExtras
 import WASILibc
 #else
 import Foundation
 #endif
 
 #if FOUNDATION_ESSENTIALS_BUILD
-public typealias CGFloat = Double
-
-public struct CGPoint: Equatable {
-    public static let zero = CGPoint()
-
-    public var x: CGFloat
-    public var y: CGFloat
-
-    public init(x: CGFloat = 0, y: CGFloat = 0) {
-        self.x = x
-        self.y = y
-    }
-}
-
-public struct CGSize {
-    public static let zero = CGSize()
-
-    public var width: CGFloat
-    public var height: CGFloat
-
-    public init(width: CGFloat = 0, height: CGFloat = 0) {
-        self.width = width
-        self.height = height
-    }
-}
-
-public struct CGRect {
-    public static let zero = CGRect()
-
-    public var origin: CGPoint
-    public var size: CGSize
-
-    public init(origin: CGPoint = .zero, size: CGSize = CGSize()) {
-        self.origin = origin
-        self.size = size
-    }
-
-    public init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
-        self.init(
-            origin: CGPoint(x: x, y: y),
-            size: CGSize(width: width, height: height)
-        )
-    }
-
-    public var width: CGFloat { maxX - minX }
-    public var height: CGFloat { maxY - minY }
-    public var minX: CGFloat { Swift.min(origin.x, origin.x + size.width) }
-    public var minY: CGFloat { Swift.min(origin.y, origin.y + size.height) }
-    public var maxX: CGFloat { Swift.max(origin.x, origin.x + size.width) }
-    public var maxY: CGFloat { Swift.max(origin.y, origin.y + size.height) }
-
-    public func union(_ other: CGRect) -> CGRect {
-        let minX = Swift.min(self.minX, other.minX)
-        let minY = Swift.min(self.minY, other.minY)
-        let maxX = Swift.max(self.maxX, other.maxX)
-        let maxY = Swift.max(self.maxY, other.maxY)
-        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
-    }
-}
+public typealias CGFloat = FoundationEssentialsExtras.CGFloat
+public typealias CGPoint = FoundationEssentialsExtras.CGPoint
+public typealias CGSize = FoundationEssentialsExtras.CGSize
+public typealias CGRect = FoundationEssentialsExtras.CGRect
 #endif
 
 #if os(WASI) || os(Linux) || os(Android)
