@@ -5,11 +5,13 @@
 //  Created by Alisa Mylnikova on 10/06/2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
 import Combine
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 public class SVGDataImage: SVGImage {

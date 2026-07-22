@@ -5,10 +5,12 @@
 //  Created by Yuriy Strot on 19.01.2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 public class SVGColor: SVGPaint {
@@ -42,24 +44,24 @@ public class SVGColor: SVGPaint {
     }
 
     public convenience init(hex: String) {
-        let scanner = Scanner(string: hex)
-        var rgbValue: UInt64 = 0
-        scanner.scanHexInt64(&rgbValue)
-        self.init(Int(rgbValue))
+        self.init(Int(SVGStringUtilities.parseHex(hex) ?? 0))
     }
 
     override func serialize(key: String, serializer: Serializer) {
         var prefix = ""
         let transparency = t
         if transparency != 0 {
-            prefix = "\(Int(round(Double(255 - transparency) * 100 / 255)))% "
+            prefix = "\(Int((Double(255 - transparency) * 100 / 255).rounded()))% "
         }
 
         let hex = ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff)
         if let text = SVGColors.text(of: hex) {
             serializer.add(key, "\(prefix)\(text)")
         } else {
-            serializer.add(key, "\(prefix)#\(String(format: "%02X%02X%02X", r, g, b))")
+            serializer.add(
+                key,
+                "\(prefix)#\(SVGStringUtilities.hexByteString(r))\(SVGStringUtilities.hexByteString(g))\(SVGStringUtilities.hexByteString(b))"
+            )
         }
     }
     
@@ -137,14 +139,11 @@ extension Color: SerializableAtom {
             return "\"\(prefix)\(text)\""
         }
 
-        return "\"\(prefix)#\(String(format: "%02X%02X%02X", r, g, b))\""
+        return "\"\(prefix)#\(SVGStringUtilities.hexByteString(r))\(SVGStringUtilities.hexByteString(g))\(SVGStringUtilities.hexByteString(b))\""
     }
 
     init(hex: String) {
-        let scanner = Scanner(string: hex)
-        var rgbValue: UInt64 = 0
-        scanner.scanHexInt64(&rgbValue)
-        self.init(rgbValue: Int(rgbValue))
+        self.init(rgbValue: Int(SVGStringUtilities.parseHex(hex) ?? 0))
     }
 
     init(rgbValue: Int) {

@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.2
 
 import PackageDescription
 
@@ -24,6 +24,10 @@ let package = Package(
             url: "https://github.com/apple/swift-argument-parser.git",
             from: "1.5.0"
         ),
+        .package(
+            url: "https://github.com/compnerd/xylem.git",
+            revision: "9881c95ce3a139f4ccfa584676201516c2a5751d"
+        ),
     ],
     targets: [
         .executableTarget(
@@ -34,8 +38,20 @@ let package = Package(
             ],
             path: "GenerateReferencesCLI"
         ),
-    	.target(
-    		name: "SVGView",
+        .target(
+            name: "SVGView",
+            dependencies: [
+                .product(
+                    name: "SAXParser",
+                    package: "xylem",
+                    condition: .when(platforms: [.wasi, .linux, .android, .windows])
+                ),
+                .product(
+                    name: "XMLCore",
+                    package: "xylem",
+                    condition: .when(platforms: [.wasi, .linux, .android, .windows])
+                ),
+            ],
             path: "Source"
         ),
         .testTarget(
@@ -50,5 +66,5 @@ let package = Package(
             ]
         ),
     ],
-    swiftLanguageVersions: [.v5]
+    swiftLanguageModes: [.v5]
 )

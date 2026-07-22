@@ -5,7 +5,11 @@
 //  Created by Alisa Mylnikova on 20/07/2020.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public struct SVGParser {
 
@@ -24,10 +28,12 @@ public struct SVGParser {
         return parse(xml: xml, settings: settings)
     }
 
+    #if !canImport(SAXParser)
     static public func parse(stream: InputStream, settings: SVGSettings = .default) -> SVGNode? {
         let xml = DOMParser.parse(stream: stream, logger: settings.logger)
         return parse(xml: xml, settings: settings)
     }
+    #endif
 
     static public func parse(xml: XMLElement?, settings: SVGSettings = .default) -> SVGNode? {
         guard let xml = xml else { return nil }
@@ -84,9 +90,12 @@ public struct SVGParser {
         }
 
         if let cssStyle = xml.attributes["style"] {
-            let styleParts = cssStyle.replacingOccurrences(of: " ", with: "").components(separatedBy: ";")
+            let styleParts = SVGStringUtilities.split(
+                SVGStringUtilities.removingWhitespace(from: cssStyle),
+                where: { $0 == ";" }
+            )
             styleParts.forEach { styleAttribute in
-                let currentStyle = styleAttribute.components(separatedBy: ":")
+                let currentStyle = SVGStringUtilities.split(styleAttribute, where: { $0 == ":" })
                 if currentStyle.count == 2 {
                     styleDict.updateValue(currentStyle[1], forKey: currentStyle[0])
                 }

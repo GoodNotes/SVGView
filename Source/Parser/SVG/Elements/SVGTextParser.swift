@@ -5,10 +5,12 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 class SVGTextParser: SVGBaseElementParser {
@@ -24,7 +26,9 @@ class SVGTextParser: SVGBaseElementParser {
         let transform = CGAffineTransform(translationX: x, y: y)
 
         if let textNode = context.element.contents.first as? XMLText {
-            let trimmed = textNode.text.trimmingCharacters(in: .whitespacesAndNewlines).processingWhitespaces()
+            let trimmed = SVGStringUtilities.collapsingWhitespace(
+                in: SVGStringUtilities.trimmed(textNode.text)
+            )
             return SVGText(text: trimmed, font: font, fill: SVGHelper.parseFill(context.styles, context.index), stroke: SVGHelper.parseStroke(context.styles, index: context.index), textAnchor: textAnchor, transform: transform)
         }
         return .none
@@ -39,17 +43,5 @@ class SVGTextParser: SVGBaseElementParser {
             }
         }
         return .leading
-    }
-
-    static var whitespaceRegex = try! NSRegularExpression(pattern: "\\s+", options: NSRegularExpression.Options.caseInsensitive)
-
-}
-
-extension String {
-
-    fileprivate func processingWhitespaces() -> String {
-        let range = NSMakeRange(0, self.count)
-        let modString = SVGTextParser.whitespaceRegex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: " ")
-        return modString
     }
 }

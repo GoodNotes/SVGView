@@ -5,10 +5,12 @@
 //  Created by Yuriy Strot on 21.02.2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 class SVGIndex {
@@ -66,10 +68,12 @@ class SVGIndex {
     }
 
     private func getParentGradient(_ element: XMLElement) -> SVGGradient? {
-        if let link = element.attributes["xlink:href"]?.replacingOccurrences(of: " ", with: ""), link.hasPrefix("#") {
-
-            let id = link.replacingOccurrences(of: "#", with: "")
-            return paints[id] as? SVGGradient
+        if let rawLink = element.attributes["xlink:href"] {
+            let link = SVGStringUtilities.removingWhitespace(from: rawLink)
+            if link.hasPrefix("#") {
+                let id = String(link.dropFirst())
+                return paints[id] as? SVGGradient
+            }
         }
         return nil
     }
@@ -199,7 +203,7 @@ class SVGIndex {
         if !attributeValue.contains("%") {
             return SVGHelper.parseCGFloat(element.attributes, attribute, defaultValue: defaultValue)
         } else {
-            let value = attributeValue.replacingOccurrences(of: "%", with: "")
+            let value = SVGStringUtilities.removing(from: attributeValue) { $0 == "%" }
             if let doubleValue = Double(value) {
                 return CGFloat(doubleValue / 100)
             }

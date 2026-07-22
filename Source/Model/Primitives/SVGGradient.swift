@@ -5,10 +5,18 @@
 //  Created by Yuriy Strot on 22.02.2021.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
+
+#if os(WASI)
+import WASILibc
+#elseif os(Linux) || os(Android)
+import Glibc
 #endif
 
 public class SVGLinearGradient: SVGGradient {

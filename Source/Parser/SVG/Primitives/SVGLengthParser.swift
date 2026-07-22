@@ -5,7 +5,17 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+
+#if os(WASI)
+import WASILibc
+#elseif os(Linux) || os(Android)
+import Glibc
+#endif
 
 enum SVGLengthAxis {
 
@@ -60,9 +70,12 @@ class SVGLengthParser {
             return 0
         }
 
-        let scanner = Scanner(string: string)
-        guard let value = scanner.scanDouble() else { return nil }
-        let unit = scanner.scanCharacters(from: .unit)?.lowercased()
+        guard let parsed = SVGNumberParser.numberAndUnit(from: string) else {
+            return nil
+        }
+
+        let value = parsed.value
+        let unit = parsed.unit?.lowercased()
 
         switch unit {
         case nil, "px":
@@ -93,13 +106,5 @@ class SVGLengthParser {
             return value
         }
     }
-
-}
-
-extension CharacterSet {
-
-    static let unit = CharacterSet(charactersIn: "a"..."z")
-        .union(CharacterSet(charactersIn: "A"..."Z"))
-        .union(CharacterSet(charactersIn: "%"))
 
 }

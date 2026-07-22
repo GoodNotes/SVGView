@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 class SVGFontSizeAttribute: SVGDefaultAttribute<CGFloat> {
 

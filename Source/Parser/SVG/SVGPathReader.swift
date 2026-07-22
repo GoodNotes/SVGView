@@ -11,6 +11,13 @@ public typealias MBezierPath = NSBezierPath
 #elseif os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
 public typealias MBezierPath = UIBezierPath
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#if os(WASI)
+import WASILibc
+#elseif os(Linux) || os(Android)
+import Glibc
+#endif
 #elseif os(WASI) || os(Linux) || os(Android)
 import Foundation
 #endif

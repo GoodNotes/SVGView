@@ -5,10 +5,12 @@
 //  Created by Alisa Mylnikova on 13/10/2020.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 public enum SVGLength {

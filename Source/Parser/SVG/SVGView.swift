@@ -5,10 +5,12 @@
 //  Created by Alisa Mylnikova on 20/08/2020.
 //
 
-#if os(WASI) || os(Linux) || os(Android)
-import Foundation
-#else
+#if canImport(SwiftUI)
 import SwiftUI
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
 #endif
 
 #if canImport(SwiftUI)
@@ -33,9 +35,11 @@ public struct SVGView: View {
         self.svg = SVGParser.parse(string: string)
     }
 
+    #if !canImport(SAXParser)
     public init(stream: InputStream) {
         self.svg = SVGParser.parse(stream: stream)
     }
+    #endif
 
     public init(xml: XMLElement) {
         self.svg = SVGParser.parse(xml: xml)

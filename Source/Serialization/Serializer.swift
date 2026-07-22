@@ -5,7 +5,11 @@
 //  Created by Yuriy Strot on 17.01.2021.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 class Serializer {
 

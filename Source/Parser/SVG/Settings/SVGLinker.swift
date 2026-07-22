@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 27.05.2022.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public class SVGLinker {
 

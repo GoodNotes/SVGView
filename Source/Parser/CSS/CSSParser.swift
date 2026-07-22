@@ -19,7 +19,7 @@ class CSSParser {
     fileprivate var stylesByTag: [String: [String: String]] = [:]
 
     func parse(content: String) {
-        let parts = content.components(separatedBy: .whitespacesAndNewlines).joined().split(separator: "{")
+        let parts = SVGStringUtilities.removingWhitespace(from: content).split(separator: "{")
 
         var separatedParts = [String.SubSequence]()
 
@@ -40,10 +40,10 @@ class CSSParser {
                         currentStyles = [String: String]()
                     }
                     let style = String(bodies[index])
-                    let styleParts = style.components(separatedBy: ";")
+                    let styleParts = style.split(separator: ";").map(String.init)
                     styleParts.forEach { styleAttribute in
                         if !styleAttribute.isEmpty {
-                            let currentStyle = styleAttribute.components(separatedBy: ":")
+                            let currentStyle = styleAttribute.split(separator: ":", maxSplits: 1).map(String.init)
                             if currentStyle.count == 2 {
                                 currentStyles![currentStyle[0]] = currentStyle[1]
                             }

@@ -5,7 +5,11 @@
 //  Created by Yuri Strot on 29.05.2022.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 class SVGViewportParser: SVGGroupParser {
 
@@ -54,7 +58,12 @@ class SVGGroupParser: SVGBaseElementParser {
 class SVGUseParser: SVGBaseElementParser {
 
     override func doParse(context: SVGNodeContext, delegate: (XMLElement) -> SVGNode?) -> SVGNode? {
-        guard let useId = context.properties["xlink:href"]?.replacingOccurrences(of: "#", with: ""),
+        guard let href = context.properties["xlink:href"] else {
+            return nil
+        }
+
+        let useId = SVGStringUtilities.removing(from: href, where: { $0 == "#" })
+        guard !useId.isEmpty,
               let def = context.index.element(by: useId),
               let useNode = delegate(def) else {
             return nil
