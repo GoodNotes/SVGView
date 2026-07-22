@@ -49,7 +49,7 @@ extension CGFloat: SerializableAtom {
 
 }
 
-#if canImport(CoreGraphics)
+#if canImport(CoreGraphics) || os(Linux)
 extension Double: SerializableAtom {
 
     func serialize() -> String {

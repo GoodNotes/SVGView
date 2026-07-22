@@ -5,7 +5,9 @@
 //  Created by khoi on 10/5/25.
 //
 
-#if canImport(FoundationEssentials)
+#if os(Linux)
+import Foundation
+#elseif canImport(FoundationEssentials)
 import FoundationEssentials
 #else
 import Foundation
@@ -17,7 +19,12 @@ import WASILibc
 import Glibc
 #endif
 
-#if !canImport(CoreGraphics)
+#if os(Linux)
+public typealias CGFloat = Foundation.CGFloat
+public typealias CGPoint = Foundation.CGPoint
+public typealias CGSize = Foundation.CGSize
+public typealias CGRect = Foundation.CGRect
+#elseif !canImport(CoreGraphics)
 public typealias CGFloat = Double
 
 public struct CGPoint: Equatable {
