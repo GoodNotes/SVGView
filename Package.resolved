@@ -12,9 +12,10 @@
     {
       "identity" : "xylem",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/compnerd/xylem.git",
+      "location" : "https://github.com/GoodNotes/xylem.git",
       "state" : {
-        "revision" : "9881c95ce3a139f4ccfa584676201516c2a5751d"
+        "revision" : "9881c95ce3a139f4ccfa584676201516c2a5751d",
+        "version" : "0.1.0-goodnotes-foundation-essentials"
       }
     }
   ],
