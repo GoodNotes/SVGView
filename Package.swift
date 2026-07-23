@@ -25,8 +25,8 @@ let package = Package(
             from: "1.5.0"
         ),
         .package(
-            url: "https://github.com/compnerd/xylem.git",
-            revision: "9881c95ce3a139f4ccfa584676201516c2a5751d"
+            url: "https://github.com/GoodNotes/xylem.git",
+            exact: "0.1.0-goodnotes-foundation-essentials"
         ),
     ],
     targets: [
