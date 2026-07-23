@@ -16,6 +16,7 @@
 //  since the polyfill types are aliases to the native CoreGraphics types.
 //
 
+import Foundation
 import XCTest
 
 @testable import SVGView
@@ -23,6 +24,17 @@ import XCTest
 final class PolyfillTests: XCTestCase {
     
     #if os(WASI) || os(Linux) || os(Android)
+
+    #if os(WASI) || os(Linux)
+    func testGeometryTypesMatchFoundation() {
+        let scalar: Foundation.CGFloat = CGFloat(1)
+        let point: Foundation.CGPoint = CGPoint(x: scalar, y: scalar)
+        let size: Foundation.CGSize = CGSize(width: scalar, height: scalar)
+        let rect: Foundation.CGRect = CGRect(origin: point, size: size)
+
+        XCTAssertEqual(rect, Foundation.CGRect(x: 1, y: 1, width: 1, height: 1))
+    }
+    #endif
     
     // MARK: - CGAffineTransform Tests
     

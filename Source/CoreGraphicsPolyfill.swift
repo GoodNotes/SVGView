@@ -5,7 +5,7 @@
 //  Created by khoi on 10/5/25.
 //
 
-#if os(Linux)
+#if os(Linux) || os(WASI)
 import Foundation
 #elseif canImport(FoundationEssentials)
 import FoundationEssentials
@@ -19,7 +19,7 @@ import WASILibc
 import Glibc
 #endif
 
-#if os(Linux)
+#if os(Linux) || os(WASI)
 public typealias CGFloat = Foundation.CGFloat
 public typealias CGPoint = Foundation.CGPoint
 public typealias CGSize = Foundation.CGSize
