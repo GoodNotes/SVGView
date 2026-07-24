@@ -15,7 +15,9 @@ import Foundation
 
 #if os(WASI)
 import WASILibc
-#elseif os(Linux) || os(Android)
+#elseif canImport(Android)
+import Android
+#elseif canImport(Glibc)
 import Glibc
 #endif
 

@@ -15,7 +15,9 @@ public typealias MBezierPath = UIBezierPath
 import FoundationEssentials
 #if os(WASI)
 import WASILibc
-#elseif os(Linux) || os(Android)
+#elseif canImport(Android)
+import Android
+#elseif canImport(Glibc)
 import Glibc
 #endif
 #elseif os(WASI) || os(Linux) || os(Android)
