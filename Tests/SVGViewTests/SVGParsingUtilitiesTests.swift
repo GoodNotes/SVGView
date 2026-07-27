@@ -147,23 +147,50 @@ final class SVGParsingUtilitiesTests: XCTestCase {
         }
     }
 
-    func testTransformParserMatchesFoundationRegex() throws {
-        let values = [
-            "translate(10, 20)",
-            "scale(2) rotate(-45)",
-            "matrix(1 0 0 1 10 -20)",
-            "translate(1e2, -2.5e-1)\nscale(0.5)",
-            "skewX(12.5) skewY(-8)",
+    func testTransformParserAcceptsLeadingPlus() {
+        let operations = SVGTransformParser.operations(in: "translate(0, +40)")
+
+        XCTAssertEqual(operations.count, 1)
+        XCTAssertEqual(operations[0].name, "translate")
+        XCTAssertEqual(operations[0].values, [0, 40])
+    }
+
+    func testTransformParserParsesSupportedSVGNumberSyntax() {
+        let cases: [(value: String, expected: [(name: String, values: [Double])])] = [
+            ("translate(10, 20)", [("translate", [10, 20])]),
+            ("scale(2) rotate(-45)", [("scale", [2]), ("rotate", [-45])]),
+            (
+                "matrix(1 0 0 1 10 -20)",
+                [("matrix", [1, 0, 0, 1, 10, -20])]
+            ),
+            (
+                "translate(1e2, -2.5e-1)\nscale(0.5)",
+                [("translate", [100, -0.25]), ("scale", [0.5])]
+            ),
+            (
+                "skewX(12.5) skewY(-8)",
+                [("skewX", [12.5]), ("skewY", [-8])]
+            ),
         ]
 
-        for value in values {
-            let expected = try foundationTransformOperations(in: value)
-            let actual = SVGTransformParser.operations(in: value)
+        for testCase in cases {
+            let actual = SVGTransformParser.operations(in: testCase.value)
 
-            XCTAssertEqual(actual.count, expected.count, value)
-            for (actualOperation, expectedOperation) in zip(actual, expected) {
-                XCTAssertEqual(actualOperation.name, expectedOperation.name, value)
-                XCTAssertEqual(actualOperation.values, expectedOperation.values, value)
+            XCTAssertEqual(actual.count, testCase.expected.count, testCase.value)
+            for (actualOperation, expectedOperation) in zip(
+                actual,
+                testCase.expected
+            ) {
+                XCTAssertEqual(
+                    actualOperation.name,
+                    expectedOperation.name,
+                    testCase.value
+                )
+                XCTAssertEqual(
+                    actualOperation.values,
+                    expectedOperation.values,
+                    testCase.value
+                )
             }
         }
     }
@@ -198,39 +225,4 @@ final class SVGParsingUtilitiesTests: XCTestCase {
         return result
     }
 
-    private func foundationTransformOperations(
-        in value: String
-    ) throws -> [(name: String, values: [Double])] {
-        let attributeRegex = try NSRegularExpression(
-            pattern: "([a-z]+)\\(((\\-?\\d+\\.?\\d*e?\\-?\\d*\\s*,?\\s*)+)\\)",
-            options: .caseInsensitive
-        )
-        let numberRegex = try NSRegularExpression(
-            pattern: "\\-?\\d+\\.?\\d*e?\\-?\\d*",
-            options: .caseInsensitive
-        )
-
-        var remaining = value.replacingOccurrences(of: "\n", with: "")
-        var result = [(name: String, values: [Double])]()
-
-        while let match = attributeRegex.firstMatch(
-            in: remaining,
-            range: NSRange(remaining.startIndex..<remaining.endIndex, in: remaining)
-        ) {
-            let name = (remaining as NSString).substring(with: match.range(at: 1))
-            let valuesString = (remaining as NSString).substring(with: match.range(at: 2))
-            let values = numberRegex.matches(
-                in: valuesString,
-                range: NSRange(valuesString.startIndex..<valuesString.endIndex, in: valuesString)
-            ).compactMap { match in
-                Double((valuesString as NSString).substring(with: match.range))
-            }
-            result.append((name, values))
-
-            let consumedLength = match.range.location + match.range.length
-            remaining = (remaining as NSString).substring(from: consumedLength)
-        }
-
-        return result
-    }
 }
