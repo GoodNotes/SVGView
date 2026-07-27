@@ -25,7 +25,6 @@ final class PolyfillTests: XCTestCase {
     
     #if os(WASI) || os(Linux) || os(Android)
 
-    #if os(WASI) || os(Linux)
     func testGeometryTypesMatchFoundation() {
         let scalar: Foundation.CGFloat = CGFloat(1)
         let point: Foundation.CGPoint = CGPoint(x: scalar, y: scalar)
@@ -34,7 +33,10 @@ final class PolyfillTests: XCTestCase {
 
         XCTAssertEqual(rect, Foundation.CGRect(x: 1, y: 1, width: 1, height: 1))
     }
-    #endif
+
+    func testDoubleSerialization() {
+        XCTAssertEqual(Double(1).serialize(), "1")
+    }
     
     // MARK: - CGAffineTransform Tests
     

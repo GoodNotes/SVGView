@@ -20,6 +20,64 @@ jobs:
       - name: Run tests
         run: swift test --filter CoreGraphicsPolyfillTests
 
+  build-android:
+    name: Build for Android
+    runs-on: ubuntu-22.04
+    env:
+      ANDROID_NDK_VERSION: "28.2.13676358"
+      ANDROID_SWIFT_TOOLCHAIN_URL: "https://download.swift.org/swift-6.3.1-release/ubuntu2204/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE-ubuntu22.04.tar.gz"
+      ANDROID_SWIFT_SDK_URL: "https://download.swift.org/swift-6.3.1-release/android-sdk/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE_android.artifactbundle.tar.gz"
+      ANDROID_SWIFT_SDK_CHECKSUM: "8193a4e96538635131a154736c8896fba0e5a1c30e065524f00ed78719bac35a"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Install Swift
+        run: |
+          swift_archive="$RUNNER_TEMP/swift-6.3.1.tar.gz"
+          swift_root="$RUNNER_TEMP/swift-6.3.1"
+          curl --fail --location --retry 3 \
+            --output "$swift_archive" \
+            "$ANDROID_SWIFT_TOOLCHAIN_URL"
+          mkdir -p "$swift_root"
+          tar -xzf "$swift_archive" -C "$swift_root" --strip-components=1
+          echo "$swift_root/usr/bin" >> "$GITHUB_PATH"
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          packages: ""
+
+      - name: Install Android NDK
+        run: sdkmanager "ndk;${ANDROID_NDK_VERSION}"
+
+      - name: Install Swift Android SDK
+        run: |
+          swift sdk install \
+            "$ANDROID_SWIFT_SDK_URL" \
+            --checksum "$ANDROID_SWIFT_SDK_CHECKSUM"
+
+      - name: Configure Swift Android SDK
+        run: |
+          swift_setup_script="$(
+            find "$HOME" \
+              -path "*/swift-sdks/*/swift-android/scripts/setup-android-sdk.sh" \
+              -print -quit
+          )"
+          test -n "$swift_setup_script"
+          ANDROID_NDK_HOME="$ANDROID_SDK_ROOT/ndk/$ANDROID_NDK_VERSION" \
+            bash "$swift_setup_script"
+
+      - name: Build for Android
+        run: swift build --target SVGView --swift-sdk aarch64-unknown-linux-android31
+
   test-macos:
     name: Test on macOS
     runs-on: macos-26
