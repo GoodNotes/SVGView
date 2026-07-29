@@ -35,8 +35,13 @@ import XCTest
 @testable import SVGView
 
 final class PolyfillTests: XCTestCase {
-    
+
     #if os(WASI) || os(Linux) || os(Android)
+
+    private typealias CGFloat = SVGView.CGFloat
+    private typealias CGPoint = SVGView.CGPoint
+    private typealias CGSize = SVGView.CGSize
+    private typealias CGRect = SVGView.CGRect
 
     func testDoubleSerialization() {
         XCTAssertEqual(Double(1).serialize(), "1")
