@@ -16,7 +16,20 @@
 //  since the polyfill types are aliases to the native CoreGraphics types.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+
+#if os(WASI)
+import WASILibc
+#elseif canImport(Android)
+import Android
+#elseif canImport(Glibc)
+import Glibc
+#endif
+
 import XCTest
 
 @testable import SVGView
